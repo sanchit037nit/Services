@@ -27,9 +27,10 @@ const doubtschema= new mongoose.Schema({
     code:{
         type:Number,
     },
+ 
 
 
 },{timestamps:true})
 
-const doubt=mongoose.model("Doubt",doubtschema)
-export default doubt
+const solution=mongoose.model("Solution",doubtschema)
+export default solution

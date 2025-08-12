@@ -1,8 +1,7 @@
-import Comment from "../models/comments.model.js"
+import Solution from "../models/solution.model.js"
 
-
-export const createcom= async (req,res)=>{
-     const{text,createdby}= req.body
+export const createsol=async(req,res)=>{
+         const{text,createdby}= req.body
 
      try{
      if(!text){
@@ -26,10 +25,9 @@ export const createcom= async (req,res)=>{
          console.log("error in creating comment")
          return res.status(400).json({message:"comment not created"})
      }
-
 }
-export const deletecom=async (req,res)=>{
-          const id=req.params
+export const deletesol=async(req,res)=>{
+ const id=req.params
 
           try {
             if(!id){
@@ -52,8 +50,8 @@ export const deletecom=async (req,res)=>{
          return res.status(400).json({message:"comment not deleted"})
           }
 }
-export const updatecom=async (req,res)=>{
-        const id=req.params
+export const updatesol=async(req,res)=>{
+const id=req.params
         const{text}= req.body
 
      try{

@@ -17,10 +17,12 @@ const userschema= new mongoose.Schema({
     profilepic:{
         type:String,
     },
-    bookmarked:{
+    bookmarks:[
+        {
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Doubt"
-    },
+        ref:"Solution"
+        }
+    ],
 
 },{timestamps:true})
 
