@@ -1,6 +1,5 @@
-import {generateToken} from "../lib/uteis.js"
-import User from "../models/user.model.js"
-import Password from "../models/pass.model.js"
+import {generateToken} from "../utils/gentok.js"
+import User from "../models/users.model.js"
 import bcrypt from "bcryptjs"
 
 export const signup=async (req,res)=>{
