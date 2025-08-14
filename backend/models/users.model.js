@@ -20,7 +20,8 @@ const userschema= new mongoose.Schema({
     bookmarks:[
         {
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Solution"
+        ref:"Solution",
+        default:[],
         }
     ],
 
