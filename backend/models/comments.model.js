@@ -9,8 +9,12 @@ const messageschema= new mongoose.Schema({
    createdby:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"User"
-   }
+   },
 
+   createdfor:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Solution"
+   },
 },
 {timestamps:true})
 

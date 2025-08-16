@@ -20,8 +20,10 @@ const doubtschema= new mongoose.Schema({
         type:String,
     },
 
-    likes:{
-        type:Number,
+    likedby:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+         default:[],
     },
 
     code:{
