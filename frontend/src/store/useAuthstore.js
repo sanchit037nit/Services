@@ -1,7 +1,9 @@
 import React from 'react'
+import {create} from 'zustand'
+import toast from 'toast'
+import { axiosinstance } from '../lib/axios.js'
 
 export const useAuthstore = create((set,get) => ({
-
 
   authUser:null,
   signup: async(data) => {
