@@ -16,6 +16,7 @@ const userschema= new mongoose.Schema({
     },
     profilepic:{
         type:String,
+        default:"",
     },
     bookmarks:[
         {

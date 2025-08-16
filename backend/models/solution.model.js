@@ -5,6 +5,10 @@ const doubtschema= new mongoose.Schema({
         type:String,
         required:true,
     },
+    description:{
+        type:String,
+        required:true,
+    },
 
     language:{
         type:String,
@@ -18,18 +22,20 @@ const doubtschema= new mongoose.Schema({
 
     pic:{
         type:String,
+        default:"",
     },
 
-    likedby:{
+    likedby:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
-         default:[],
-    },
+        default:[],
+    }],
 
-    code:{
-        type:Number,
-    },
- 
+    createdby:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+    }
 
 
 },{timestamps:true})

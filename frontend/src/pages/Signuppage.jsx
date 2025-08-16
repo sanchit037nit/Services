@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useauthstore.js";
+import { useAuthstore } from "../store/useAuthstore.js";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const Signuppage = () => {
-  const { signup } = useAuthStore();
+  const { signup } = useAuthstore();
   const [formdata, setformdata] = useState({
     name: "",
     emailid: "",

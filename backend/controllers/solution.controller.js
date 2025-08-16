@@ -1,31 +1,35 @@
 import Solution from "../models/solution.model.js"
 
 export const createsol=async(req,res)=>{
-         const{text,createdby}= req.body
+        const{doubt,description,language,platform,createdby}= req.body
 
      try{
-     if(!text){
-        return res.status(400).json({message:"text is required"})
-     }
-     const newcom= new Comment({
-         message:text,
+    //  if(!){
+    //     return res.status(400).json({message:"text is required"})
+    //  }
+     const newsol= new Solution({
+         doubt:doubt,
+         description:description,
+         language:language,
+         platform:platform,
          createdby
      })
 
-     if(newcom){
-        await newcom.save()
-        return res.status.json(201).json({
+     if(newsol){
+        await newsol.save()
+        return res.status(201).json({
             success:true,
-            message:"comment created"
+            message:"solution created"
         })
      }
-     else throw"error not created"
+
      }
      catch(error){
-         console.log("error in creating comment")
-         return res.status(400).json({message:"comment not created"})
+         console.log("error in creating solution",error)
+         return res.status(400).json({message:"solution not created"})
      }
 }
+
 export const deletesol=async(req,res)=>{
  const id=req.params
 
@@ -34,9 +38,9 @@ export const deletesol=async(req,res)=>{
                return res.status(400).json({message:"text is required"})
            }
 
-           const delcom=await Comment.findByIdAndDelete(id)
+           const delsol=await Solution.findByIdAndDelete(id)
 
-            if(delcom){
+            if(delsol){
         return res.status.json(201).json({
             success:true,
             message:"comment deleted"
@@ -46,8 +50,8 @@ export const deletesol=async(req,res)=>{
 
 
           } catch (error) {
-             console.log("error in deleting comment")
-         return res.status(400).json({message:"comment not deleted"})
+             console.log("error in deleting solution")
+         return res.status(400).json({message:"solution not deleted"})
           }
 }
 export const updatesol=async(req,res)=>{
@@ -59,24 +63,27 @@ const id=req.params
         return res.status(400).json({message:"text is required"})
      }
      
-     const updatecom= Comment.findByIdAndUpdate(id,{
+     const updatesol= Solution.findByIdAndUpdate(id,{
         $set:{
-            message:text
+            doubt:doubt,
+            description:description,
+            language:language,
+            platform:platform,
         }
      },
     {new:true})
 
-     if(updatecom){
+     if(updatesol){
    
         return res.status.json(201).json({
             success:true,
-            message:"comment updated"
+            message:"solution updated"
         })
      }
      else throw"error not updated"
      }
      catch(error){
-         console.log("error in updating comment")
-         return res.status(400).json({message:"comment not updated"})
+         console.log("error in updating solution")
+         return res.status(400).json({message:"solution not updated"})
      }
 }

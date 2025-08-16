@@ -1,5 +1,5 @@
 import {create} from 'zustand'
-import toast from 'toast'
+import {toast} from 'react-hot-toast'
 import { axiosinstance } from '../lib/axios.js'
 
 
@@ -12,6 +12,7 @@ export const useSolution =create((set,get)=>({
         try{
         const {solutions}=get()
         const newsol=axiosinstance.post("/sol/createsol",data)
+        console.log(newsol)
         set({solutions:[...solutions,newsol.data]})
         toast.success("blog posted successfully")
         }
@@ -41,6 +42,11 @@ export const useSolution =create((set,get)=>({
             console.log("error in deleting solution",error)
             toast.error("error in deleting blog")
         }
+    },
+
+    getsol:{
+        
     }
+    
      
 }))

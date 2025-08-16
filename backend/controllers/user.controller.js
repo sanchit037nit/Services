@@ -23,7 +23,7 @@ export const signup=async (req,res)=>{
         const hashpass=await bcrypt.hash(password,salt)
 
         const newuser=new User({
-            name:name,emailid:emailid,password:hashpass
+            name:name,email:emailid,password:hashpass
         })
 
         if(newuser){
@@ -50,7 +50,7 @@ export const login=async (req,res)=>{
     const { emailid, password} = req.body
     try{
         // console.log(typeof(emailid),typeof(password))
-         const user=await User.findOne({emailid})
+         const user=await User.findOne({email:emailid})
         //   console.log(user)
          if(!user){
             return res.status(400).json({message:"invalid credentials"})
@@ -66,7 +66,7 @@ export const login=async (req,res)=>{
         res.status(200).json({
             _id:user._id,
             fullName:user.name,
-            email:user.emailid,
+            email:user.email,
         })
     }
     catch (error){

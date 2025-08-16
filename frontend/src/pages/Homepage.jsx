@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { useAuthStore } from "../store/useauthstore.js";
-import { usePasStore } from "../store/usepasstore.js";
+import { useAuthstore } from "../store/useAuthstore.js";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import { motion } from "framer-motion";
@@ -8,20 +7,20 @@ import { useState } from "react";
 import { useSolution } from "../store/useSolutionstore.js";
 
 export const Homepage = () => {
-  const { authUser, logout, deleteaccount } = useAuthStore();
- const {solutions,createsol,updatesol,deletesol}=useSolution()
+  const { authUser} = useAuthstore();
+ const {getsol,solutions}=useSolution()
   const navigate = useNavigate();
   const [visibleIds, setVisibleIds] = useState([]);
   const [spass, setspass] = useState("");
   const [sort, setsort] = useState(false);
   const orderedpasses = [...solutions];
 
-  if (sort) {
-    // orderedpasses.push(passes)
-    console.log(orderedpasses);
-    orderedpasses.sort((a, b) => a.name.localeCompare(b.name));
-    console.log(orderedpasses);
-  }
+  // if (sort) {
+  //   // orderedpasses.push(passes)
+  //   console.log(orderedpasses);
+  //   orderedpasses.sort((a, b) => a.doubt.localeCompare(b.doubt));
+  //   console.log(orderedpasses);
+  // }
 
   const toggleView = (id) => {
     setVisibleIds((prev) =>
@@ -30,28 +29,33 @@ export const Homepage = () => {
   };
   const id = authUser._id;
 
-  useEffect(() => {
-    getpass(id);
-  }, [id]);
+  console.log(solutions)
+  // useEffect(() => {
+  //   getpass(id);
+  // }, [id]);
 
   const handleView = (e, passId) => {
     e.preventDefault();
-    usePasStore.getState().viewpass(passId, navigate);
+    // usePasStore.getState().viewpass(passId, navigate);
   };
 
-  const handleDelete = (e, passId) => {
+  const handleDelete = (e) => {
     e.preventDefault();
-    deletepass(passId);
+    // deletepass(passId);
+    navigate('/upload')
   };
 
   const handleCopy = (e, id) => {
     e.preventDefault();
-    const pass = passes.find((p) => p._id == id);
-    navigator.clipboard.writeText(pass.password);
+  
   };
 
   const handleSort = () => {
     setsort(!sort);
+  };
+  const handleai = (e) => {
+    e.preventDefault()
+    navigate('/aipage')
   };
 
   return (
@@ -67,7 +71,7 @@ export const Homepage = () => {
       ></spline-viewer>
 
       <div className="flex justify-center items-center text-3xl font-extrabold underline tracking-tight">
-        MY PASSWORDS
+        MY Doubts
       </div>
 
       <div className="flex justify-between items-center mb-4  m-10">
@@ -81,19 +85,24 @@ export const Homepage = () => {
         <div className="flex gap-2">
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-            onClick={handleSort}
+            onClick={handleDelete}
           >
             {sort ? "Unsort" : "Sort"}
           </button>
+        <div className="flex gap-2">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            onClick={handleai}
+          >
+            Ask AI
+          </button>
+          </div>
         </div>
       </div>
 
       <div className="space-y-5 p-6">
-        {orderedpasses
-          ?.filter((pass) =>
-            pass.name.toLowerCase().includes(spass.toLowerCase())
-          )
-          .map((pass) => (
+        {solutions
+          ?.map((pass) => (
             <motion.div
               key={pass._id}
               initial={{ opacity: 0, y: 20 }}
@@ -104,12 +113,12 @@ export const Homepage = () => {
               <div className="space-y-1 text-left">
                 <p className="text-white text-lg font-medium">
                   Name:{" "}
-                  <span className="text-gray-300 font-normal">{pass.name}</span>
+                  <span className="text-gray-300 font-normal">{pass.doubt}</span>
                 </p>
                 <p className="text-white text-lg font-medium flex items-center gap-2">
                   Password:{" "}
                   <span className="text-gray-300 font-normal">
-                    {visibleIds.includes(pass._id) ? pass.password : "••••••••"}
+                    {visibleIds.includes(pass._id) ? pass.description : "••••••••"}
                   </span>
                   <button
                     onClick={() => toggleView(pass._id)}
@@ -123,7 +132,7 @@ export const Homepage = () => {
               <div className="flex gap-2">
                 <button
                   className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition duration-150 shadow"
-                  onClick={(e) => handleDelete(e, pass._id)}
+                  onClick={(e) => handleDelete(e)}
                 >
                   Delete
                 </button>

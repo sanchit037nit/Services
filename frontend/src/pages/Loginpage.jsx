@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/useauthstore.js";
+import { useAuthstore } from "../store/useAuthstore.js";
 import { toast } from "react-hot-toast";
-import { usePasStore } from "../store/usepasstore.js";
 import { useNavigate } from "react-router-dom";
 import "@splinetool/viewer";
 
 export const Loginpage = () => {
-  const { login } = useAuthStore();
+  const { login } = useAuthstore();
   const [formdata, setformdata] = useState({
     emailid: "",
     password: "",

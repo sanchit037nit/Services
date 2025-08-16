@@ -15,7 +15,7 @@ export const createcom= async (req,res)=>{
 
      if(newcom){
         await newcom.save()
-        return res.status.json(201).json({
+        return res.status(201).json({
             success:true,
             message:"comment created"
         })
@@ -33,20 +33,17 @@ export const deletecom=async (req,res)=>{
 
           try {
             if(!id){
-               return res.status(400).json({message:"text is required"})
+               return res.status(400).json({message:"id is required"})
            }
 
            const delcom=await Comment.findByIdAndDelete(id)
 
             if(delcom){
-        return res.status.json(201).json({
+           return res.status.json(201).json({
             success:true,
             message:"comment deleted"
-        })
+          })
          }
-            else throw"error not deleted"
-
-
           } catch (error) {
              console.log("error in deleting comment")
          return res.status(400).json({message:"comment not deleted"})
