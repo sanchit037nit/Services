@@ -6,7 +6,7 @@ import { axiosinstance } from '../lib/axios.js'
 export const useSolution =create((set,get)=>({
      
     solutions:[],
-    isliked:false,
+    likess:0,
 
     createsol: async(data)=>{
         try{
@@ -44,9 +44,27 @@ export const useSolution =create((set,get)=>({
         }
     },
 
-    getsol:{
-        
-    }
+    getsol: async() =>{
+        try{
+            const res = await axiosinstance.get(`/sol/get`)
+            // console.log(res.data.sols)
+            set({ solutions: [...res.data.sols] })
+            // console.log(solutions)
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+        }
+    },
     
-     
+    inclikes:async(solid)=>{
+         try{
+            const res = await axiosinstance.get(`/sol/inclikes`)
+            // console.log(res.data.sols)
+            set({ likess: res.data })
+            // console.log(solutions)
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+        }
+    }
 }))

@@ -11,10 +11,10 @@ export const Homepage = () => {
  const {getsol,solutions}=useSolution()
   const navigate = useNavigate();
   const [visibleIds, setVisibleIds] = useState([]);
-  const [spass, setspass] = useState("");
+  const [solid, setsolid] = useState("");
   const [sort, setsort] = useState(false);
   const orderedpasses = [...solutions];
-
+  const  isliked=false
   // if (sort) {
   //   // orderedpasses.push(passes)
   //   console.log(orderedpasses);
@@ -29,10 +29,11 @@ export const Homepage = () => {
   };
   const id = authUser._id;
 
-  console.log(solutions)
-  // useEffect(() => {
-  //   getpass(id);
-  // }, [id]);
+  // console.log(solutions)
+
+  useEffect(() => {
+    getsol();
+  },[]);
 
   const handleView = (e, passId) => {
     e.preventDefault();
@@ -42,7 +43,8 @@ export const Homepage = () => {
   const handleDelete = (e) => {
     e.preventDefault();
     // deletepass(passId);
-    navigate('/upload')
+    // navigate('/upload')
+    // isliked ? in
   };
 
   const handleCopy = (e, id) => {
@@ -102,7 +104,10 @@ export const Homepage = () => {
 
       <div className="space-y-5 p-6">
         {solutions
-          ?.map((pass) => (
+          ?.map((pass) =>{ 
+            
+            setsolid(pass._id)
+            return (
             <motion.div
               key={pass._id}
               initial={{ opacity: 0, y: 20 }}
@@ -114,6 +119,10 @@ export const Homepage = () => {
                 <p className="text-white text-lg font-medium">
                   Name:{" "}
                   <span className="text-gray-300 font-normal">{pass.doubt}</span>
+                </p>
+                <p className="text-white text-lg font-medium">
+                  Likes:{" "}
+                  <span className="text-gray-300 font-normal">{pass.likes}</span>
                 </p>
                 <p className="text-white text-lg font-medium flex items-center gap-2">
                   Password:{" "}
@@ -134,7 +143,7 @@ export const Homepage = () => {
                   className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md transition duration-150 shadow"
                   onClick={(e) => handleDelete(e)}
                 >
-                  Delete
+                  Like
                 </button>
                 <button
                   className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-md transition duration-150 shadow"
@@ -150,7 +159,7 @@ export const Homepage = () => {
                 </button>
               </div>
             </motion.div>
-          ))}
+          )})}
       </div>
     </div>
   );

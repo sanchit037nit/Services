@@ -1,44 +1,69 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const doubtschema= new mongoose.Schema({
-    doubt:{
-        type:String,
-        required:true,
+const doubtschema = new mongoose.Schema(
+  {
+    doubt: {
+      type: String,
+      required: true,
     },
-    description:{
-        type:String,
-        required:true,
-    },
-
-    language:{
-        type:String,
-        required:true,
+    description: {
+      type: String,
+      required: true,
     },
 
-    platform:{
-        type:String,
-        required:true,
+    language: {
+      type: String,
+      required: true,
     },
 
-    pic:{
-        type:String,
-        default:"",
+    platform: {
+      type: String,
+      required: true,
     },
 
-    likedby:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        default:[],
-    }],
+    pic: {
+      type: String,
+      default: "",
+    },
 
-    createdby:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true,
-    }
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
 
+    bookmarkedby: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
 
-},{timestamps:true})
+    comments: [
+      {
+        text: {
+          type: String,
+          required: true,
+        },
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+      },
+    ],
 
-const solution=mongoose.model("Solution",doubtschema)
-export default solution
+    createdby: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
+const solution = mongoose.model("Solution", doubtschema);
+export default solution;
