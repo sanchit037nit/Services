@@ -47,10 +47,10 @@ export const signup=async (req,res)=>{
 };
 
 export const login=async (req,res)=>{
-    const { emailid, password} = req.body
+    const { email, password} = req.body
     try{
         // console.log(typeof(emailid),typeof(password))
-         const user=await User.findOne({email:emailid})
+         const user=await User.findOne({email:email})
         //   console.log(user)
          if(!user){
             return res.status(400).json({message:"invalid credentials"})

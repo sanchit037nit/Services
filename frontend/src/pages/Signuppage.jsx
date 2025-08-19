@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { useAuthstore } from "../store/useAuthstore.js";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuthstore } from "../store/useAuthstore";
+import { motion } from "framer-motion";
+
+import React from 'react'
 
 export const Signuppage = () => {
   const { signup } = useAuthstore();
   const [formdata, setformdata] = useState({
     name: "",
-    emailid: "",
+    email: "",
     password: "",
   });
 
   const validateformdata = () => {
-    if (!formdata.name || !formdata.emailid || !formdata.password) {
+    if (!formdata.name || !formdata.email || !formdata.password) {
       return toast.error("all fields required");
     }
     if (formdata.pass.length < 6) {
@@ -45,7 +48,7 @@ export const Signuppage = () => {
 
       <form
         onSubmit={handleclick}
-        className="w-full max-w-md mx-auto  p-8 rounded-lg shadow-lg text-white space-y-6"
+        className="w-full max-w-md mx-auto  p-8 rounded-lg shadow-lg text-black space-y-6"
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-center text-2xl font-bold mb-4">Signup Form</h2>
@@ -67,7 +70,7 @@ export const Signuppage = () => {
           <input
             type="text"
             id="name"
-            className="border border-gray-400 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-400 rounded-md px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your name"
             value={formdata.name}
             onChange={(e) => setformdata({ ...formdata, name: e.target.value })}
@@ -83,11 +86,11 @@ export const Signuppage = () => {
           <input
             type="email"
             id="email"
-            className="border border-gray-400 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-400 rounded-md px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your email"
-            value={formdata.emailid}
+            value={formdata.email}
             onChange={(e) =>
-              setformdata({ ...formdata, emailid: e.target.value })
+              setformdata({ ...formdata, email: e.target.value })
             }
             required
           />
@@ -101,7 +104,7 @@ export const Signuppage = () => {
           <input
             type="password"
             id="password"
-            className="border border-gray-400 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-400 rounded-md px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your password"
             value={formdata.password}
             onChange={(e) =>
@@ -114,7 +117,7 @@ export const Signuppage = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-black font-semibold py-2 px-4 rounded-md transition duration-300"
         >
           Submit
         </button>
@@ -122,3 +125,8 @@ export const Signuppage = () => {
     </div>
   );
 };
+
+
+
+
+

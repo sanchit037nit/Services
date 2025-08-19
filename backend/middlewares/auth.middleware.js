@@ -14,14 +14,14 @@ export const protectroute = async(req,res,next) =>{
     if(!decoded){
         return res.status(401).json({message:"unauthorized - invalid token"})
     }
-    
-    const User=await user.findById(decoded.userId).select("-password")
+    // console.log(decoded)
+    const User=await user.findById(decoded.userid).select("-password")
 
     if(!User){
         return res.status(401).json({message:"user not found"})
     }
-
-    req.User=User
+      
+    req.user=User
     next()
    }
     catch (error){

@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { useAuthstore } from "../store/useAuthstore.js";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import "@splinetool/viewer";
+import { useAuthstore } from "../store/useAuthstore";
+
 
 export const Loginpage = () => {
   const { login } = useAuthstore();
   const [formdata, setformdata] = useState({
-    emailid: "",
+    email: "",
     password: "",
   });
 
   const handleclick = (e) => {
     e.preventDefault();
-    if (!formdata.emailid || !formdata.password) {
+    if (!formdata.email || !formdata.password) {
       return toast.error("all fields required");
     }
     login(formdata);
@@ -27,15 +27,10 @@ export const Loginpage = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen ">
-      <spline-viewer
-        url="https://prod.spline.design/cwq814qIdbhTkjqB/scene.splinecode"
-        background="transparent"
-        class="absolute top-0 left-0 w-full h-full z-[-1]"
-      ></spline-viewer>
 
       <form
         onSubmit={handleclick}
-        className="space-y-7 text-white w-full max-w-md mx-auto  p-8 rounded-lg shadow-lg"
+        className="space-y-7 text-black w-full max-w-md mx-auto  p-8 rounded-lg shadow-lg"
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-center text-2xl font-bold mb-4">Login Form</h2>
@@ -55,11 +50,11 @@ export const Loginpage = () => {
           <input
             type="email"
             id="email"
-            className="border border-gray-400 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white"
+            className="border border-gray-400 rounded-md px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-white"
             placeholder="Enter your email"
-            value={formdata.emailid}
+            value={formdata.email}
             onChange={(e) =>
-              setformdata({ ...formdata, emailid: e.target.value })
+              setformdata({ ...formdata, email: e.target.value })
             }
             required
           />
@@ -72,7 +67,7 @@ export const Loginpage = () => {
           <input
             type="password"
             id="password"
-            className="border  rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white"
+            className="border  rounded-md px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-white"
             placeholder="Enter your password"
             value={formdata.password}
             onChange={(e) =>
@@ -92,3 +87,7 @@ export const Loginpage = () => {
     </div>
   );
 };
+
+
+
+

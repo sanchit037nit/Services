@@ -1,6 +1,5 @@
 import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
-import Comment from "../models/comments.model.js";
 
 export const createsol = async (req, res) => {
   const { doubt, description, language, platform, createdby } = req.body;
@@ -136,15 +135,19 @@ export const bookmark = async (req, res) => {
 
 export const likeunlike = async (req, res) => {
   try {
-    const userid = req.user._id;
+    
+    const userid = req.user._id.toString();
+    // console.log(userid)
     const { id: solid } = req.params;
-
+      console.log(solid)
     const sol = Solution.findById(solid);
-
+     
     if (!sol) {
       return res.status(404).json({ error: "Solution not found" });
     }
 
+     console.log(userid)
+     console.log(sol)
     const userlikedsol = sol.likes.includes(userid);
 
     if (userlikedsol) {
@@ -181,7 +184,7 @@ export const commentonsolution = async (req, res) => {
       return res.status(404).json({ error: "Solution not found" });
     }
 
-    const comment = new Comment({ text: text, user: userid });
+    const comment = { text: text, user: userid };
 
     Solution.comment.push(comment);
 

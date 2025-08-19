@@ -5,7 +5,6 @@ import dotenv from "dotenv"
 import {connectdb} from "./utils/connectdb.js"
 import useroutes from "./routes/user.routes.js"
 import solroutes from "./routes/solution.routes.js"
-import comroutes from "./routes/comment.routes.js"
 
 dotenv.config()
 const app=express()
@@ -20,7 +19,6 @@ app.use(cors({
 }))
 app.use("/api/auth",useroutes)
 app.use("/api/sol",solroutes)
-app.use("/api/com",comroutes)
 
 app.listen(PORT,()=>{
       console.log(`server listening on ${PORT}`)

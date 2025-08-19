@@ -35,7 +35,7 @@ export const useSolution =create((set,get)=>({
 
     deletesol: async(solid)=>{
         try{
-        const deletesol=axiosinstance.delete("/sol/deletesol",solid)
+        const deletesol=axiosinstance.delete('/sol/deletesol',solid)
         toast.success("blog deleted successfully")
         }
         catch(error){
@@ -56,9 +56,9 @@ export const useSolution =create((set,get)=>({
         }
     },
     
-    inclikes:async(solid)=>{
+    inclikes:async(id)=>{
          try{
-            const res = await axiosinstance.get(`/sol/inclikes`)
+            const res = await axiosinstance.get(`/sol/like/${id}`)
             // console.log(res.data.sols)
             set({ likess: res.data })
             // console.log(solutions)
