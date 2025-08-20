@@ -110,21 +110,22 @@ export const bookmark = async (req, res) => {
 
     if (userbookmarkedsol) {
       await Solution.updateOne(
-        { id: solid },
+        { _id: solid },
         { $pull: { bookmarkedby: userid } }
       );
-      await User.updateOne({ id: userid }, { $pull: { bookmarks: solid } });
+      await User.updateOne({ _id: userid }, { $pull: { bookmarks: solid } });
 
-      const updatedbookmarks = Solution.bookmarkedby.filter(
-        (id) => id.toString() !== userid.toString()
-      );
+      // const updatedbookmarks = Solution.bookmarkedby.filter(
+      //   (id) => id.toString() !== userid.toString()
+      // );
+      const updatedbookmarks = User.bookmarks
       res.status(200).json(updatedbookmarks);
     } else {
       Solution.bookmarkedby.push(userid);
-      await User.updateOne({ id: userid }, { $push: { bookmarks: solid } });
+      await User.updateOne({ _id: userid }, { $push: { bookmarks: solid } });
       await Solution.save();
 
-      const updatedbookmarks = Solution.bookmarkedby.length();
+      const updatedbookmarks = User.bookmarks;
       res.status(200).json(updatedbookmarks);
     }
   } catch (error) {
@@ -137,33 +138,35 @@ export const likeunlike = async (req, res) => {
   try {
     
     const userid = req.user._id.toString();
-    // console.log(userid)
-    const { id: solid } = req.params;
-      console.log(solid)
-    const sol = Solution.findById(solid);
+
+    const { id } = req.params;
+  
+    const sol = await Solution.findById(id);
      
     if (!sol) {
       return res.status(404).json({ error: "Solution not found" });
     }
 
-     console.log(userid)
-     console.log(sol)
     const userlikedsol = sol.likes.includes(userid);
 
     if (userlikedsol) {
-      await Solution.updateOne({ id: solid }, { $pull: { likes: userid } });
-      await User.updateOne({ id: userid }, { $pull: { likedsols: solid } });
+      await Solution.updateOne({ _id: id }, { $pull: { likes: userid } });
+      await User.updateOne({ _id: userid }, { $pull: { likedsols: id } });
 
-      const updatedlikes = Solution.likes.filter(
+      const updatedlikes= sol.likes.filter(
         (id) => id.toString() !== userid.toString()
       );
+
+      // const updatedlikes=updatedlike.length
+      // console.log("unliked")
       res.status(200).json(updatedlikes);
     } else {
-      Solution.likes.push(userid);
-      await User.updateOne({ id: userid }, { $push: { likedsols: solid } });
-      await Solution.save();
+      sol.likes.push(userid);
+      await User.updateOne({ _id: userid }, { $push: { likedsols: id } });
+      await sol.save();
 
-      const updatedlikes = Solution.likes.length();
+      const updatedlikes = sol.likes;
+ 
       res.status(200).json(updatedlikes);
     }
   } catch (error) {
@@ -193,5 +196,22 @@ export const commentonsolution = async (req, res) => {
   } catch (error) {
     console.log("Error in commenting controller: ", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getbookmarks = async (req, res) => {
+  try {
+    const id=req.params
+    const user=User.findById(id)
+     if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
+    const books=user.bookmarks
+    return res.status(200).json(books);
+  } catch (error) {
+    console.log("error in getting bookmarks", error);
+    return res.status(400).json({
+      message: "error in getting bookmarks",
+    });
   }
 };

@@ -6,7 +6,8 @@ import { axiosinstance } from '../lib/axios.js'
 export const useSolution =create((set,get)=>({
      
     solutions:[],
-    likess:0,
+    bookmarks:[],
+    users:[],
 
     createsol: async(data)=>{
         try{
@@ -55,16 +56,61 @@ export const useSolution =create((set,get)=>({
             toast.error(error.response.data.message)
         }
     },
-    
-    inclikes:async(id)=>{
-         try{
-            const res = await axiosinstance.get(`/sol/like/${id}`)
+    getusers: async() =>{
+        try{
+            const res = await axiosinstance.get(`/auth/get`)
             // console.log(res.data.sols)
-            set({ likess: res.data })
+            set({ users: [...res.data.users] })
             // console.log(solutions)
         }
         catch(error){
             toast.error(error.response.data.message)
         }
-    }
+    },
+    
+    inclikes:async(id)=>{
+         try{
+            const res = await axiosinstance.get(`/sol/like/${id}`)
+                const updatedLikedBy = res.data; 
+
+    set((state) => ({
+      solutions: state.solutions.map((post) =>
+        post._id === id ? { ...post, likes: updatedLikedBy } : post
+      )}))
+
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+        }
+    },
+
+    bookmark:async(id)=>{
+         try{
+            const res = await axiosinstance.get(`/sol/bookmark/${id}`)
+            const updatedbookmarks=res.data
+            // console.log(res.data.sols)
+            // set({ likess: res.data })
+            // console.log(solutions)
+
+            set((state)=>{
+                 bookmarks: state.users.map((user) =>
+        user._id === id ? { ...user, bookmarks: updatedbookmarks} : user
+            )})
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+        }
+    },
+
+     getbookmark: async(id) =>{
+        try{
+            const res = await axiosinstance.get(`/sol/getbook/${id}`)
+            // console.log(res.data.sols)
+            set({ bookmarks: [...res.data] })
+            // console.log(solutions)
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+        }
+    },
 }))

@@ -3,17 +3,17 @@ import User from "../models/users.model.js"
 import bcrypt from "bcryptjs"
 
 export const signup=async (req,res)=>{
-    const {name,emailid,password} =req.body
+    const {name,email,password} =req.body
     try{
 
-        if(!name || !emailid || !password){
+        if(!name || !email || !password){
             return res.status(400).json(
                 {success:false,message: "all fields required"})
         }
         if(password.length < 6){
             return res.status(400).json({success:false,message: "password must be atleast 6 characters"})
         }
-        const user=await User.findOne({emailid})
+        const user=await User.findOne({email})
 
         if(user){
             return res.status(400).json({success:false,message: "user already exists"})
@@ -23,7 +23,7 @@ export const signup=async (req,res)=>{
         const hashpass=await bcrypt.hash(password,salt)
 
         const newuser=new User({
-            name:name,email:emailid,password:hashpass
+            name:name,email:email,password:hashpass
         })
 
         if(newuser){
@@ -33,7 +33,7 @@ export const signup=async (req,res)=>{
             res.status(201).json({
                 _id:newuser._id,
                 name:newuser.name,
-                emailid:newuser.emailid,
+                emailid:newuser.email,
             })
         }
         else { res.status(400).json({ message: "Invalid user data" });

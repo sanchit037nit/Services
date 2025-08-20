@@ -4,26 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useSolution } from "../store/useSolutionstore.js";
+import { bookmark } from "../../../backend/controllers/solution.controller.js";
 
 
 export const Homepage = () => {
   const { authUser } = useAuthstore();
-  const { getsol, solutions, deletesol,inclikes } = useSolution();
+  const { getsol, solutions, deletesol,inclikes,bookmark } = useSolution();
   const navigate = useNavigate();
-  const [visibleIds, setVisibleIds] = useState([]);
+  const [likes, setlikes] = useState(0);
   const [spass, setspass] = useState("");
   const [sort, setsort] = useState(false);
-
 
   const id = authUser._id;
 
   useEffect(() => {
     getsol();
-  }, []);
+  }, [id]);
 
   const handleView = (e, passId) => {
     e.preventDefault();
     inclikes(passId)
+    
   };
 
   const handleDelete = (e, passId) => {
@@ -33,22 +34,28 @@ export const Homepage = () => {
 
   const handleCopy = (e, id) => {
     e.preventDefault();
+    bookmark(id)
 
   };
 
   const handleSort = () => {
     setsort(!sort);
   };
+  const handlebookmarks = (id) => {
+    bookmark(id)
+  };
+  const handleupload = () => {
+    navigate('/upload')
+  };
 
   return (
     <div className="flex flex-col  gap-5   text-black font-sans tracking-wide">
 
-
-
-      <div className="flex justify-center items-center text-3xl font-extrabold underline tracking-tight">
-        MY Doubts
+      <div className="flex gap-20 justify-center items-center text-3xl font-extrabold underline tracking-tight">
+        <p>MY Doubts</p>
+        <button onClick={handlebookmarks}> my bookmarks</button>
+        <button onClick={handleupload}> upload</button>
       </div>
-
       
 
       <div className="space-y-5 p-6">
@@ -63,19 +70,11 @@ export const Homepage = () => {
               <div className="space-y-1 text-left">
                 <p className="text-black text-lg font-medium">
                   Name:{" "}
-                  <span className="text-gray-300 font-normal">{pass.name}</span>
+                  <span className="text-gray-300 font-normal">{pass.doubt}</span>
                 </p>
                 <p className="text-white text-lg font-medium flex items-center gap-2">
                   Password:{" "}
-                  <span className="text-gray-300 font-normal">
-                    {visibleIds.includes(pass._id) ? pass.password : "••••••••"}
-                  </span>
-                  <button
-                    onClick={() => toggleView(pass._id)}
-                    className="text-xl hover:scale-110 transition-transform"
-                  >
-                    {visibleIds.includes(pass._id) ? "🙈" : "👁️"}
-                  </button>
+                  
                 </p>
               </div>
 
@@ -94,9 +93,9 @@ export const Homepage = () => {
                 </button>
                 <button
                   className="bg-orange-500 hover:bg-orange-600 text-black px-4 py-2 rounded-md transition duration-150 shadow"
-                  onClick={(e) => handleCopy(e, pass._id)}
+                  onClick={handlebookmarks(pass._id)}
                 >
-                  Copy
+                  bookmark
                 </button>
               </div>
             </motion.div>
