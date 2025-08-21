@@ -112,3 +112,14 @@ export const deleteaccount=async (req,res)=>{
     res.status(400).json({message: "internal server error"})
    }
 }
+
+export const getusers=async (req,res)=>{
+    try {
+        const users=await User.find()
+         res.status(200).json(users)
+    } catch (error) {
+        console.log("cannot get users",error)
+        res.status(400).json({message:"cannot get users"})
+        
+    }
+}

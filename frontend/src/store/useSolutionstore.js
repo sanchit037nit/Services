@@ -1,13 +1,14 @@
 import {create} from 'zustand'
 import {toast} from 'react-hot-toast'
 import { axiosinstance } from '../lib/axios.js'
+import { useAuthstore } from './useAuthstore.js'
 
 
 export const useSolution =create((set,get)=>({
      
     solutions:[],
     bookmarks:[],
-    users:[],
+  
 
     createsol: async(data)=>{
         try{
@@ -56,6 +57,7 @@ export const useSolution =create((set,get)=>({
             toast.error(error.response.data.message)
         }
     },
+
     getusers: async() =>{
         try{
             const res = await axiosinstance.get(`/auth/get`)
@@ -86,12 +88,14 @@ export const useSolution =create((set,get)=>({
 
     bookmark:async(id)=>{
          try{
-            const res = await axiosinstance.get(`/sol/bookmark/${id}`)
+            const res = await axiosinstance.post(`/sol/bookmark/${id}`)
             const updatedbookmarks=res.data
-            // console.log(res.data.sols)
-            // set({ likess: res.data })
-            // console.log(solutions)
 
+             const resp=axiosinstance.get('/auth/users')
+             console.log(resp.data)
+            //  set({users:resp.data})
+
+            // const {users} =useAuthstore.getState() 
             set((state)=>{
                  bookmarks: state.users.map((user) =>
         user._id === id ? { ...user, bookmarks: updatedbookmarks} : user
@@ -113,4 +117,12 @@ export const useSolution =create((set,get)=>({
             toast.error(error.response.data.message)
         }
     },
+
+    handlecomment:async(id,data)=>{
+        try {
+              await axiosinstance.post(`/sol/comment/${id}`,data)
+        } catch (error) {
+            console.log("error in coomment",error)
+        }
+    }
 }))

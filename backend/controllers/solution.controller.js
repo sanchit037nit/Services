@@ -2,12 +2,14 @@ import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
 
 export const createsol = async (req, res) => {
-  const { doubt, description, language, platform, createdby } = req.body;
+  const { doubt, description, language, platform, createdby,code , link} = req.body;
 
   try {
     const newsol = new Solution({
       doubt: doubt,
       description: description,
+      code:code,
+      link:link,
       language: language,
       platform: platform,
       createdby,
@@ -97,16 +99,17 @@ export const getsol = async (req, res) => {
 
 export const bookmark = async (req, res) => {
   try {
-    const userid = req.user._id;
+    const userid = req.user._id.toString();
     const { id: solid } = req.params;
-
-    const sol = Solution.findById(solid);
+ 
+    const sol = await Solution.findById(solid);
 
     if (!sol) {
       return res.status(404).json({ error: "Solution not found" });
     }
 
-    const userbookmarkedsol = sol.bookmarkedby.includes(userid);
+    const userbookmarkedsol =  sol.bookmarkedby.includes(userid);
+      const user=await User.findById(userid)
 
     if (userbookmarkedsol) {
       await Solution.updateOne(
@@ -115,22 +118,21 @@ export const bookmark = async (req, res) => {
       );
       await User.updateOne({ _id: userid }, { $pull: { bookmarks: solid } });
 
-      // const updatedbookmarks = Solution.bookmarkedby.filter(
-      //   (id) => id.toString() !== userid.toString()
-      // );
-      const updatedbookmarks = User.bookmarks
-      res.status(200).json(updatedbookmarks);
+   
+      const updatedbookmarks = user.bookmarks
+      return res.status(200).json(updatedbookmarks);
     } else {
-      Solution.bookmarkedby.push(userid);
-      await User.updateOne({ _id: userid }, { $push: { bookmarks: solid } });
-      await Solution.save();
 
-      const updatedbookmarks = User.bookmarks;
-      res.status(200).json(updatedbookmarks);
+      sol.bookmarkedby.push(userid);
+      await User.updateOne({ _id: userid }, { $push: { bookmarks: solid } });
+      await sol.save();
+
+      const updatedbookmarks = user.bookmarks;
+      return res.status(200).json(updatedbookmarks);
     }
   } catch (error) {
-    console.log("Error in bookmarkPost controller: ", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log("Error in bookmark controller: ", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -157,8 +159,7 @@ export const likeunlike = async (req, res) => {
         (id) => id.toString() !== userid.toString()
       );
 
-      // const updatedlikes=updatedlike.length
-      // console.log("unliked")
+   
       res.status(200).json(updatedlikes);
     } else {
       sol.likes.push(userid);
@@ -184,18 +185,19 @@ export const commentonsolution = async (req, res) => {
     const sol = Solution.findById(solid);
 
     if (!sol) {
-      return res.status(404).json({ error: "Solution not found" });
+       res.status(404).json({ error: "Solution not found" });
     }
 
     const comment = { text: text, user: userid };
 
-    Solution.comment.push(comment);
+    sol.comment.push(comment);
 
-    await Solution.save();
-    res.status(200).json(sol);
-  } catch (error) {
+    await sol.save();
+     res.status(200).json(sol);
+  } 
+  catch (error) {
     console.log("Error in commenting controller: ", error);
-    res.status(500).json({ error: "Internal server error" });
+    //  res.status(400).json({ error: "Internal server error" });
   }
 };
 

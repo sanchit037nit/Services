@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useSolution } from "../store/useSolutionstore.js";
-import { bookmark } from "../../../backend/controllers/solution.controller.js";
+import { FaRegHeart,FaTrash,FaRegComment} from "react-icons/fa";
+import { BiRepost } from "react-icons/bi";
+import { FaRegBookmark } from "react-icons/fa6";
+import { bookmark, commentonsolution } from "../../../backend/controllers/solution.controller.js";
+import Uploadpage from "./Uploadpage.jsx";
 
 
 export const Homepage = () => {
@@ -12,7 +16,7 @@ export const Homepage = () => {
   const { getsol, solutions, deletesol,inclikes,bookmark } = useSolution();
   const navigate = useNavigate();
   const [likes, setlikes] = useState(0);
-  const [spass, setspass] = useState("");
+  const [comm, setComment] = useState("");
   const [sort, setsort] = useState(false);
 
   const id = authUser._id;
@@ -21,7 +25,7 @@ export const Homepage = () => {
     getsol();
   }, [id]);
 
-  const handleView = (e, passId) => {
+  const handleLikePost = (e, passId) => {
     e.preventDefault();
     inclikes(passId)
     
@@ -41,66 +45,250 @@ export const Homepage = () => {
   const handleSort = () => {
     setsort(!sort);
   };
-  const handlebookmarks = (id) => {
-    bookmark(id)
-  };
-  const handleupload = () => {
+  // const handlebookmarks = (e,id) => {
+  //   e.preventDefault()
+  //   bookmark(id)
+  // };
+  const handleupload = (e) => {
+    e.preventDefault()
     navigate('/upload')
   };
 
+  const handlePostComment=(id,data)=>{
+    commentonsolution(id,data)
+  }
+
+	// return (
+
+  //   <div className='flex gap-2 items-start p-4 border-b border-gray-700'>
+  //    {solutions.map((post)=>{
+  //        const isLiked = post.likes.includes(authUser._id);
+
+
+  //     	<div className='flex gap-2 items-start p-4 border-b border-gray-700'>
+		
+	// 			<div className='flex flex-col flex-1'>
+				
+	// 				<div className='flex flex-col gap-3 overflow-hidden'>
+	// 					<span>{post.text}</span>
+	// 					{/* {post.img && (
+	// 						<img
+	// 							src={post.img}
+	// 							className='h-80 object-contain rounded-lg border border-gray-700'
+	// 							alt=''
+	// 						/>
+	// 					)} */}
+	// 				</div>
+	// 				<div className='flex justify-between mt-3'>
+	// 					<div className='flex gap-4 items-center w-2/3 justify-between'>
+	// 						<div
+	// 							className='flex gap-1 items-center cursor-pointer group'
+	// 							// onClick={}
+	// 						>
+	// 							<FaRegComment className='w-4 h-4  text-slate-500 group-hover:text-sky-400' />
+	// 							<span className='text-sm text-slate-500 group-hover:text-sky-400'>
+	// 								{post.comments.length}
+	// 							</span>
+	// 						</div>
+	// 						{/* We're using Modal Component from DaisyUI */}
+	// 						<dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
+	// 							<div className='modal-box rounded border border-gray-600'>
+	// 								<h3 className='font-bold text-lg mb-4'>COMMENTS</h3>
+	// 								<div className='flex flex-col gap-3 max-h-60 overflow-auto'>
+	// 									{post.comments.length === 0 && (
+	// 										<p className='text-sm text-slate-500'>
+	// 											No comments yet 🤔 Be the first one 😉
+	// 										</p>
+	// 									)}
+	// 									{post.comments.map((comment) => (
+	// 										<div key={comment._id} className='flex gap-2 items-start'>
+	// 											<div className='avatar'>
+	// 												<div className='w-8 rounded-full'>
+	// 													<img
+	// 														src={comment.user.profileImg || "/avatar-placeholder.png"}
+	// 													/>
+	// 												</div>
+	// 											</div>
+	// 											<div className='flex flex-col'>
+	// 												<div className='flex items-center gap-1'>
+	// 													<span className='font-bold'>{comment.user.name}</span>
+												
+	// 												</div>
+	// 												<div className='text-sm'>{comment.text}</div>
+	// 											</div>
+	// 										</div>
+	// 									))}
+	// 								</div>
+	// 								<form
+	// 									className='flex gap-2 items-center mt-4 border-t border-gray-600 pt-2'
+	// 									onSubmit={handlePostComment(post._id,comm)}
+	// 								>
+	// 									<textarea
+	// 										className='textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800'
+	// 										placeholder='Add a comment...'
+	// 										value={comm}
+	// 										onChange={(e) => setComment(e.target.value)}
+	// 									/>
+									
+	// 								</form>
+	// 							</div>
+	// 							<form method='dialog' className='modal-backdrop'>
+	// 								<button className='outline-none'>close</button>
+	// 							</form>
+	// 						</dialog>
+	// 						<div className='flex gap-1 items-center group cursor-pointer'>
+	// 							<BiRepost className='w-6 h-6  text-slate-500 group-hover:text-green-500' />
+	// 							<span className='text-sm text-slate-500 group-hover:text-green-500'>0</span>
+	// 						</div>
+	// 						<div className='flex gap-1 items-center group cursor-pointer' onClick={(e) => handleLikePost(e,post._id)}>
+	
+	// 							{!isLiked  && (
+	// 								<FaRegHeart className='w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500' />
+	// 							)}
+	// 							{isLiked  && (
+	// 								<FaRegHeart className='w-4 h-4 cursor-pointer text-pink-500 ' />
+	// 							)}
+
+	// 							<span
+	// 								className={`text-sm  group-hover:text-pink-500 ${
+	// 									isLiked ? "text-pink-500" : "text-slate-500"
+	// 								}`}
+	// 							>
+	// 								{post.likes.length}
+	// 							</span>
+	// 						</div>
+	// 					</div>
+	// 					<div className='flex w-1/3 justify-end gap-2 items-center'>
+	// 						<FaRegBookmark className='w-4 h-4 text-slate-500 cursor-pointer' />
+	// 					</div>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+  //   })}
+  //        </div>
+	// );
+
   return (
-    <div className="flex flex-col  gap-5   text-black font-sans tracking-wide">
+  <div className="bg-white text-black min-h-screen">
+    {solutions.map((post) => {
+      const isLiked = post.likes.includes(authUser._id);
 
-      <div className="flex gap-20 justify-center items-center text-3xl font-extrabold underline tracking-tight">
-        <p>MY Doubts</p>
-        <button onClick={handlebookmarks}> my bookmarks</button>
-        <button onClick={handleupload}> upload</button>
-      </div>
-      
+      return (
+        <div
+          key={post._id}
+          className="flex gap-2 items-start p-4 border-b border-gray-300"
+        >
+          <div className="flex flex-col flex-1">
+            <div className="flex flex-col gap-3 overflow-hidden">
+              <span className="text-gray-900">{post.doubt}</span>
+            </div>
 
-      <div className="space-y-5 p-6">
-        {solutions.map((pass) => (
-            <motion.div
-              key={pass._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gray-900/60 backdrop-blur-md p-4 rounded-xl shadow-lg hover:scale-[1.023] hover:shadow-[0_0_10px_rgba(124,58,237,0.6)] transition-all duration-200 flex justify-between items-start border border-gray-700"
-            >
-              <div className="space-y-1 text-left">
-                <p className="text-black text-lg font-medium">
-                  Name:{" "}
-                  <span className="text-gray-300 font-normal">{pass.doubt}</span>
-                </p>
-                <p className="text-white text-lg font-medium flex items-center gap-2">
-                  Password:{" "}
-                  
-                </p>
+            <div className="flex justify-between mt-3">
+              <div className="flex gap-4 items-center w-2/3 justify-between">
+                {/* comments */}
+                {/* <div className="flex gap-1 items-center cursor-pointer group"
+                >
+                  <FaRegComment className="w-4 h-4 text-gray-500 group-hover:text-sky-600" />
+                  <span className="text-sm text-gray-600 group-hover:text-sky-600">
+                    {post.comments.length}
+                  </span>
+                </div> */}
+                							<div
+								className='flex gap-1 items-center cursor-pointer group'
+								onClick={() => document.getElementById("comments_modal" + post._id).showModal()}
+							>
+								<FaRegComment className='w-4 h-4  text-slate-500 group-hover:text-sky-400' />
+								<span className='text-sm text-slate-500 group-hover:text-sky-400'>
+									{post.comments.length}
+								</span>
+							</div>
+
+                <dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
+								<div className='modal-box rounded border border-gray-600'>
+									<h3 className='font-bold text-lg mb-4'>COMMENTS</h3>
+									<div className='flex flex-col gap-3 max-h-60 overflow-auto'>
+										{post.comments.length === 0 && (
+											<p className='text-sm text-slate-500'>
+												No comments yet 🤔 Be the first one 😉
+											</p>
+										)}
+										{post.comments.map((comment) => (
+											<div key={comment._id} className='flex gap-2 items-start'>
+												<div className='avatar'>
+													<div className='w-8 rounded-full'>
+														<img
+															src={comment.user.profileImg || "/avatar-placeholder.png"}
+														/>
+													</div>
+												</div>
+												<div className='flex flex-col'>
+													<div className='flex items-center gap-1'>
+														<span className='font-bold'>{comment.user.fullName}</span>
+														<span className='text-gray-700 text-sm'>
+															@{comment.user.username}
+														</span>
+													</div>
+													<div className='text-sm'>{comment.text}</div>
+												</div>
+											</div>
+										))}
+									</div>
+									<form
+										className='flex gap-2 items-center mt-4 border-t border-gray-600 pt-2'
+										onSubmit={(e)=>handlePostComment(post._id,comm)}
+									>
+										<textarea
+											className='textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800'
+											placeholder='Add a comment...'
+											value={comm}
+											onChange={(e) => setComment(e.target.value)}
+										/>
+                    <button className='btn btn-primary rounded-full btn-sm text-black px-4'>
+											"Post"
+										</button>
+										
+									</form>
+								</div>
+								<form method='dialog' className='modal-backdrop'>
+									<button className='outline-none'>close</button>
+								</form>
+							</dialog>
+
+                {/* likes */}
+                <div
+                  className="flex gap-1 items-center group cursor-pointer"
+                  onClick={(e) => handleLikePost(e, post._id)}
+                >
+                  {!isLiked && (
+                    <FaRegHeart className="w-4 h-4 cursor-pointer text-gray-500 group-hover:text-pink-600" />
+                  )}
+                  {isLiked && (
+                    <FaRegHeart className="w-4 h-4 cursor-pointer text-pink-600" />
+                  )}
+
+                  <span
+                    className={`text-sm group-hover:text-pink-600 ${
+                      isLiked ? "text-pink-600" : "text-gray-600"
+                    }`}
+                  >
+                    {post.likes.length}
+                  </span>
+                </div>
+
+                {/* bookmark */}
+                <div className="flex gap-1 items-center group cursor-pointer">
+                  <FaRegBookmark className="w-4 h-4 text-gray-500 group-hover:text-blue-600" />
+                </div>
               </div>
+            </div>
+          </div>
+          <button onClick={(e)=>handleupload(e)}>Upload</button>
+        </div>
 
-              <div className="flex gap-2">
-                <button
-                  className="bg-violet-500 hover:bg-violet-700 text-black px-4 py-2 rounded-md transition duration-150 shadow"
-                  onClick={(e) => handleDelete(e, pass._id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-md transition duration-150 shadow"
-                  onClick={(e) => handleView(e, pass._id)}
-                >
-                  Likes: {pass.likes.length}
-                </button>
-                <button
-                  className="bg-orange-500 hover:bg-orange-600 text-black px-4 py-2 rounded-md transition duration-150 shadow"
-                  onClick={handlebookmarks(pass._id)}
-                >
-                  bookmark
-                </button>
-              </div>
-            </motion.div>
-          ))}
-      </div>
-    </div>
-  );
+        
+      );
+    })}
+  </div>
+);
+
 };

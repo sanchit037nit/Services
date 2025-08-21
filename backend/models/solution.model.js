@@ -11,6 +11,14 @@ const doubtschema = new mongoose.Schema(
       required: true,
     },
 
+    code:{
+        type:String,
+    },
+    
+    link:{
+        type:String,
+    },
+
     language: {
       type: String,
       required: true,

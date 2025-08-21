@@ -16,6 +16,8 @@ const Uploadpage = () => {
     description: "",
     language:"",
     platform:"",
+    code:"",
+    limk:"",
     createdby: authUser?._id,
   });
 
@@ -26,7 +28,7 @@ const Uploadpage = () => {
     }
     createsol(formdata);
     navigate("/Homepage");
-    setformdata({ doubt: "", languauge: "", description: "" , platform: ""});
+    setformdata({ doubt: "", languauge: "", description: "" , platform: "", code:"",link:""});
   };
 
   const handlecross = (e) => {
@@ -36,11 +38,7 @@ const Uploadpage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center  px-4">
-      <spline-viewer
-        url="https://prod.spline.design/cwq814qIdbhTkjqB/scene.splinecode"
-        background="transparent"
-        class="absolute top-0 left-0 w-full h-full z-[-1]"
-      ></spline-viewer>
+
 
       <div className=" rounded-2xl shadow-lg p-8 w-full max-w-md ">
         <div className="flex justify-between items-center mb-6">
@@ -114,9 +112,9 @@ const Uploadpage = () => {
             <textarea
               className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 resize-none h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter description"
-              value={formdata.description}
+              value={formdata.code}
               onChange={(e) =>
-                setformdata({ ...formdata, description: e.target.value })
+                setformdata({ ...formdata, code: e.target.value })
               }
             />
           </div>

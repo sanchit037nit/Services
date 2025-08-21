@@ -6,6 +6,19 @@ import { axiosinstance } from '../lib/axios.js'
 export const useAuthstore = create((set,get) => ({
 
   authUser:null,
+    users:[],
+
+    getusers: async()=>{
+        try {
+             const res=axiosinstance.get('/auth/users')
+             console.log(res.data)
+             set({users:res.data})
+        } catch (error) {
+            console.log("error in getting users",error)
+        }
+
+    },
+
   signup: async(data) => {
 
     try{
