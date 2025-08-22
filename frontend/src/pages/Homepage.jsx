@@ -13,11 +13,11 @@ import Uploadpage from "./Uploadpage.jsx";
 
 export const Homepage = () => {
   const { authUser } = useAuthstore();
-  const { getsol, solutions, deletesol,inclikes,bookmark } = useSolution();
+  const { getsol, solutions, deletesol,inclikes,bookmark,handlecomment} = useSolution();
   const navigate = useNavigate();
-  const [likes, setlikes] = useState(0);
+  const [search, setsearch] = useState("");
   const [comm, setComment] = useState("");
-  const [sort, setsort] = useState(false);
+  const [sort, setsort] = useState("");
 
   const id = authUser._id;
 
@@ -54,123 +54,44 @@ export const Homepage = () => {
     navigate('/upload')
   };
 
-  const handlePostComment=(id,data)=>{
-    commentonsolution(id,data)
+  const handlePostComment=(e,id,data)=>{
+	  e.preventDefault()
+    handlecomment(id,data)
   }
 
-	// return (
-
-  //   <div className='flex gap-2 items-start p-4 border-b border-gray-700'>
-  //    {solutions.map((post)=>{
-  //        const isLiked = post.likes.includes(authUser._id);
-
-
-  //     	<div className='flex gap-2 items-start p-4 border-b border-gray-700'>
-		
-	// 			<div className='flex flex-col flex-1'>
-				
-	// 				<div className='flex flex-col gap-3 overflow-hidden'>
-	// 					<span>{post.text}</span>
-	// 					{/* {post.img && (
-	// 						<img
-	// 							src={post.img}
-	// 							className='h-80 object-contain rounded-lg border border-gray-700'
-	// 							alt=''
-	// 						/>
-	// 					)} */}
-	// 				</div>
-	// 				<div className='flex justify-between mt-3'>
-	// 					<div className='flex gap-4 items-center w-2/3 justify-between'>
-	// 						<div
-	// 							className='flex gap-1 items-center cursor-pointer group'
-	// 							// onClick={}
-	// 						>
-	// 							<FaRegComment className='w-4 h-4  text-slate-500 group-hover:text-sky-400' />
-	// 							<span className='text-sm text-slate-500 group-hover:text-sky-400'>
-	// 								{post.comments.length}
-	// 							</span>
-	// 						</div>
-	// 						{/* We're using Modal Component from DaisyUI */}
-	// 						<dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
-	// 							<div className='modal-box rounded border border-gray-600'>
-	// 								<h3 className='font-bold text-lg mb-4'>COMMENTS</h3>
-	// 								<div className='flex flex-col gap-3 max-h-60 overflow-auto'>
-	// 									{post.comments.length === 0 && (
-	// 										<p className='text-sm text-slate-500'>
-	// 											No comments yet 🤔 Be the first one 😉
-	// 										</p>
-	// 									)}
-	// 									{post.comments.map((comment) => (
-	// 										<div key={comment._id} className='flex gap-2 items-start'>
-	// 											<div className='avatar'>
-	// 												<div className='w-8 rounded-full'>
-	// 													<img
-	// 														src={comment.user.profileImg || "/avatar-placeholder.png"}
-	// 													/>
-	// 												</div>
-	// 											</div>
-	// 											<div className='flex flex-col'>
-	// 												<div className='flex items-center gap-1'>
-	// 													<span className='font-bold'>{comment.user.name}</span>
-												
-	// 												</div>
-	// 												<div className='text-sm'>{comment.text}</div>
-	// 											</div>
-	// 										</div>
-	// 									))}
-	// 								</div>
-	// 								<form
-	// 									className='flex gap-2 items-center mt-4 border-t border-gray-600 pt-2'
-	// 									onSubmit={handlePostComment(post._id,comm)}
-	// 								>
-	// 									<textarea
-	// 										className='textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800'
-	// 										placeholder='Add a comment...'
-	// 										value={comm}
-	// 										onChange={(e) => setComment(e.target.value)}
-	// 									/>
-									
-	// 								</form>
-	// 							</div>
-	// 							<form method='dialog' className='modal-backdrop'>
-	// 								<button className='outline-none'>close</button>
-	// 							</form>
-	// 						</dialog>
-	// 						<div className='flex gap-1 items-center group cursor-pointer'>
-	// 							<BiRepost className='w-6 h-6  text-slate-500 group-hover:text-green-500' />
-	// 							<span className='text-sm text-slate-500 group-hover:text-green-500'>0</span>
-	// 						</div>
-	// 						<div className='flex gap-1 items-center group cursor-pointer' onClick={(e) => handleLikePost(e,post._id)}>
-	
-	// 							{!isLiked  && (
-	// 								<FaRegHeart className='w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500' />
-	// 							)}
-	// 							{isLiked  && (
-	// 								<FaRegHeart className='w-4 h-4 cursor-pointer text-pink-500 ' />
-	// 							)}
-
-	// 							<span
-	// 								className={`text-sm  group-hover:text-pink-500 ${
-	// 									isLiked ? "text-pink-500" : "text-slate-500"
-	// 								}`}
-	// 							>
-	// 								{post.likes.length}
-	// 							</span>
-	// 						</div>
-	// 					</div>
-	// 					<div className='flex w-1/3 justify-end gap-2 items-center'>
-	// 						<FaRegBookmark className='w-4 h-4 text-slate-500 cursor-pointer' />
-	// 					</div>
-	// 				</div>
-	// 			</div>
-	// 		</div>
-  //   })}
-  //        </div>
-	// );
 
   return (
-  <div className="bg-white text-black min-h-screen">
-    {solutions.map((post) => {
+  <div className="flex flex-col bg-white text-black min-h-screen ">
+    <div className="flex justify-center items-center border-b-black">
+		<input 
+		type="text" 
+		id="1" 
+		placeholder="Search..."
+		value={search}
+		onChange={(e)=>setsearch(e.target.value)}
+		/>
+	</div>
+  <div>
+    <label htmlFor="p">Choose platform:</label>
+<select 
+id="p" 
+name="platform"
+value={sort}
+onChange={(e) => e.target.value=="" ? setsort(null):setsort(e.target.value)}
+defaultValue={""}
+>
+  <option value="Codeforces">Codeforces</option>
+  <option value="Leetcode">Leetcode</option>
+  <option value="Atcoder">Atcoder</option>
+  <option value="">Default</option>
+</select>
+
+  </div>
+    {solutions?.filter((post) =>
+            post.doubt.toLowerCase().includes(search.toLowerCase())
+          ).filter((post)=>
+             !sort || post.platform.toLowerCase()==sort.toLowerCase()  
+          ).map((post) => {
       const isLiked = post.likes.includes(authUser._id);
 
       return (
@@ -186,13 +107,7 @@ export const Homepage = () => {
             <div className="flex justify-between mt-3">
               <div className="flex gap-4 items-center w-2/3 justify-between">
                 {/* comments */}
-                {/* <div className="flex gap-1 items-center cursor-pointer group"
-                >
-                  <FaRegComment className="w-4 h-4 text-gray-500 group-hover:text-sky-600" />
-                  <span className="text-sm text-gray-600 group-hover:text-sky-600">
-                    {post.comments.length}
-                  </span>
-                </div> */}
+              
                 							<div
 								className='flex gap-1 items-center cursor-pointer group'
 								onClick={() => document.getElementById("comments_modal" + post._id).showModal()}
@@ -235,7 +150,7 @@ export const Homepage = () => {
 									</div>
 									<form
 										className='flex gap-2 items-center mt-4 border-t border-gray-600 pt-2'
-										onSubmit={(e)=>handlePostComment(post._id,comm)}
+										onSubmit={(e)=>handlePostComment(e,post._id,comm)}
 									>
 										<textarea
 											className='textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800'
@@ -243,8 +158,8 @@ export const Homepage = () => {
 											value={comm}
 											onChange={(e) => setComment(e.target.value)}
 										/>
-                    <button className='btn btn-primary rounded-full btn-sm text-black px-4'>
-											"Post"
+                    <button type="submit" className='btn btn-primary rounded-full btn-sm text-black px-4'>
+											Post
 										</button>
 										
 									</form>
@@ -282,12 +197,13 @@ export const Homepage = () => {
               </div>
             </div>
           </div>
-          <button onClick={(e)=>handleupload(e)}>Upload</button>
+         
         </div>
 
         
       );
     })}
+	 <button onClick={(e)=>handleupload(e)}>Upload</button>
   </div>
 );
 

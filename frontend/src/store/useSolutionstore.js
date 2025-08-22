@@ -118,9 +118,10 @@ export const useSolution =create((set,get)=>({
         }
     },
 
-    handlecomment:async(id,data)=>{
+    handlecomment:async(id,text)=>{
         try {
-              await axiosinstance.post(`/sol/comment/${id}`,data)
+            // console.log(text)
+              await axiosinstance.post(`/sol/comment/${id}`,{text})
         } catch (error) {
             console.log("error in coomment",error)
         }

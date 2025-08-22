@@ -178,26 +178,26 @@ export const likeunlike = async (req, res) => {
 
 export const commentonsolution = async (req, res) => {
   try {
+
     const { text } = req.body;
     const solid = req.params.id;
-    const userid = req.user._id;
+    const userid = req.user._id.toString();
 
-    const sol = Solution.findById(solid);
-
+    const sol = await Solution.findById(solid);
+  
     if (!sol) {
        res.status(404).json({ error: "Solution not found" });
     }
 
     const comment = { text: text, user: userid };
-
-    sol.comment.push(comment);
-
+    sol.comments.push(comment);
     await sol.save();
      res.status(200).json(sol);
+     
   } 
   catch (error) {
     console.log("Error in commenting controller: ", error);
-    //  res.status(400).json({ error: "Internal server error" });
+     res.status(400).json({ error: "Internal server error" });
   }
 };
 

@@ -108,10 +108,10 @@ const Uploadpage = () => {
           </div>
 
           <div>
-            <label className="text-gray-300 block mb-1">Description</label>
+            <label className="text-gray-300 block mb-1">COde</label>
             <textarea
               className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 resize-none h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter description"
+              placeholder="Enter COde"
               value={formdata.code}
               onChange={(e) =>
                 setformdata({ ...formdata, code: e.target.value })
@@ -119,6 +119,11 @@ const Uploadpage = () => {
             />
           </div>
 
+           <div>
+             <label htmlFor="website">Related link</label>
+             <input type="url" id="website" name="website" 
+               placeholder="https://example.com" required></input>
+           </div>
           <div className="flex space-x-4 mt-6">
             <button
               onClick={handleclick}
