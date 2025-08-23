@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/createsol",createsol)
 router.post("/updatesol",updatesol)
 router.get("/get",getsol)
-router.get("/getbook/:id",getbookmarks)
+router.get("/getbook",protectroute,getbookmarks)
 router.get("/like/:id", protectroute, likeunlike);
 router.post("/bookmark/:id", protectroute, bookmark);
 router.post("/comment/:id", protectroute, commentonsolution);

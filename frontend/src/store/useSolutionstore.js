@@ -8,13 +8,14 @@ export const useSolution =create((set,get)=>({
      
     solutions:[],
     bookmarks:[],
+    user:[],
   
 
     createsol: async(data)=>{
         try{
         const {solutions}=get()
-        const newsol=axiosinstance.post("/sol/createsol",data)
-        console.log(newsol)
+        const newsol= await axiosinstance.post("/sol/createsol",data)
+        // console.log(newsol)
         set({solutions:[...solutions,newsol.data]})
         toast.success("blog posted successfully")
         }
@@ -26,7 +27,7 @@ export const useSolution =create((set,get)=>({
 
     updatesol: async(data)=>{
         try{
-        const updatesol=axiosinstance.post("/sol/updatesol",data)
+        const updatesol=await axiosinstance.post("/sol/updatesol",data)
         toast.success("blog updated successfully")
         }
         catch(error){
@@ -37,7 +38,7 @@ export const useSolution =create((set,get)=>({
 
     deletesol: async(solid)=>{
         try{
-        const deletesol=axiosinstance.delete('/sol/deletesol',solid)
+        const deletesol=await axiosinstance.delete('/sol/deletesol',solid)
         toast.success("blog deleted successfully")
         }
         catch(error){
@@ -91,11 +92,10 @@ export const useSolution =create((set,get)=>({
             const res = await axiosinstance.post(`/sol/bookmark/${id}`)
             const updatedbookmarks=res.data
 
-             const resp=axiosinstance.get('/auth/users')
-             console.log(resp.data)
-            //  set({users:resp.data})
-
-            // const {users} =useAuthstore.getState() 
+            const userss=axiosinstance.get('/auth/users')
+             console.log(userss.data)
+             set({users:userss.data})
+             
             set((state)=>{
                  bookmarks: state.users.map((user) =>
         user._id === id ? { ...user, bookmarks: updatedbookmarks} : user
@@ -106,12 +106,11 @@ export const useSolution =create((set,get)=>({
         }
     },
 
-     getbookmark: async(id) =>{
+     getbookmark: async() =>{
         try{
-            const res = await axiosinstance.get(`/sol/getbook/${id}`)
-            // console.log(res.data.sols)
-            set({ bookmarks: [...res.data] })
-            // console.log(solutions)
+            const res = await axiosinstance.get(`/sol/getbook`)
+            // console.log(res.data)
+            set({ bookmarks:res.data.bookmarks })
         }
         catch(error){
             toast.error(error.response.data.message)

@@ -203,12 +203,14 @@ export const commentonsolution = async (req, res) => {
 
 export const getbookmarks = async (req, res) => {
   try {
-    const id=req.params
-    const user=User.findById(id)
+  
+    const id=req.user._id.toString()
+    const user=await User.findById(id)
      if (!user) {
       return res.status(404).json({ error: "user not found" });
     }
-    const books=user.bookmarks
+    const books= await user.populate("bookmarks")
+    // console.log(books)
     return res.status(200).json(books);
   } catch (error) {
     console.log("error in getting bookmarks", error);

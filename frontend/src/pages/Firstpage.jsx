@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 
 export const Firstpage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,10 @@ export const Firstpage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-900 text-white flex items-center justify-center px-4">
+    <div className="min-h-screen w-full bg-gray-900 text-white items-center justify-center px-4">
+      <div>
+        <Navbar/>
+      </div>
       <div className="text-center">
         <h1 className="text-5xl font-extrabold mb-6">
           Welcome to <span className="text-blue-400">MyApp</span>

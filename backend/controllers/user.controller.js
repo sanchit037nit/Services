@@ -116,6 +116,7 @@ export const deleteaccount=async (req,res)=>{
 export const getusers=async (req,res)=>{
     try {
         const users=await User.find()
+
          res.status(200).json(users)
     } catch (error) {
         console.log("cannot get users",error)

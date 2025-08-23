@@ -17,7 +17,7 @@ const Uploadpage = () => {
     language:"",
     platform:"",
     code:"",
-    limk:"",
+    link:"",
     createdby: authUser?._id,
   });
 
@@ -28,7 +28,7 @@ const Uploadpage = () => {
     }
     createsol(formdata);
     navigate("/Homepage");
-    setformdata({ doubt: "", languauge: "", description: "" , platform: "", code:"",link:""});
+    setformdata({ doubt: "", language: "", description: "" , platform: "", code:"",link:""});
   };
 
   const handlecross = (e) => {
@@ -48,7 +48,7 @@ const Uploadpage = () => {
 
           <div className="flex items-center justify-center w-7 h-7 bg-gray-100 rounded-full transition-colors duration-200">
             <button
-              onClick={handlecross}
+              onClick={(e)=>handlecross(e)}
               className="text-sm leading-none text-gray-600 hover:text-red-600 focus:outline-none"
             >
               ❌
@@ -121,12 +121,18 @@ const Uploadpage = () => {
 
            <div>
              <label htmlFor="website">Related link</label>
-             <input type="url" id="website" name="website" 
-               placeholder="https://example.com" required></input>
+             <input 
+             type="url" 
+             id="website" 
+             name="website" 
+              placeholder="https://example.com" required
+              value={formdata.limk}
+  onChange={(e) => setformdata({ ...formdata, link: e.target.value })}
+  ></input>
            </div>
           <div className="flex space-x-4 mt-6">
             <button
-              onClick={handleclick}
+              onClick={(e)=>handleclick(e)}
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
             >
               Create
