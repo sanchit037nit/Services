@@ -38,6 +38,13 @@ const userschema = new mongoose.Schema(
         default: [],
       },
     ],
+    doubts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Solution",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );

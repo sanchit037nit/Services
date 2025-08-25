@@ -12,6 +12,8 @@ import './App.css'
 import { useAuthstore } from './store/useAuthstore.js'
 import Sidebar from '../components/Sidebar.jsx'
 import Navbar from '../components/Navbar.jsx'
+import Profilepage from './pages/Profilepage.jsx'
+import MyPosts from './pages/MyPosts.jsx'
 
 
 const App=()=>{
@@ -29,13 +31,18 @@ const App=()=>{
 			{authUser && <Sidebar />}
        
 			<Routes>
-			 <Route path="/" element={<Firstpage />} />
+
+			<Route path="/" element={<Firstpage />} />
       <Route path="/signup" element={!authUser ?<Signuppage /> : <Navigate to="/Homepage" />} />
       <Route path="/login" element={!authUser ? <Loginpage /> : <Navigate to="/Homepage" />} />
       <Route path="/Homepage" element={authUser ? <Homepage /> : <Navigate to="/" />} />
       <Route path="/upload" element={authUser ? <Uploadpage /> : <Navigate to="/" />} />
-      <Route path="/aipage" element={authUser ? <Aipage /> : <Navigate to="/" />} />
+      
       <Route path="/bookmarks" element={authUser ? <Bookmarks /> : <Navigate to="/" />} />
+      <Route path="/profile" element={authUser ? <Profilepage /> : <Navigate to="/" />} />
+      <Route path="/Aipage" element={authUser ? <Aipage /> : <Navigate to="/" />} />
+      <Route path="/Posts" element={authUser ? <MyPosts /> : <Navigate to="/" />} />
+
 			</Routes>
 			
 			<Toaster />

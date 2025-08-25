@@ -1,9 +1,11 @@
+
 import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
 
 export const createsol = async (req, res) => {
   const { doubt, description, language, platform, createdby,code , link} = req.body;
-
+  const {userid}=req.user._id.toString()
+   const user=await User.findById(userid)
   try {
     const newsol = new Solution({
       doubt: doubt,
@@ -16,6 +18,8 @@ export const createsol = async (req, res) => {
     });
 
     if (newsol) {
+       user.doubts?.push(newsol)
+       await user.save()
       await newsol.save();
       return res.status(201).json({
         success: true,
@@ -30,6 +34,8 @@ export const createsol = async (req, res) => {
 
 export const deletesol = async (req, res) => {
   const id = req.params;
+   const {userid}=req.user._id.toString()
+   const user=await User.findById(userid)
 
   try {
     if (!id) {
@@ -37,6 +43,8 @@ export const deletesol = async (req, res) => {
     }
 
     const delsol = await Solution.findByIdAndDelete(id);
+    user.doubts=user.doubts.filter(doubt => doubt._id.toString()!==id.toString())
+    await user.save()
 
     if (delsol) {
       return res.status.json(201).json({
@@ -81,6 +89,20 @@ export const updatesol = async (req, res) => {
   } catch (error) {
     console.log("error in updating solution");
     return res.status(400).json({ message: "solution not updated" });
+  }
+};
+
+export const getsolbyid = async (req, res) => {
+  try {
+    const userid = req.user._id
+    const sols = await Solution.find({createdby:userid});
+
+    return res.status(200).json({ sols });
+  } catch (error) {
+    console.log("error in getting solutions", error);
+    return res.status(400).json({
+      message: "error in getting solutions",
+    });
   }
 };
 

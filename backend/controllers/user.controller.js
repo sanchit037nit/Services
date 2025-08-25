@@ -46,6 +46,53 @@ export const signup=async (req,res)=>{
 
 };
 
+export const updateprofile=async (req,res)=>{
+    const {name,email,password} =req.body
+    const {userid}= req.user._id.toString()
+    try{
+
+        if(!name || !email || !password){
+            return res.status(400).json(
+                {success:false,message: "all fields required"})
+        }
+        if(password.length < 6){
+            return res.status(400).json({success:false,message: "password must be atleast 6 characters"})
+        }
+        const user=await User.findById(userid)
+
+        if(!user){
+            return res.status(400).json({success:false,message: "user not exists"})
+        }
+
+        const updateduser=await User.findByIdAndUpdate(
+            userid,
+            {
+            $set:{
+                name:name,
+                email:email,
+                password:password
+            }
+         
+        } ,{new:true}
+    )
+
+
+            await updateduser.save();
+
+            res.status(201).json({
+                _id:newuser._id,
+                name:newuser.name,
+                emailid:newuser.email,
+            })
+    }
+  
+         catch (error) {
+         console.log("error in signup controller",error.message)
+         res.status(500).json({message: "internal server error"})
+    }
+
+};
+
 export const login=async (req,res)=>{
     const { email, password} = req.body
     try{

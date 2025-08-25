@@ -9,6 +9,7 @@ export const useSolution =create((set,get)=>({
     solutions:[],
     bookmarks:[],
     user:[],
+    mysols:[],
   
 
     createsol: async(data)=>{
@@ -52,6 +53,18 @@ export const useSolution =create((set,get)=>({
             const res = await axiosinstance.get(`/sol/get`)
             // console.log(res.data.sols)
             set({ solutions: [...res.data.sols] })
+            // console.log(solutions)
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+        }
+    },
+
+    getmysol: async() =>{
+        try{
+            const res = await axiosinstance.get(`/sol/getsolbyid`)
+            console.log(res.data)
+            set({ mysols: res.data.sols })
             // console.log(solutions)
         }
         catch(error){
