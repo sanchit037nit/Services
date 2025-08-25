@@ -12,6 +12,6 @@ router.get("/getsolbyid",protectroute,getsolbyid)
 router.get("/like/:id", protectroute, likeunlike);
 router.post("/bookmark/:id", protectroute, bookmark);
 router.post("/comment/:id", protectroute, commentonsolution);
-router.delete("/deletesol/:solid",protectroute,deletesol)
+router.delete("/deletesol/:id",protectroute,deletesol)
 
 export default  router;

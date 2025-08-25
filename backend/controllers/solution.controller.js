@@ -33,27 +33,30 @@ export const createsol = async (req, res) => {
 };
 
 export const deletesol = async (req, res) => {
-  const id = req.params;
-   const {userid}=req.user._id.toString()
+  const {id} = req.params
+   const userid=req.user._id.toString()
    const user=await User.findById(userid)
 
   try {
     if (!id) {
       return res.status(400).json({ message: "text is required" });
     }
-
+    // console.log(id)
+       
     const delsol = await Solution.findByIdAndDelete(id);
     user.doubts=user.doubts.filter(doubt => doubt._id.toString()!==id.toString())
+    user.bookmarks=user.bookmarks.filter(doubt => doubt._id.toString()!==id.toString())
+    user.likedsols=user.likedsols.filter(doubt => doubt._id.toString()!==id.toString())
     await user.save()
 
     if (delsol) {
-      return res.status.json(201).json({
+      return res.status(201).json({
         success: true,
         message: "comment deleted",
       });
-    } else throw "error not deleted";
+    } 
   } catch (error) {
-    console.log("error in deleting solution");
+    console.log("error in deleting solution",error);
     return res.status(400).json({ message: "solution not deleted" });
   }
 };

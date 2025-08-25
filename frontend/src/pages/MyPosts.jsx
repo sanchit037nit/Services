@@ -7,15 +7,16 @@ import { FaRegHeart, FaTrash, FaRegComment,FaRegBookmark } from "react-icons/fa"
 
 const MyPosts = () => {
 
-    const {getmysol,mysols}=useSolution()
+    const {getmysol,mysols,deletesol}=useSolution()
     const {authUser}=useAuthstore()
-
-     const handleDelete=()=>{
-      
+    const id=authUser._id
+     const handleDelete=(e,id)=>{
+      e.preventDefault()
+      deletesol(id)
      }
     useEffect(()=>{
         getmysol()
-    },[])
+    },[id])
 
   return (
      <div className="flex flex-col w-full mx-auto p-6 space-y-5">
@@ -97,7 +98,7 @@ const MyPosts = () => {
                </div>
    
                {/* 🗑 Delete */}
-               {pass.user?._id === authUser?._id && (
+               {pass.createdby === authUser?._id && (
                  <div
                    className="flex gap-1 items-center cursor-pointer group"
                    onClick={(e) => handleDelete(e, pass._id)}

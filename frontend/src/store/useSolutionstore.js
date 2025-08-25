@@ -37,9 +37,18 @@ export const useSolution =create((set,get)=>({
         }
     },
 
-    deletesol: async(solid)=>{
+    deletesol: async(id)=>{
         try{
-        const deletesol=await axiosinstance.delete('/sol/deletesol',solid)
+        const deletesol=await axiosinstance.delete(`/sol/deletesol/${id}`)
+           set((state) => ({
+      solutions: state.solutions.filter((post) => post._id !== id)
+    }));
+           set((state) => ({
+      mysols: state.mysols.filter((post) => post._id !== id)
+    }));
+           set((state) => ({
+      bookmarks: state.bookmarks.filter((post) => post._id !== id)
+    }));
         toast.success("blog deleted successfully")
         }
         catch(error){

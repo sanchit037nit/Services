@@ -174,7 +174,7 @@ export const Homepage = () => {
                     </div>
 
                     {/* 🗑 Delete */}
-                    {post.user?._id === authUser?._id && (
+                    {post.createdby === authUser?._id && (
                       <div
                         className="flex gap-1 items-center cursor-pointer group"
                         onClick={(e) => handleDelete(e, post._id)}
