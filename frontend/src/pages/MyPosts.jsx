@@ -10,6 +10,8 @@ const MyPosts = () => {
     const {getmysol,mysols,deletesol}=useSolution()
     const {authUser}=useAuthstore()
     const id=authUser._id
+
+    console.log(authUser)
      const handleDelete=(e,id)=>{
       e.preventDefault()
       deletesol(id)

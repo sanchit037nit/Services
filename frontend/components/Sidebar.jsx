@@ -31,7 +31,7 @@ const Sidebar = () => {
           {[
             { to: "/Homepage", icon: <MdHomeFilled />, label: "Home" },
             { to: "/notifications", icon: <IoNotifications />, label: "Notifications" },
-            { to: `/profile/${authUser?._id || authUser?.name}`, icon: <FaUser />, label: "Profile" },
+            { to: `/profile`, icon: <FaUser />, label: "Profile" },
             { to: "/Aipage", icon: <FaRobot />, label: "Ai-solver" },
             { to: "/Bookmarks", icon: <FaBookmark />, label: "My-Bookmarks" },
             { to: "/Posts", icon: <FaQuestionCircle />, label: "My-Doubts" },
@@ -84,7 +84,7 @@ const Sidebar = () => {
                 className="w-9 h-9 rounded-full overflow-hidden ring-2 ring-blue-500 shadow-md"
               >
                 <img
-                  src={authUser?.profileImg || "/avatar-placeholder.png"}
+                  src={authUser?.profilephoto || "/avatar-placeholder.png"}
                   alt="User Avatar"
                 />
               </motion.div>

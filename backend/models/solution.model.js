@@ -29,7 +29,7 @@ const doubtschema = new mongoose.Schema(
       required: true,
     },
 
-    pic: {
+    photo: {
       type: String,
       default: "",
     },

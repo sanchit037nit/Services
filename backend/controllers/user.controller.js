@@ -1,6 +1,7 @@
 import {generateToken} from "../utils/gentok.js"
 import User from "../models/users.model.js"
 import bcrypt from "bcryptjs"
+import cloudinary from "../utils/cloudinary.js"
 
 export const signup=async (req,res)=>{
     const {name,email,password} =req.body
@@ -47,30 +48,33 @@ export const signup=async (req,res)=>{
 };
 
 export const updateprofile=async (req,res)=>{
-    const {name,email,password} =req.body
-    const {userid}= req.user._id.toString()
+    const {profilephoto} =req.body
+    const userid= req.user._id.toString()
+ 
     try{
 
-        if(!name || !email || !password){
-            return res.status(400).json(
-                {success:false,message: "all fields required"})
-        }
-        if(password.length < 6){
-            return res.status(400).json({success:false,message: "password must be atleast 6 characters"})
-        }
+        // if(!name || !email || !password){
+        //     return res.status(400).json(
+        //         {success:false,message: "all fields required"})
+        // }
+        // if(password.length < 6){
+        //     return res.status(400).json({success:false,message: "password must be atleast 6 characters"})
+        // }
         const user=await User.findById(userid)
 
         if(!user){
             return res.status(400).json({success:false,message: "user not exists"})
         }
-
+        const upres=await cloudinary.uploader.upload(profilephoto)
+    
         const updateduser=await User.findByIdAndUpdate(
             userid,
             {
             $set:{
-                name:name,
-                email:email,
-                password:password
+                // name:name,
+                // email:email,
+                // password:password,
+                profilephoto:upres.secure_url
             }
          
         } ,{new:true}
@@ -79,10 +83,8 @@ export const updateprofile=async (req,res)=>{
 
             await updateduser.save();
 
-            res.status(201).json({
-                _id:newuser._id,
-                name:newuser.name,
-                emailid:newuser.email,
+            res.status(200).json({
+               message:"s"
             })
     }
   
@@ -111,9 +113,7 @@ export const login=async (req,res)=>{
         generateToken(user._id,res)
         
         res.status(200).json({
-            _id:user._id,
-            fullName:user.name,
-            email:user.email,
+          user
         })
     }
     catch (error){

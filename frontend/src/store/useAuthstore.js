@@ -6,6 +6,7 @@ import { axiosinstance } from '../lib/axios.js'
 export const useAuthstore = create((set,get) => ({
 
   authUser:null,
+  isupdatingprofile:false,
     users:[],
 
     getusers: async()=>{
@@ -37,27 +38,31 @@ export const useAuthstore = create((set,get) => ({
   updateprofile: async(data) => {
 
     try{
-
+          set({ isupdatingprofile: true });
         const res=await axiosinstance.post("/auth/update",data)
-        set({authUser:res.data})
+        // set({authUser:res.data})
         toast.success("Profile updated successfully")
         
     }
     catch(error){
         toast.error(error.response.data.message)
     }
-
+    finally{
+      set({ isupdatingprofile: false });
+    }
   },
 
   login: async(data)=>{
     try{
         const res=await axiosinstance.post("/auth/login",data)
-        set({authUser:res.data})
+      // set((state) => ({ authUser: [...state.authUser, ...res.data] }))
+      set((state) => ({ authUser: res.data.user }))
 
         toast.success("logged in successfully")
     }
     catch(error){
-        toast.error(error.response.data.message)
+      console.log(error)
+        toast.error("error")
     }
   },
 
@@ -75,7 +80,8 @@ export const useAuthstore = create((set,get) => ({
   checkauth: async() =>{
       try{
          const res=await axiosinstance.get("/auth/check")
-         set({authUser:res.data})
+         console.log(res.data)
+        //  set({authUser:res.data})
 
       }
       catch(error){
