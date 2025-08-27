@@ -8,12 +8,13 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuthstore } from "../src/store/useAuthstore.js";
 import {FaQuestionCircle} from "react-icons/fa"
 import { motion } from "framer-motion";
+import  {useNavigate}  from "react-router-dom";
 
 const Sidebar = () => {
   const { logout, authUser } = useAuthstore();
   const location = useLocation();
+ const navigate=useNavigate()
 
-  // Helper to check active route
   const isActive = (path) => location.pathname === path;
 
  
@@ -30,11 +31,10 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-3 mt-6 px-2">
           {[
             { to: "/Homepage", icon: <MdHomeFilled />, label: "Home" },
-            { to: "/notifications", icon: <IoNotifications />, label: "Notifications" },
-            { to: `/profile`, icon: <FaUser />, label: "Profile" },
+            { to: "/profile", icon: <FaUser />, label: "Profile" },
             { to: "/Aipage", icon: <FaRobot />, label: "Ai-solver" },
             { to: "/Bookmarks", icon: <FaBookmark />, label: "My-Bookmarks" },
-            { to: "/Posts", icon: <FaQuestionCircle />, label: "My-Doubts" },
+            { to: "/Posts", icon: <FaQuestionCircle />, label: "My-Solutions" },
           ].map((item, index) => (
             <motion.li
               key={index}
@@ -91,7 +91,7 @@ const Sidebar = () => {
             </div>
 
             <div className="flex justify-between flex-1 items-center">
-              <div className="hidden md:block">
+              <div className="hidden md:block" >
                 <p className="font-semibold text-sm truncate max-w-[100px]">
                   {authUser?.name}
                 </p>

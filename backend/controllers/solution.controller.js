@@ -4,7 +4,7 @@ import User from "../models/users.model.js";
 
 export const createsol = async (req, res) => {
   const { doubt, description, language, platform, createdby,code , link} = req.body;
-  const {userid}=req.user._id.toString()
+  const userid=req.user._id.toString()
    const user=await User.findById(userid)
   try {
     const newsol = new Solution({
@@ -111,7 +111,7 @@ export const getsolbyid = async (req, res) => {
 
 export const getsol = async (req, res) => {
   try {
-    const sols = await Solution.find();
+    const sols = await Solution.find().populate("createdby","name email profilephoto");
 
     return res.status(200).json({ sols });
   } catch (error) {

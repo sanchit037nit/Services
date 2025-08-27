@@ -4,8 +4,8 @@ import { protectroute } from "../middlewares/auth.middleware.js"
 
 const router = express.Router();
 
-router.post("/createsol",createsol)
-router.post("/updatesol",updatesol)
+router.post("/createsol",protectroute,createsol)
+router.post("/updatesol",protectroute,updatesol)
 router.get("/get",getsol)
 router.get("/getbook",protectroute,getbookmarks)
 router.get("/getsolbyid",protectroute,getsolbyid)
