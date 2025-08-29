@@ -7,9 +7,10 @@ import { FaRegHeart, FaTrash, FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
+
 export const Homepage = () => {
   const { authUser } = useAuthstore();
-  const { getsol, solutions, deletesol, inclikes, bookmark, handlecomment } = useSolution();
+  const { getsol, solutions, deletesol, inclikes, bookmark, handlecomment ,selectedpost} = useSolution();
   const navigate = useNavigate();
   const [search, setsearch] = useState("");
   const [comm, setComment] = useState("");
@@ -24,30 +25,40 @@ export const Homepage = () => {
 
   const handleLikePost = (e, passId) => {
     e.preventDefault();
+    e.stopPropagation()
     inclikes(passId);
   };
 
   const handleDelete = (e, passId) => {
     e.preventDefault();
+    e.stopPropagation()
     deletesol(passId);
   };
 
   const handlebook = (e, id) => {
     e.preventDefault();
+    e.stopPropagation()
     bookmark(id);
   };
 
   const handleupload = (e) => {
     e.preventDefault();
+    e.stopPropagation()
     navigate("/upload");
   };
 
   const handlePostComment = (e, id, data) => {
     e.preventDefault();
+    e.stopPropagation()
     handlecomment(id, data);
     setComment("");
   };
 
+  const handlepost=(e,post)=>{
+        e.preventDefault()
+        selectedpost(post)
+        navigate('./view')
+  }
 
   return (
       <motion.div
@@ -130,7 +141,7 @@ export const Homepage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all"
-           
+                onClick={(e)=> handlepost(e,post)}
               >
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-2">
@@ -157,8 +168,11 @@ export const Homepage = () => {
                   {/* 💬 Comments */}
                   <div
                     className="flex items-center gap-1 cursor-pointer hover:text-blue-400"
-                    onClick={() =>
-                      document.getElementById("comments_modal" + post._id).showModal()
+                    onClick={(e) =>
+                      {
+                        e.stopPropagation()
+                        return document.getElementById("comments_modal" + post._id).showModal()
+                      }
                     }
                   >
                     <FaRegComment className="w-4 h-4" />
@@ -201,6 +215,7 @@ export const Homepage = () => {
                 <dialog
                   id={`comments_modal${post._id}`}
                   className="modal border-none outline-none bg-gradient-to-br from-gray-900 via-black to-gray-800 "
+                  onClick={(e) => { e.stopPropagation() }}
                 >
                   <div className="modal-box  rounded-xl max-w-lg bg-gradient-to-br from-gray-900 via-black to-gray-800">
                     <h3 className="font-bold text-lg mb-4 text-white">Comments</h3>
@@ -239,16 +254,20 @@ export const Homepage = () => {
                     {/* Post Comment */}
                     <form
                       className="flex gap-2 items-center mt-4 border-t border-gray-300 pt-2"
-                      onSubmit={(e) => handlePostComment(e, post._id, comm)}
+                      onSubmit={(e) => { e.stopPropagation() 
+                        return handlePostComment(e, post._id, comm)}}
                     >
                       <textarea
                         className="textarea w-full p-2 rounded-md text-sm resize-none border border-gray-400 focus:ring-2 focus:ring-blue-500"
                         placeholder="Add a comment..."
                         value={comm}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={(e) => { e.stopPropagation() 
+                         return setComment(e.target.value)
+                        }}
                       />
                       <button
                         type="submit"
+                        onClick={(e) => { e.stopPropagation() }}
                         className="px-4 py-1 rounded-full bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
                       >
                         Post
@@ -256,7 +275,7 @@ export const Homepage = () => {
                     </form>
                   </div>
                   <form method="dialog" className="modal-backdrop">
-                    <button className="outline-none text-white">close</button>
+                    <button className="outline-none text-white" onClick={(e)=>{e.stopPropagation()}}>close</button>
                   </form>
                 </dialog>
               </motion.div>

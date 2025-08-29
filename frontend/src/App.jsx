@@ -14,6 +14,7 @@ import Sidebar from '../components/Sidebar.jsx'
 import Navbar from '../components/Navbar.jsx'
 import Profilepage from './pages/Profilepage.jsx'
 import MyPosts from './pages/MyPosts.jsx'
+import Viewpage from './pages/Viewpage.jsx'
 
 
 const App=()=>{
@@ -42,6 +43,7 @@ const App=()=>{
       <Route path="/profile" element={authUser ? <Profilepage /> : <Navigate to="/" />} />
       <Route path="/Aipage" element={authUser ? <Aipage /> : <Navigate to="/" />} />
       <Route path="/Posts" element={authUser ? <MyPosts /> : <Navigate to="/" />} />
+      <Route path="/Homepage/view" element={authUser ? <Viewpage /> : <Navigate to="/" />} />
 
 			</Routes>
 			

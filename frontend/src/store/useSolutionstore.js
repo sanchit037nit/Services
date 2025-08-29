@@ -10,6 +10,8 @@ export const useSolution =create((set,get)=>({
     bookmarks:[],
     user:[],
     mysols:[],
+    airesp:"",
+    selpost:null,
   
 
     createsol: async(data)=>{
@@ -147,5 +149,21 @@ export const useSolution =create((set,get)=>({
         } catch (error) {
             console.log("error in coomment",error)
         }
+    },
+
+    aires:async(data)=>{
+        try {
+               const res=await axiosinstance.post('/sol/ai',{data})
+        set({airesp:res.data.message})
+
+        } catch (error) {
+            console.log("error in ai",error)
+        }
+     
+
+    },
+
+    selectedpost:(post)=>{
+        set({selpost:post})
     }
 }))

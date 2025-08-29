@@ -1,9 +1,10 @@
 
 import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
+import { GoogleGenAI } from "@google/genai";
 
 export const createsol = async (req, res) => {
-  const { doubt, description, language, platform, createdby,code , link} = req.body;
+  const { doubt, description, language, platform, createdby,code , link,photo} = req.body;
   const userid=req.user._id.toString()
    const user=await User.findById(userid)
   try {
@@ -14,6 +15,7 @@ export const createsol = async (req, res) => {
       link:link,
       language: language,
       platform: platform,
+      photo:photo,
       createdby,
     });
 
@@ -244,3 +246,79 @@ export const getbookmarks = async (req, res) => {
     });
   }
 };
+
+export const sendMessage= async(req,res)=>{
+				const {data} = req.body
+				// res.status(200).json({
+        //   message:"skfsf"
+        // })
+				try {
+					// const response = await fetch(
+					// 	"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+					// 	{
+					// 		method: 'POST',
+					// 		headers: {
+					// 			Authorization:`Bearer ${process.env.GEMINI_API_KEY}`,
+
+					// 			'Content-Type': 'application/json',
+					// 		},
+					// 		body: JSON.stringify({
+					// 			model: 'gemini-2.0-flash',
+					// 			messages: [{ role: 'user', content: data }],
+          //     }),
+          //   }
+          // )
+  // "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+  // {
+  //   method: "POST",
+  //   headers: {
+  //     Authorization: `Bearer ${process.env.GEMINI_API_KEY}`,
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     contents: [
+  //       {
+  //         role: "user",
+  //         parts: [{ text: data }],
+  //       },
+  //     ],
+  //   }),
+  // }
+            // )
+
+//             const response = await fetch(
+//   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+//   {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${process.env.GEMINI_API_KEY}`,
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       contents: [
+//         {
+//           role: "user",
+//           parts: [{ text: data }],
+//         },
+//       ],
+//     }),
+//   }
+// );
+const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
+ const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: data,
+  });
+					// const dat = await response.json();
+            //  console.log(response.text)
+					const markdownText =
+						response.text || 'No response received.';
+		      return res.status(200).json({
+            message:markdownText
+          })
+				} catch (error) {
+				  res.status(400).json({
+            message:"error in ai"
+          })
+				}
+			}
