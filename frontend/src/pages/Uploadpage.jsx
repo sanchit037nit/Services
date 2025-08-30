@@ -48,7 +48,7 @@ const Uploadpage = () => {
     }
     createsol(formdata);
     navigate("/Homepage");
-    setformdata({ doubt: "", language: "", description: "" , platform: "", code:"",link:""});
+    setformdata({ doubt: "", language: "", description: "" , platform: "", code:"",link:"",photo:""});
   };
 
   const handlecross = (e) => {

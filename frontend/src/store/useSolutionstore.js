@@ -8,7 +8,7 @@ export const useSolution =create((set,get)=>({
      
     solutions:[],
     bookmarks:[],
-    user:[],
+    users:[],
     mysols:[],
     airesp:"",
     selpost:null,

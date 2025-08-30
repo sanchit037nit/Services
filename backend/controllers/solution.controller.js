@@ -2,11 +2,13 @@
 import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
 import { GoogleGenAI } from "@google/genai";
+import cloudinary from "../utils/cloudinary.js"
 
 export const createsol = async (req, res) => {
   const { doubt, description, language, platform, createdby,code , link,photo} = req.body;
   const userid=req.user._id.toString()
    const user=await User.findById(userid)
+    const upres=await cloudinary.uploader.upload(photo)
   try {
     const newsol = new Solution({
       doubt: doubt,
@@ -15,11 +17,12 @@ export const createsol = async (req, res) => {
       link:link,
       language: language,
       platform: platform,
-      photo:photo,
+      photo:upres.secure_url,
       createdby,
     });
 
     if (newsol) {
+      
        user.doubts?.push(newsol)
        await user.save()
       await newsol.save();

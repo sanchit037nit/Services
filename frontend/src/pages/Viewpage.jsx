@@ -7,11 +7,12 @@ import { useAuthstore } from "../store/useAuthstore.js";
 
 const Viewpage = () => {
     const {selpost,handlecomment} =useSolution()
-      const { authUser } = useAuthstore();
+    const { authUser } = useAuthstore();
   const [comm, setComment] = useState("");
 
     const isLiked = selpost.likes?.includes(authUser?._id);
-            const isbookmarked = selpost.bookmarkedby?.includes(authUser?._id);
+    const isbookmarked = selpost.bookmarkedby?.includes(authUser?._id);
+
     const handlePostComment = (e, id, data) => {
     e.preventDefault();
     handlecomment(id, data);
@@ -21,13 +22,15 @@ const Viewpage = () => {
     
     <div className="flex flex-col items-center px-4 py-6 gap-4  relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden w-full">
               <motion.div
+              key={pass._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all"
               >
                 {/* Header */}
-                <div className="flex items-center gap-3 mb-2">
+                <div className="flex items-center gap-3 mb-2 justify-between">
+                  <div className='flex items-center gap-3 mb-2'>
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     <img
                       src={selpost.createdby?.profilephoto || "/avatar-placeholder.png"}
@@ -41,17 +44,28 @@ const Viewpage = () => {
                     </div>
                     <div className="text-xs text-gray-300">@{selpost?.platform}</div>
                   </div>
+                  </div>
+                  <div className=''>
+                  <span>{selpost?.language}</span>
+                  <span>{selpost?.platform}</span>
+                  </div>
                 </div>
 
                 {/* Doubt */}
+                <h2>Doubt:</h2>
                 <p className="text-gray-100 text-sm">{selpost?.doubt}</p>
 
+                <h2>Code:</h2>
                 <div className="text-gray-100 text-sm border-1">
                     {selpost?.code}
                 </div>
-                <div className="w-5 h-5  border-1">
-                    {selpost?.photo}
-                </div>
+                 <div className="w-full h-100 overflow-hidden">
+                    <img
+                      src={selpost?.photo || "/avatar-placeholder.png"}
+                      alt="avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
 
                 {/* Actions */}
                 <div className="flex gap-6 mt-4 text-gray-400 justify-between">

@@ -81,7 +81,7 @@ export const useAuthstore = create((set,get) => ({
       try{
          const res=await axiosinstance.get("/auth/check")
          console.log(res.data)
-        //  set({authUser:res.data})
+         set({authUser:res.data})
 
       }
       catch(error){
