@@ -21,7 +21,7 @@ export const Homepage = () => {
 
   useEffect(() => {
     getsol();
-  }, [id]);
+  }, [id,getsol,setComment]);
 
   const handleLikePost = (e, passId) => {
     e.preventDefault();
@@ -144,7 +144,8 @@ export const Homepage = () => {
                 onClick={(e)=> handlepost(e,post)}
               >
                 {/* Header */}
-                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-3 mb-2 justify-between">
+                  <div className='flex items-center gap-3 mb-2'>
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     <img
                       src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
@@ -157,6 +158,11 @@ export const Homepage = () => {
                       {post.user?.name}
                     </div>
                     <div className="text-xs text-gray-300">@{post?.platform}</div>
+                  </div>
+                  </div>
+                  <div className='flex gap-3'>
+                  <span className='px-8 py-3 bg-gray-500  rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{post?.language}</span>
+                  <span className='px-8 py-3 bg-gray-500  rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{post?.platform}</span>
                   </div>
                 </div>
 
@@ -171,7 +177,7 @@ export const Homepage = () => {
                     onClick={(e) =>
                       {
                         e.stopPropagation()
-                        return document.getElementById("comments_modal" + post._id).showModal()
+                    
                       }
                     }
                   >
@@ -210,74 +216,7 @@ export const Homepage = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Comment Modal */}
-                <dialog
-                  id={`comments_modal${post._id}`}
-                  className="modal border-none outline-none bg-gradient-to-br from-gray-900 via-black to-gray-800 "
-                  onClick={(e) => { e.stopPropagation() }}
-                >
-                  <div className="modal-box  rounded-xl max-w-lg bg-gradient-to-br from-gray-900 via-black to-gray-800">
-                    <h3 className="font-bold text-lg mb-4 text-white">Comments</h3>
-
-                    <div className="flex flex-col gap-3 max-h-60 overflow-auto">
-                      {post.comments.length === 0 && (
-                        <p className="text-sm text-gray-500">
-                          No comments yet 🤔 Be the first one 😉
-                        </p>
-                      )}
-
-                      {post.comments.map((comment) => (
-                        <div key={comment._id} className="flex gap-2 items-start">
-                          <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <img
-                              src={comment.user.profileImg || "/avatar-placeholder.png"}
-                              alt="avatar"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-1">
-                              <span className="font-semibold text-sm">
-                                {comment.user.name}
-                              </span>
-                              <span className="text-gray-500 text-xs">
-                                @{comment.user.name}
-                              </span>
-                            </div>
-                            <p className="text-sm text-gray-700">{comment.text}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Post Comment */}
-                    <form
-                      className="flex gap-2 items-center mt-4 border-t border-gray-300 pt-2"
-                      onSubmit={(e) => { e.stopPropagation() 
-                        return handlePostComment(e, post._id, comm)}}
-                    >
-                      <textarea
-                        className="textarea w-full p-2 rounded-md text-sm resize-none border border-gray-400 focus:ring-2 focus:ring-blue-500"
-                        placeholder="Add a comment..."
-                        value={comm}
-                        onChange={(e) => { e.stopPropagation() 
-                         return setComment(e.target.value)
-                        }}
-                      />
-                      <button
-                        type="submit"
-                        onClick={(e) => { e.stopPropagation() }}
-                        className="px-4 py-1 rounded-full bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
-                      >
-                        Post
-                      </button>
-                    </form>
-                  </div>
-                  <form method="dialog" className="modal-backdrop">
-                    <button className="outline-none text-white" onClick={(e)=>{e.stopPropagation()}}>close</button>
-                  </form>
-                </dialog>
+              
               </motion.div>
             );
           })}

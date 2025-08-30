@@ -145,7 +145,10 @@ export const useSolution =create((set,get)=>({
     handlecomment:async(id,text)=>{
         try {
             // console.log(text)
-              await axiosinstance.post(`/sol/comment/${id}`,{text})
+              const res=await axiosinstance.post(`/sol/comment/${id}`,{text})
+            //   console.log(res.data)
+              set({selpost:res.data})
+              toast.success("comment added")
         } catch (error) {
             console.log("error in coomment",error)
         }

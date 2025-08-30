@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { useSolution } from '../store/useSolutionstore'
 import { motion } from "framer-motion";
 import { FaRegHeart, FaTrash, FaRegComment } from "react-icons/fa";
@@ -6,7 +6,7 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { useAuthstore } from "../store/useAuthstore.js";
 
 const Viewpage = () => {
-    const {selpost,handlecomment} =useSolution()
+    const {selpost,handlecomment,selectedpost} =useSolution()
     const { authUser } = useAuthstore();
   const [comm, setComment] = useState("");
 
@@ -18,15 +18,18 @@ const Viewpage = () => {
     handlecomment(id, data);
     setComment("");
   };
+
+
+
   return (
     
     <div className="flex flex-col items-center px-4 py-6 gap-4  relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden w-full">
               <motion.div
-              key={pass._id}
+             
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all"
+                className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg  transition-all"
               >
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-2 justify-between">
@@ -45,9 +48,9 @@ const Viewpage = () => {
                     <div className="text-xs text-gray-300">@{selpost?.platform}</div>
                   </div>
                   </div>
-                  <div className=''>
-                  <span>{selpost?.language}</span>
-                  <span>{selpost?.platform}</span>
+                  <div className='flex gap-3'>
+                  <span className='px-8 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{selpost?.language}</span>
+                  <span className='px-8 py-3 bg-red-500 hover:bg-red-600 rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{selpost?.platform}</span>
                   </div>
                 </div>
 
@@ -55,10 +58,15 @@ const Viewpage = () => {
                 <h2>Doubt:</h2>
                 <p className="text-gray-100 text-sm">{selpost?.doubt}</p>
 
-                <h2>Code:</h2>
-                <div className="text-gray-100 text-sm border-1">
-                    {selpost?.code}
-                </div>
+                <h2>Description:</h2>
+                <p className="text-gray-100 text-sm">{selpost?.description}</p>
+
+              <h2>Code:</h2>
+<pre className="bg-gray-900 text-gray-100 text-sm p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
+  {selpost?.code}
+</pre>
+<br />
+
                  <div className="w-full h-100 overflow-hidden">
                     <img
                       src={selpost?.photo || "/avatar-placeholder.png"}
@@ -72,9 +80,9 @@ const Viewpage = () => {
                   {/* 💬 Comments */}
                   <div
                     className="flex items-center gap-1 cursor-pointer hover:text-blue-400"
-                    onClick={() =>
-                      document.getElementById("comments_modal" + selpost._id).showModal()
-                    }
+                    // onClick={() =>
+                    //   document.getElementById("comments_modal" + selpost._id).showModal()
+                    // }
                   >
                     <FaRegComment className="w-4 h-4" />
                     <span className="text-sm">{selpost.comments?.length}</span>
@@ -110,14 +118,10 @@ const Viewpage = () => {
                   )}
                 </div>
 
+<br />
+<br />
                 {/* Comment Modal */}
-               
-              </motion.div>
-               <dialog
-                  id={`comments_modal${selpost._id}`}
-                  className="modal border-none outline-none bg-gradient-to-br from-gray-900 via-black to-gray-800 "
-                >
-                  <div className="modal-box  rounded-xl max-w-lg bg-gradient-to-br from-gray-900 via-black to-gray-800">
+                  <div className="modal-box  rounded-xl  bg-gradient-to-br from-gray-900 via-black to-gray-800 w-full">
                     <h3 className="font-bold text-lg mb-4 text-white">Comments</h3>
 
                     <div className="flex flex-col gap-3 max-h-60 overflow-auto">
@@ -131,7 +135,7 @@ const Viewpage = () => {
                         <div key={comment._id} className="flex gap-2 items-start">
                           <div className="w-8 h-8 rounded-full overflow-hidden">
                             <img
-                              src={comment.user.profileImg || "/avatar-placeholder.png"}
+                              src={comment.user?.profilephoto || "/avatar-placeholder.png"}
                               alt="avatar"
                               className="w-full h-full object-cover"
                             />
@@ -139,13 +143,13 @@ const Viewpage = () => {
                           <div className="flex flex-col">
                             <div className="flex items-center gap-1">
                               <span className="font-semibold text-sm">
-                                {comment.user.name}
+                                {comment.user?.name}
                               </span>
-                              <span className="text-gray-500 text-xs">
-                                @{comment.user.name}
+                              <span className="text-white text-xs">
+                                @{comment.user?.name}
                               </span>
                             </div>
-                            <p className="text-sm text-gray-700">{comment.text}</p>
+                            <p className="text-sm text-white">{comment.text}</p>
                           </div>
                         </div>
                       ))}
@@ -154,7 +158,7 @@ const Viewpage = () => {
                     {/* Post Comment */}
                     <form
                       className="flex gap-2 items-center mt-4 border-t border-gray-300 pt-2"
-                      onSubmit={(e) => handlePostComment(e, post._id, comm)}
+                      onSubmit={(e) => handlePostComment(e, selpost._id, comm)}
                     >
                       <textarea
                         className="textarea w-full p-2 rounded-md text-sm resize-none border border-gray-400 focus:ring-2 focus:ring-blue-500"
@@ -170,10 +174,8 @@ const Viewpage = () => {
                       </button>
                     </form>
                   </div>
-                  <form method="dialog" className="modal-backdrop">
-                    <button className="outline-none text-white">close</button>
-                  </form>
-                </dialog>
+              </motion.div>
+                
       </div>
   )
 }
