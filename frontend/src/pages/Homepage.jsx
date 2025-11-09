@@ -229,7 +229,7 @@ export const Homepage = () => {
         whileTap={{ scale: 0.97 }}
         className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-6 py-3 rounded-full shadow-xl hover:shadow-2xl transition"
       >
-        + Upload Solution
+        + Upload Post
       </motion.button>
 
     </motion.div>

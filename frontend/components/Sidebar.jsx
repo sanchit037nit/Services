@@ -34,7 +34,7 @@ const Sidebar = () => {
             { to: "/profile", icon: <FaUser />, label: "Profile" },
             { to: "/Aipage", icon: <FaRobot />, label: "Ai-solver" },
             { to: "/Bookmarks", icon: <FaBookmark />, label: "My-Bookmarks" },
-            { to: "/Posts", icon: <FaQuestionCircle />, label: "My-Solutions" },
+            { to: "/Posts", icon: <FaQuestionCircle />, label: "My-Posts" },
           ].map((item, index) => (
             <motion.li
               key={index}

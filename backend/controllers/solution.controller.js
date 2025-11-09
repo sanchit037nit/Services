@@ -5,10 +5,13 @@ import { GoogleGenAI } from "@google/genai";
 import cloudinary from "../utils/cloudinary.js"
 
 export const createsol = async (req, res) => {
+
   const { doubt, description, language, platform, createdby,code , link,photo} = req.body;
-  const userid=req.user._id.toString()
-   const user=await User.findById(userid)
-    const upres=await cloudinary.uploader.upload(photo)
+  const userid = req.user._id.toString()
+ 
+  const user = await User.findById(userid)
+
+  const upres = await cloudinary.uploader.upload(photo) 
   try {
     const newsol = new Solution({
       doubt: doubt,
@@ -22,7 +25,8 @@ export const createsol = async (req, res) => {
     });
 
     if (newsol) {
-      
+       console.log(newsol)
+       console.log(newsol)
        user.doubts?.push(newsol)
        await user.save()
       await newsol.save();
@@ -46,7 +50,6 @@ export const deletesol = async (req, res) => {
     if (!id) {
       return res.status(400).json({ message: "text is required" });
     }
-    // console.log(id)
        
     const delsol = await Solution.findByIdAndDelete(id);
     user.doubts=user.doubts.filter(doubt => doubt._id.toString()!==id.toString())

@@ -16,9 +16,8 @@ export const useSolution =create((set,get)=>({
 
     createsol: async(data)=>{
         try{
-        const {solutions}=get()
+            const { solutions } = get()
         const newsol= await axiosinstance.post("/sol/createsol",data)
-        // console.log(newsol)
         set({solutions:[...solutions,newsol.data]})
         toast.success("blog posted successfully")
         }

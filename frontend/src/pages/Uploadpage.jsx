@@ -82,7 +82,7 @@ const Uploadpage = () => {
     <div className="flex flex-col items-center gap-4">
       <div className="relative">
         <img
-          src={selectedImg || "/avatar.png"}
+          src={selectedImg || "/ph.jpg"}
           alt="Profile"
           className="size-100 object-cover border-4 border-gray-600"
         />
@@ -94,7 +94,7 @@ const Uploadpage = () => {
             transition-all duration-200
             ${isupdatingprofile ? "animate-pulse pointer-events-none" : ""}`}
         >
-          <Camera className="w-5 h-5 text-base-200" />
+          <Camera className="w-5 h-5 text-base-200 bg-gray-500" />
           <input
             type="file"
             id="avatar-upload"
