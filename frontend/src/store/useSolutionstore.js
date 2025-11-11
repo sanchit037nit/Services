@@ -165,7 +165,7 @@ export const useSolution =create((set,get)=>({
 
     },
 
-    selectedpost:(post)=>{
+    selectedpost: async (post) => {
         set({selpost:post})
     }
 }))

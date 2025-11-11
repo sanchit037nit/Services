@@ -18,13 +18,22 @@ import Viewpage from './pages/Viewpage.jsx'
 
 
 const App=()=>{
-  const { authUser } = useAuthstore()
+  const { authUser, checkauth,loading} = useAuthstore()
+ useEffect(() => {
+    checkauth(); 
+  }, [checkauth]);
+  
+  // console.log("authUser:", authUser, "loading:", loading);
 
-  // useEffect(()=>{
-  //   checkauth()
-  // },[checkauth]);
-
-    // console.log( authUser)
+    if (loading) {
+    // Show a loader or blank screen while verifying auth
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h1 className="text-xl font-semibold">Loading...</h1>
+      </div>
+    );
+    }
+  
   return (
 
     <div className='flex max-w-8xl mx-auto'>
@@ -44,6 +53,7 @@ const App=()=>{
       <Route path="/Aipage" element={authUser ? <Aipage /> : <Navigate to="/" />} />
       <Route path="/Posts" element={authUser ? <MyPosts /> : <Navigate to="/" />} />
       <Route path="/Homepage/view" element={authUser ? <Viewpage /> : <Navigate to="/" />} />
+      <Route path="/Posts/view" element={authUser ? <Viewpage /> : <Navigate to="/" />} />
 
 			</Routes>
 			

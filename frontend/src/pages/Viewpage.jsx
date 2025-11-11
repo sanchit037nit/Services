@@ -10,8 +10,9 @@ const Viewpage = () => {
     const { authUser } = useAuthstore();
   const [comm, setComment] = useState("");
 
-    const isLiked = selpost.likes?.includes(authUser?._id);
-    const isbookmarked = selpost.bookmarkedby?.includes(authUser?._id);
+
+    const isLiked = selpost?.likes?.includes(authUser?._id);
+    const isbookmarked = selpost?.bookmarkedby?.includes(authUser?._id);
 
     const handlePostComment = (e, id, data) => {
     e.preventDefault();

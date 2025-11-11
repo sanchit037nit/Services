@@ -2,12 +2,17 @@ import React from 'react'
 import {create} from 'zustand'
 import {toast} from 'react-hot-toast'
 import { axiosinstance } from '../lib/axios.js'
+import axios from 'axios'
+
+ axios.defaults.withCredentials = true;
 
 export const useAuthstore = create((set,get) => ({
-
+  
   authUser:null,
   isupdatingprofile:false,
-    users:[],
+  users: [],
+  setAuthUser: (user) => set({ authUser: user }),
+  loading: true,
 
     getusers: async()=>{
         try {
@@ -80,13 +85,13 @@ export const useAuthstore = create((set,get) => ({
   checkauth: async() =>{
       try{
          const res=await axiosinstance.get("/auth/check")
-         console.log(res.data)
-         set({authUser:res.data})
+        //  console.log(res.data)
+         set({authUser:res.data ,loading: false})
 
       }
       catch(error){
         // toast.error(error.message)
-        set({authUser:null})
+        set({authUser:null,loading: false})
       }
   },
 
@@ -102,6 +107,5 @@ export const useAuthstore = create((set,get) => ({
       catch(error){
         toast.error(error.response.data.message)
       }
-  }
-
+  },
 }));
