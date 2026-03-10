@@ -140,7 +140,7 @@ export const Homepage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all"
+               className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-md hover:border-blue-400/40 transition-all"
                 onClick={(e)=> handlepost(e,post)}
               >
                 {/* Header */}
@@ -170,7 +170,7 @@ export const Homepage = () => {
                 <p className="text-gray-100 text-sm">{post?.doubt}</p>
 
                 {/* Actions */}
-                <div className="flex gap-6 mt-4 text-gray-400 justify-between">
+                <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700 text-gray-400">
                   {/* 💬 Comments */}
                   <div
                     className="flex items-center gap-1 cursor-pointer hover:text-blue-400"

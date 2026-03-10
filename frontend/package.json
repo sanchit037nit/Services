@@ -22,8 +22,11 @@
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.8.1",
+    "react-simple-typewriter": "^5.0.1",
+    "react-tsparticles": "^2.12.2",
     "tailwindcss": "^4.1.11",
     "toast": "^0.5.4",
+    "tsparticles": "^3.9.1",
     "zustand": "^5.0.7"
   },
   "devDependencies": {

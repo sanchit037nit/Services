@@ -39,7 +39,7 @@ const Viewpage = () => {
                     <img
                       src={selpost.createdby?.profilephoto || "/avatar-placeholder.png"}
                       alt="avatar"
-                      className="w-full h-full object-cover"
+                      className="w-full max-h-96 object-cover rounded-lg"
                     />
                   </div>
                   <div>
@@ -56,19 +56,19 @@ const Viewpage = () => {
                 </div>
 
                 {/* Doubt */}
-                <h2>Doubt:</h2>
+                <h2 className="text-lg font-semibold text-white mt-4">Doubt</h2>
                 <p className="text-gray-100 text-sm">{selpost?.doubt}</p>
 
-                <h2>Description:</h2>
+                <h2 className="text-lg font-semibold text-white mt-4">Description:</h2>
                 <p className="text-gray-100 text-sm">{selpost?.description}</p>
 
-              <h2>Code:</h2>
-<pre className="bg-gray-900 text-gray-100 text-sm p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
+              <h2 className="text-lg font-semibold text-white mt-4">Code:</h2>
+<pre className="bg-black text-green-400 text-sm p-4 rounded-lg overflow-x-auto font-mono">
   {selpost?.code}
 </pre>
 <br />
 
-                 <div className="w-full h-100 overflow-hidden">
+                 <div className="w-full max-h-96 object-cover rounded-lg">
                     <img
                       src={selpost?.photo || "/avatar-placeholder.png"}
                       alt="avatar"
@@ -122,59 +122,75 @@ const Viewpage = () => {
 <br />
 <br />
                 {/* Comment Modal */}
-                  <div className="modal-box  rounded-xl  bg-gradient-to-br from-gray-900 via-black to-gray-800 w-full">
-                    <h3 className="font-bold text-lg mb-4 text-white">Comments</h3>
+          <div className="w-full rounded-2xl bg-white/10 backdrop-blur-lg border border-gray-700 p-5">
 
-                    <div className="flex flex-col gap-3 max-h-60 overflow-auto">
-                      {selpost.comments.length === 0 && (
-                        <p className="text-sm text-gray-500">
-                          No comments yet 🤔 Be the first one 😉
-                        </p>
-                      )}
+  <h3 className="font-semibold text-lg mb-4 text-white border-b border-gray-700 pb-2">
+    Comments
+  </h3>
 
-                      {selpost.comments.map((comment) => (
-                        <div key={comment._id} className="flex gap-2 items-start">
-                          <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <img
-                              src={comment.user?.profilephoto || "/avatar-placeholder.png"}
-                              alt="avatar"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-1">
-                              <span className="font-semibold text-sm">
-                                {comment.user?.name}
-                              </span>
-                              <span className="text-white text-xs">
-                                @{comment.user?.name}
-                              </span>
-                            </div>
-                            <p className="text-sm text-white">{comment.text}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+  <div className="flex flex-col gap-4 max-h-64 overflow-y-auto pr-2">
 
-                    {/* Post Comment */}
-                    <form
-                      className="flex gap-2 items-center mt-4 border-t border-gray-300 pt-2"
-                      onSubmit={(e) => handlePostComment(e, selpost._id, comm)}
-                    >
-                      <textarea
-                        className="textarea w-full p-2 rounded-md text-sm resize-none border border-gray-400 focus:ring-2 focus:ring-blue-500"
-                        placeholder="Add a comment..."
-                        value={comm}
-                        onChange={(e) => setComment(e.target.value)}
-                      />
-                      <button
-                        type="submit"
-                        className="px-4 py-1 rounded-full bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
-                      >
-                        Post
-                      </button>
-                    </form>
-                  </div>
+    {selpost?.comments?.length === 0 && (
+      <p className="text-sm text-gray-400 text-center">
+        No comments yet 🤔 Be the first one 😉
+      </p>
+    )}
+
+    {selpost?.comments?.map((comment) => (
+      <div
+        key={comment._id}
+        className="flex gap-3 items-start bg-black/30 rounded-lg p-3 border border-gray-700"
+      >
+        <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0">
+          <img
+            src={comment.user?.profilephoto || "/avatar-placeholder.png"}
+            alt="avatar"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-sm text-white">
+              {comment.user?.name}
+            </span>
+
+            <span className="text-gray-400 text-xs">
+              @{comment.user?.name}
+            </span>
+          </div>
+
+          <p className="text-sm text-gray-300">
+            {comment.text}
+          </p>
+        </div>
+      </div>
+    ))}
+
+  </div>
+
+  {/* Comment Input */}
+  <form
+    className="flex gap-3 items-center mt-5 border-t border-gray-700 pt-3"
+    onSubmit={(e) => handlePostComment(e, selpost._id, comm)}
+  >
+    <textarea
+      className="w-full bg-gray-900 text-white p-2 rounded-lg text-sm resize-none border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Write a comment..."
+      value={comm}
+      onChange={(e) => setComment(e.target.value)}
+      rows={2}
+    />
+
+    <button
+      type="submit"
+      className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm transition"
+    >
+      Post
+    </button>
+  </form>
+
+</div>
               </motion.div>
                 
       </div>

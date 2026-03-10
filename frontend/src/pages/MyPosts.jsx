@@ -31,7 +31,7 @@ const MyPosts = () => {
   }, [id]);
 
   return (
-    <div className="w-full   p-6 space-y-6 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white justify-center">
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex flex-col items-center p-6">
       <h2 className="text-2xl font-bold  border-b pb-3 mb-4 w-full">
         My Posts
       </h2>
@@ -84,7 +84,7 @@ const MyPosts = () => {
                         <p className="text-gray-100 text-sm">{post?.doubt}</p>
         
                         {/* Actions */}
-                        <div className="flex gap-6 mt-4 text-gray-400 justify-between">
+                        <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700 text-gray-400">
                           {/* 💬 Comments */}
                           <div
                             className="flex items-center gap-1 cursor-pointer hover:text-blue-400"

@@ -1,80 +1,119 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import Particles from "react-tsparticles";
+import { Typewriter } from "react-simple-typewriter";
 
 export const Firstpage = () => {
   const navigate = useNavigate();
 
-  const handlelogin = (e) => {
-    e.preventDefault();
-    navigate("/login");
-  };
-
-  const handlesignup = (e) => {
-    e.preventDefault();
-    navigate("/signup");
-  };
-
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
+   <div className="relative min-h-screen bg-gradient-to-br from-indigo-950 via-slate-900 to-black text-white overflow-hidden">
       
-      {/* Animated background blobs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-red-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-      
-      {/* Glassmorphism card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 backdrop-blur-xl bg-white/10 shadow-2xl rounded-2xl p-10 max-w-2xl w-full text-center"
-      >
+      {/* PARTICLE BACKGROUND */}
+      <Particles
+        className="absolute inset-0"
+        options={{
+          particles: {
+            number: { value: 60 },
+            size: { value: 3 },
+            move: { speed: 1 },
+            opacity: { value: 0.4 },
+            links: {
+              enable: true,
+              color: "#3b82f6",
+              distance: 150,
+              opacity: 0.3
+            }
+          }
+        }}
+      />
+
+      {/* NAVBAR */}
+      <nav className="relative z-10 flex justify-between items-center px-12 py-6">
+        <h1 className="text-2xl font-bold">
+          Code<span className="text-blue-400">zy</span>
+        </h1>
+
+
+      </nav>
+
+      {/* HERO SECTION */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center mt-32 px-6">
+
         <motion.h1
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.7 }}
-          className="text-6xl font-extrabold mb-6"
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-7xl font-extrabold mb-6"
         >
           Welcome to{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 drop-shadow-lg">
-            Codezy
+          <span className="text-blue-400">
+            <Typewriter
+              words={["Codezy"]}
+              loop={true}
+              cursor
+              cursorStyle="|"
+              typeSpeed={120}
+              deleteSpeed={80}
+              delaySpeed={2000}
+            />
           </span>
         </motion.h1>
 
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.7 }}
-          className="text-lg text-gray-300 mb-10 max-w-xl mx-auto"
-        >
-          A simple platform where you can explore solutions, bookmark them, and
-          collaborate with others.
-        </motion.p>
+        <p className="text-gray-300 text-xl max-w-2xl mb-10">
+          Explore coding solutions, bookmark algorithms,
+          and collaborate with developers.
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="flex justify-center gap-6"
-        >
+        <div className="flex gap-6">
           <button
-            onClick={handlelogin}
-            className="px-8 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300"
+            onClick={() => navigate("/signup")}
+            className="px-10 py-4 bg-blue-500 rounded-xl text-lg font-semibold hover:bg-blue-600 transform hover:scale-105 transition shadow-lg"
+          >
+            Get Started
+          </button>
+
+          <button
+            onClick={() => navigate("/login")}
+            className="px-10 py-4 border border-gray-400 rounded-xl hover:bg-white hover:text-black transition"
           >
             Login
           </button>
-          <button
-            onClick={handlesignup}
-            className="px-8 py-3 bg-red-500 hover:bg-red-600 rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300"
-          >
-            Signup
-          </button>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
+
+      {/* FEATURES */}
+      <div className="relative z-10 mt-40 grid md:grid-cols-3 gap-10 px-16 pb-20">
+
+        <FeatureCard
+          title="Explore Solutions"
+          desc="Browse coding problems and discover multiple approaches."
+        />
+
+        <FeatureCard
+          title="Bookmark Algorithms"
+          desc="Save important solutions and revisit them anytime."
+        />
+
+        <FeatureCard
+          title="Collaborate"
+          desc="Discuss solutions and learn from other developers."
+        />
+
+      </div>
     </div>
   );
 };
 
-
-
-
+const FeatureCard = ({ title, desc }) => {
+  return (
+    <motion.div
+      whileHover={{ rotateX: 5, rotateY: -5, scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 200 }}
+      className="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-xl border border-white/10"
+    >
+      <h2 className="text-xl font-bold mb-3">{title}</h2>
+      <p className="text-gray-300">{desc}</p>
+    </motion.div>
+  );
+};

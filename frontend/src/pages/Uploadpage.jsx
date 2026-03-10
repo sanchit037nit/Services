@@ -59,7 +59,7 @@ const Uploadpage = () => {
   return (
 
     <div className="min-h-screen flex items-center justify-center  px-4 w-full bg-gradient-to-br from-gray-900 via-black to-gray-800">
-      <div className=" rounded-2xl shadow-lg p-8 w-full  ">
+      <div className="max-w-6xl w-full bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl shadow-lg p-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-white mb-6 text-center">
             Manage Doubt
@@ -84,7 +84,7 @@ const Uploadpage = () => {
         <img
           src={selectedImg || "/ph.jpg"}
           alt="Profile"
-          className="size-100 object-cover border-4 border-gray-600"
+          className="w-80 h-80 rounded-xl object-cover border-4 border-gray-600 shadow-lg"
         />
         <label
           htmlFor="avatar-upload"
@@ -139,29 +139,34 @@ const Uploadpage = () => {
       </div>
 
       <div>
-        <label className="text-gray-300 block mb-1">Platform</label>
-        <input
-          type="text"
-          className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter platform"
-          value={formdata.platform}
-          onChange={(e) =>
-            setformdata({ ...formdata, platform: e.target.value })
-          }
-        />
+<select
+  className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600"
+  value={formdata.platform}
+  onChange={(e) =>
+    setformdata({ ...formdata, platform: e.target.value })
+  }
+>
+  <option value="">Select Platform</option>
+  <option value="Leetcode">Leetcode</option>
+  <option value="Codeforces">Codeforces</option>
+  <option value="Atcoder">Atcoder</option>
+</select>
       </div>
 
       <div>
-        <label className="text-gray-300 block mb-1">Language</label>
-        <input
-          type="text"
-          className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter language"
-          value={formdata.language}
-          onChange={(e) =>
-            setformdata({ ...formdata, language: e.target.value })
-          }
-        />
+<select
+  className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600"
+  value={formdata.language}
+  onChange={(e) =>
+    setformdata({ ...formdata, language: e.target.value })
+  }
+>
+  <option value="">Select Language</option>
+  <option value="C">C</option>
+  <option value="C++">C++</option>
+  <option value="Python">Python</option>
+  <option value="Java">Java</option>
+</select>
       </div>
 
       <div>
@@ -195,7 +200,7 @@ const Uploadpage = () => {
       <div className="flex space-x-4 mt-6">
         <button
           onClick={(e) => handleclick(e)}
-          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+          className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-400 hover:scale-105 transition text-white font-semibold py-2 px-4 rounded-lg"
         >
           Create
         </button>

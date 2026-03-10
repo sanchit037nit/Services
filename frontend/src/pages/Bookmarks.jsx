@@ -19,8 +19,11 @@ const Bookmarks = () => {
 
 return (
 
-<div className="flex flex-col w-full  mx-auto p-6 space-y-6  bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
-  {bookmarks?.map((pass) => {
+<div className="flex flex-col items-center w-full p-6 gap-4 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen">
+        <h2 className="text-2xl font-bold  border-b pb-3 mb-4 w-full">
+        My Bookmarks
+      </h2>
+    {bookmarks?.map((pass) => {
     const isLiked = pass.likes?.includes(authUser?._id);
             const isbookmarked = pass.bookmarkedby?.includes(authUser?._id);
 
@@ -32,17 +35,17 @@ return (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         whileHover={{ scale: 1.02 }}
-        className="bg-gray-600 rounded-2xl shadow-md hover:shadow-xl transition-all p-6 flex flex-col border border-gray-100"
+       className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all"
       >
         {/* Bookmark Content */}
         <div className="space-y-3 text-left flex-1">
           {/* Doubt */}
-          <p className="text-gray-900 text-lg font-semibold">
+          <p className="text-gray-600 text-lg font-semibold">
             Name:{" "}
             <span className="text-white font-normal">{pass.doubt}</span>
           </p>
 
-          <p className="text-gray-900 text-lg font-semibold flex items-center gap-2">
+          <p className="text-gray-600 text-lg font-semibold flex items-center gap-2">
            Description:{" "}
             <span className="text-white font-normal">
               {pass.description}

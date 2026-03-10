@@ -28,11 +28,11 @@ const ProfilePage = () => {
     <div className="h-screen pt-2 w-full  bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
       <div className="max-w-2xl mx-auto  h-screen">
         {/* Profile Card */}
-        <div className="bg-gray-600 rounded-2xl shadow-lg p-4 space-y-5 transition hover:shadow-xl">
+        <div className="bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl shadow-lg p-6 space-y-6 transition hover:shadow-xl">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-            <p className="mt-2 text-gray-900">Your personal account details</p>
+            <h1 className="text-3xl font-bold text-gray-500">Profile</h1>
+            <p className="mt-2 text-gray-500">Your personal account details</p>
           </div>
 
           {/* Avatar Section */}
@@ -41,7 +41,7 @@ const ProfilePage = () => {
               <img
                 src={selectedImg || authUser.profilephoto || "/avatar.png"}
                 alt="Profile"
-                className="size-32 rounded-full object-cover border-4 border-gray-200 shadow-md"
+                className="w-32 h-32 rounded-full object-cover border-4 border-gray-400 shadow-lg"
               />
               <label
                 htmlFor="avatar-upload"
@@ -63,7 +63,7 @@ const ProfilePage = () => {
                 />
               </label>
             </div>
-            <p className="text-sm text-gray-900">
+            <p className="text-sm text-gray-500">
               {isupdatingprofile ? "Uploading..." : "Click the camera to update your photo"}
             </p>
           </div>
@@ -71,7 +71,7 @@ const ProfilePage = () => {
           {/* User Info */}
           <div className="space-y-6">
             <div className="space-y-1.5">
-              <div className="text-sm text-gray-900 flex items-center gap-2">
+              <div className="text-sm text-gray-500 flex items-center gap-2">
                 <User className="w-4 h-4" />
                 Full Name
               </div>
@@ -81,7 +81,7 @@ const ProfilePage = () => {
             </div>
 
             <div className="space-y-1.5">
-              <div className="text-sm text-gray-900 flex items-center gap-2">
+              <div className="text-sm text-gray-500 flex items-center gap-2">
                 <Mail className="w-4 h-4" />
                 Email Address
               </div>
@@ -93,16 +93,16 @@ const ProfilePage = () => {
 
           {/* Account Info */}
           <div className="mt-6 bg-gray-300 rounded-xl p-6 border">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Information</h2>
+            <h2 className="text-lg font-semibold text-gray-500 mb-4">Account Information</h2>
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between py-2 border-b border-gray-200">
                 <span className="text-gray-900">Member Since</span>
-                <span className="font-medium text-gray-900">
+                <span className="font-medium text-gray-500">
                   {authUser.createdAt?.split("T")[0]}
                 </span>
               </div>
               <div className="flex items-center justify-between py-2">
-                <span className="text-gray-900">Account Status</span>
+                <span className="text-gray-500">Account Status</span>
                 <span className="text-green-600 font-medium">Active</span>
               </div>
             </div>

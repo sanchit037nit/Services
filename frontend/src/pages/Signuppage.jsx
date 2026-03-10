@@ -3,9 +3,14 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuthstore } from "../store/useAuthstore";
 import { motion } from "framer-motion";
+import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 
 export const Signuppage = () => {
   const { signup } = useAuthstore();
+  const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formdata, setformdata] = useState({
     name: "",
     email: "",
@@ -14,118 +19,149 @@ export const Signuppage = () => {
 
   const validateformdata = () => {
     if (!formdata.name || !formdata.email || !formdata.password) {
-      return toast.error("All fields are required!");
+      toast.error("All fields are required!");
+      return false;
     }
-    if (formdata.password.length < 6) {
-      return toast.error("Password must be at least 6 characters");
-    }
-    if (!/\S+@\S+\.\S+/.test(formdata.email)) {
-      return toast.error("Invalid email address");
-    }
-    return true;
-  };
 
-  const navigate = useNavigate();
-  const handlecross = (e) => {
-    e.preventDefault();
-    navigate("/");
+    if (formdata.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return false;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formdata.email)) {
+      toast.error("Invalid email address");
+      return false;
+    }
+
+    return true;
   };
 
   const handleclick = async (e) => {
     e.preventDefault();
     if (!validateformdata()) return;
+
     await signup(formdata);
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden w-full">
-      
-      {/* Animated glowing blobs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-purple-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-pink-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+    <div className="relative flex justify-center items-center min-h-screen w-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden">
 
-      {/* Signup Form */}
+      {/* Background glow */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-purple-600 opacity-30 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-pink-600 opacity-30 rounded-full blur-3xl animate-pulse"></div>
+
+      {/* Signup Card */}
       <motion.form
         onSubmit={handleclick}
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        className="relative z-10 backdrop-blur-xl bg-white/10 shadow-2xl rounded-2xl p-8 w-full max-w-md mx-auto space-y-6"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 backdrop-blur-xl bg-white/10 shadow-2xl rounded-2xl p-10 w-full max-w-md space-y-6"
       >
+
         {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
-            Signup
+        <div className="flex justify-between items-center">
+          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+            Create Account
           </h2>
+
           <button
-            onClick={handlecross}
-            className="flex items-center justify-center w-8 h-8 bg-gray-200/20 rounded-full hover:bg-red-500/30 transition-colors duration-200 text-lg"
+            onClick={() => navigate("/")}
+            className="text-lg hover:text-red-400 transition"
           >
-            ❌
+            ✕
           </button>
         </div>
 
-        {/* Name Input */}
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="name" className="text-lg font-semibold text-gray-200">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="border border-gray-500 bg-black/40 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-gray-400"
-            placeholder="Enter your name"
-            value={formdata.name}
-            onChange={(e) => setformdata({ ...formdata, name: e.target.value })}
-            required
-          />
+        {/* Name */}
+        <div className="space-y-2">
+          <label className="text-gray-300 font-medium">Name</label>
+
+          <div className="flex items-center bg-black/40 border border-gray-600 rounded-lg px-3">
+            <User className="text-gray-400 w-5" />
+
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className="bg-transparent w-full px-3 py-2 outline-none"
+              value={formdata.name}
+              onChange={(e) =>
+                setformdata({ ...formdata, name: e.target.value })
+              }
+            />
+          </div>
         </div>
 
-        {/* Email Input */}
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="email" className="text-lg font-semibold text-gray-200">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="border border-gray-500 bg-black/40 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-gray-400"
-            placeholder="Enter your email"
-            value={formdata.email}
-            onChange={(e) =>
-              setformdata({ ...formdata, email: e.target.value })
-            }
-            required
-          />
+        {/* Email */}
+        <div className="space-y-2">
+          <label className="text-gray-300 font-medium">Email</label>
+
+          <div className="flex items-center bg-black/40 border border-gray-600 rounded-lg px-3">
+            <Mail className="text-gray-400 w-5" />
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="bg-transparent w-full px-3 py-2 outline-none"
+              value={formdata.email}
+              onChange={(e) =>
+                setformdata({ ...formdata, email: e.target.value })
+              }
+            />
+          </div>
         </div>
 
-        {/* Password Input */}
-        <div className="flex flex-col space-y-2">
-          <label htmlFor="password" className="text-lg font-semibold text-gray-200">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="border border-gray-500 bg-black/40 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-gray-400"
-            placeholder="Enter your password"
-            value={formdata.password}
-            onChange={(e) =>
-              setformdata({ ...formdata, password: e.target.value })
-            }
-            required
-          />
+        {/* Password */}
+        <div className="space-y-2">
+          <label className="text-gray-300 font-medium">Password</label>
+
+          <div className="flex items-center bg-black/40 border border-gray-600 rounded-lg px-3">
+            <Lock className="text-gray-400 w-5" />
+
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter password"
+              className="bg-transparent w-full px-3 py-2 outline-none"
+              value={formdata.password}
+              onChange={(e) =>
+                setformdata({ ...formdata, password: e.target.value })
+              }
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeOff className="w-5 text-gray-400" />
+              ) : (
+                <Eye className="w-5 text-gray-400" />
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <motion.button
-          type="submit"
           whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          className="w-full bg-gradient-to-r from-pink-500 to-purple-400 hover:from-pink-600 hover:to-purple-500 text-white font-semibold py-2 px-4 rounded-xl shadow-lg transition duration-300"
+          whileTap={{ scale: 0.95 }}
+          type="submit"
+          className="w-full bg-gradient-to-r from-pink-500 to-purple-400 py-2 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-500 transition"
         >
-          Submit
+          Create Account
         </motion.button>
+
+        {/* Login redirect */}
+        <p className="text-center text-gray-400 text-sm">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-pink-400 cursor-pointer hover:underline"
+          >
+            Login
+          </span>
+        </p>
+
       </motion.form>
     </div>
   );
