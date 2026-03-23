@@ -47,7 +47,6 @@ const App=()=>{
       <Route path="/login" element={!authUser ? <Loginpage /> : <Navigate to="/Homepage" />} />
       <Route path="/Homepage" element={authUser ? <Homepage /> : <Navigate to="/" />} />
       <Route path="/upload" element={authUser ? <Uploadpage /> : <Navigate to="/" />} />
-      
       <Route path="/bookmarks" element={authUser ? <Bookmarks /> : <Navigate to="/" />} />
       <Route path="/profile" element={authUser ? <Profilepage /> : <Navigate to="/" />} />
       <Route path="/Aipage" element={authUser ? <Aipage /> : <Navigate to="/" />} />

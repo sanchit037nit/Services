@@ -209,33 +209,68 @@ export const likeunlike = async (req, res) => {
   }
 };
 
+// export const commentonsolution = async (req, res) => {
+//   try {
+
+//     const { text } = req.body;
+//     const solid = req.params.id;
+//     const userid = req.user._id.toString();
+
+//     const sol = await Solution.findById(solid)
+//   .populate("comments.user", "name email profilephoto");
+  
+//     if (!sol) {
+//        res.status(404).json({ error: "Solution not found" });
+//     }
+
+//     const comment = { text: text, user: userid };
+//     sol.comments.push(comment);
+//     await sol.save();
+    
+//     console.log(sol.comments)
+//      res.status(200).json(sol);
+//   } 
 export const commentonsolution = async (req, res) => {
   try {
-
     const { text } = req.body;
     const solid = req.params.id;
-    const userid = req.user._id.toString();
+    const userid = req.user._id;
 
-    const sol = await Solution.findById(solid)
-  .populate("comments.user", "name email profilephoto");
-  
+    // 1️⃣ Find solution (no populate here)
+    const sol = await Solution.findById(solid);
+
     if (!sol) {
-       res.status(404).json({ error: "Solution not found" });
+      return res.status(404).json({ error: "Solution not found" });
     }
 
-    const comment = { text: text, user: userid };
-    sol.comments.push(comment);
+    // 2️⃣ Push new comment
+    sol.comments.push({
+      text: text,
+      user: userid,
+    });
+
+    // 3️⃣ Save
     await sol.save();
-    
-    console.log(sol.comments)
-     res.status(200).json(sol);
-     
-  } 
-  catch (error) {
-    console.log("Error in commenting controller: ", error);
-     res.status(400).json({ error: "Internal server error" });
+
+    // 4️⃣ Re-fetch with populate (IMPORTANT 🔥)
+    const updatedSol = await Solution.findById(solid).populate(
+      "comments.user",
+      "name email profilephoto"
+    );
+
+    // 5️⃣ Send updated populated data
+    res.status(200).json(updatedSol);
+
+  } catch (error) {
+    console.log("Error in commentonsolution:", error);
+    res.status(500).json({ error: "Server error" });
   }
 };
+//   catch (error) {
+//     console.log("Error in commenting controller: ", error);
+//      res.status(400).json({ error: "Internal server error" });
+//   }
+// };
 
 export const getbookmarks = async (req, res) => {
   try {

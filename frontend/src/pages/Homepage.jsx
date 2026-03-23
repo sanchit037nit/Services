@@ -108,10 +108,10 @@ export const Homepage = () => {
             }
           >
             <option value="">All Languages</option>
-            <option value="Codeforces">C</option>
-            <option value="Leetcode">c++</option>
-            <option value="Atcoder">Python</option>
-            <option value="Atcoder">Java</option>
+            <option value="C">C</option>
+            <option value="C++">C++</option>
+            <option value="Python">Python</option>
+            <option value="Java">Java</option>
           </select>
         </div>
       </div>
@@ -128,7 +128,7 @@ export const Homepage = () => {
           )
           .filter(
             (post) =>
-              !lang || post.platform?.toLowerCase() === lang?.toLowerCase()
+              !lang || post.language?.toLowerCase() === lang?.toLowerCase()
           )
           .map((post) => {
             const isLiked = post.likes?.includes(authUser?._id);
@@ -177,7 +177,6 @@ export const Homepage = () => {
                     onClick={(e) =>
                       {
                         e.stopPropagation()
-                    
                       }
                     }
                   >
