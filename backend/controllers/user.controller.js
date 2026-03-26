@@ -3,6 +3,9 @@ import User from "../models/users.model.js"
 import bcrypt from "bcryptjs"
 import cloudinary from "../utils/cloudinary.js"
 
+
+
+
 export const signup=async (req,res)=>{
     const {name,email,password} =req.body
     try{
