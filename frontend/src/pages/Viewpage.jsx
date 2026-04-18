@@ -4,11 +4,15 @@ import { motion } from "framer-motion";
 import { FaRegHeart, FaTrash, FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { useAuthstore } from "../store/useAuthstore.js";
+import { useParams } from "react-router-dom";
+
+
 
 const Viewpage = () => {
-    const {selpost,handlecomment,selectedpost} =useSolution()
+    const {selpost,handlecomment} =useSolution()
     const { authUser } = useAuthstore();
-  const [comm, setComment] = useState("");
+    const [comm, setComment] = useState("");
+    const { id } = useParams();
 
 
     const isLiked = selpost?.likes?.includes(authUser?._id);
@@ -19,7 +23,6 @@ const Viewpage = () => {
     handlecomment(id, data);
     setComment("");
   };
-
 
 
   return (
@@ -37,14 +40,14 @@ const Viewpage = () => {
                   <div className='flex items-center gap-3 mb-2'>
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     <img
-                      src={selpost.createdby?.profilephoto || "/avatar-placeholder.png"}
+                      src={selpost?.createdby?.profilephoto || "/avatar-placeholder.png"}
                       alt="avatar"
                       className="w-full max-h-96 object-cover rounded-lg"
                     />
                   </div>
                   <div>
                     <div className="font-semibold text-white">
-                      {selpost.user?.name}
+                      {selpost?.user?.name}
                     </div>
                     <div className="text-xs text-gray-300">@{selpost?.platform}</div>
                   </div>
@@ -63,10 +66,10 @@ const Viewpage = () => {
                 <p className="text-gray-100 text-sm">{selpost?.description}</p>
 
               <h2 className="text-lg font-semibold text-white mt-4">Code:</h2>
-<pre className="bg-black text-green-400 text-sm p-4 rounded-lg overflow-x-auto font-mono">
-  {selpost?.code}
-</pre>
-<br />
+  <pre className="bg-black text-green-400 text-sm p-4 rounded-lg overflow-x-auto font-mono">
+    {selpost?.code}
+  </pre>
+  <br />
 
                  <div className="w-full max-h-96 object-cover rounded-lg">
                     <img
@@ -86,7 +89,7 @@ const Viewpage = () => {
                     // }
                   >
                     <FaRegComment className="w-4 h-4" />
-                    <span className="text-sm">{selpost.comments?.length}</span>
+                    <span className="text-sm">{selpost?.comments?.length}</span>
                   </div>
 
                   {/* ❤️ Likes */}
@@ -96,7 +99,7 @@ const Viewpage = () => {
                     }`}
                   >
                     <FaRegHeart className="w-4 h-4" />
-                    <span className="text-sm">{selpost.likes.length}</span>
+                    <span className="text-sm">{selpost?.likes.length}</span>
                   </div>
 
                   {/* 🔖 Bookmark */}
@@ -109,7 +112,7 @@ const Viewpage = () => {
                   </div>
 
                   {/* 🗑 Delete */}
-                  {selpost.user?._id === authUser?._id && (
+                  {selpost?.user?._id === authUser?._id && (
                     <div
                       className="flex items-center gap-1 cursor-pointer hover:text-red-500"
                       onClick={(e) => handleDelete(e, post._id)}

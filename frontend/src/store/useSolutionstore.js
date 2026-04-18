@@ -12,7 +12,7 @@ export const useSolution =create((set,get)=>({
     mysols:[],
     airesp:"",
     selpost:null,
-  
+
 
     createsol: async(data)=>{
         try{
@@ -161,11 +161,10 @@ export const useSolution =create((set,get)=>({
         } catch (error) {
             console.log("error in ai",error)
         }
-     
-
     },
 
     selectedpost: async (post) => {
         set({selpost:post})
     }
+    
 }))
