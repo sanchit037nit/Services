@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useAuthstore } from "../store/useAuthstore.js";
 import { useNavigate } from "react-router-dom";
@@ -7,73 +6,71 @@ import { FaRegHeart, FaTrash, FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
-
 export const Homepage = () => {
+  
   const { authUser } = useAuthstore();
-  const { getsol, solutions, deletesol, inclikes, bookmark, handlecomment ,selectedpost} = useSolution();
+  const { getsol, solutions, deletesol, inclikes, bookmark, handlecomment, selectedpost } = useSolution();
   const navigate = useNavigate();
   const [search, setsearch] = useState("");
   const [comm, setComment] = useState("");
   const [sort, setsort] = useState("");
   const [lang, setlang] = useState("");
-
   const id = authUser?._id;
 
   useEffect(() => {
     getsol();
-  }, [id,getsol,setComment]);
+  }, [id, getsol]);
 
   const handleLikePost = (e, passId) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     inclikes(passId);
   };
 
   const handleDelete = (e, passId) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     deletesol(passId);
   };
 
   const handlebook = (e, id) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     bookmark(id);
   };
 
   const handleupload = (e) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     navigate("/upload");
   };
 
   const handlePostComment = (e, id, data) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     handlecomment(id, data);
     setComment("");
   };
 
-  const handlepost=(e,post)=>{
-        e.preventDefault()
-        selectedpost(post)
-        navigate('./view')
-  }
+  const handlepost = (e, post) => {
+    e.preventDefault();
+    selectedpost(post);
+    navigate("./view");
+  };
 
   return (
-      <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden w-full"
-        >
-
-      {/* Blobs for background aesthetic */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden w-full"
+    >
+      {/* Background blobs */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
       <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-purple-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
 
-      {/* 🔍 Search bar + Filter */}
-      <div className="sticky top-0 z-20 backdrop-blur-lg bg-black/30 border-b border-gray-700 shadow-md">
+      {/* 🔍 Search bar (FIXED) */}
+      <div className="sticky top-0 z-20 backdrop-blur-lg bg-black/30">
         <div className="flex flex-col md:flex-row justify-center items-center gap-3 p-4 max-w-5xl mx-auto">
           <input
             type="text"
@@ -84,8 +81,6 @@ export const Homepage = () => {
           />
 
           <select
-            id="platform"
-            name="platform"
             className="border border-gray-500 rounded-full px-4 py-2 text-sm bg-black/40 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={sort || ""}
             onChange={(e) =>
@@ -99,8 +94,6 @@ export const Homepage = () => {
           </select>
 
           <select
-            id="language"
-            name="language"
             className="border border-gray-500 rounded-full px-4 py-2 text-sm bg-black/40 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={lang || ""}
             onChange={(e) =>
@@ -117,7 +110,7 @@ export const Homepage = () => {
       </div>
 
       {/* 🚀 Feed */}
-      <div className="flex flex-col items-center px-4 py-6 gap-4">
+      <div className="flex flex-col items-center px-4 pt-2 pb-6 gap-4">
         {solutions
           ?.filter((post) =>
             post.doubt?.toLowerCase().includes(search?.toLowerCase())
@@ -133,36 +126,43 @@ export const Homepage = () => {
           .map((post) => {
             const isLiked = post.likes?.includes(authUser?._id);
             const isbookmarked = post.bookmarkedby?.includes(authUser?._id);
-           
+
             return (
               <motion.div
                 key={post._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-               className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-md hover:border-blue-400/40 transition-all"
-                onClick={(e)=> handlepost(e,post)}
+                className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-md hover:border-blue-400/40 transition-all"
+                onClick={(e) => handlepost(e, post)}
               >
                 {/* Header */}
-                  <div className="flex items-center gap-3 mb-2 justify-between">
-                  <div className='flex items-center gap-3 mb-2'>
-                  <div className="w-10 h-10 rounded-full overflow-hidden">
-                    <img
-                      src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
-                      alt="avatar"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white">
-                      {post.user?.name}
+                <div className="flex items-center gap-3 mb-2 justify-between">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                      <img
+                        src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
+                        alt="avatar"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <div className="text-xs text-gray-300">@{post?.platform}</div>
+                    <div>
+                      <div className="font-semibold text-white">
+                        {post.user?.name}
+                      </div>
+                      <div className="text-xs text-gray-300">
+                        @{post?.platform}
+                      </div>
+                    </div>
                   </div>
-                  </div>
-                  <div className='flex gap-3'>
-                  <span className='px-8 py-3 bg-gray-500  rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{post?.language}</span>
-                  <span className='px-8 py-3 bg-gray-500  rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{post?.platform}</span>
+
+                  <div className="flex gap-3">
+                    <span className="px-6 py-2 bg-gray-500 rounded-xl text-sm font-semibold">
+                      {post?.language}
+                    </span>
+                    <span className="px-6 py-2 bg-gray-500 rounded-xl text-sm font-semibold">
+                      {post?.platform}
+                    </span>
                   </div>
                 </div>
 
@@ -171,20 +171,18 @@ export const Homepage = () => {
 
                 {/* Actions */}
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700 text-gray-400">
-                  {/* 💬 Comments */}
+                  {/* Comments */}
                   <div
                     className="flex items-center gap-1 cursor-pointer hover:text-blue-400"
-                    onClick={(e) =>
-                      {
-                        e.stopPropagation()
-                      }
-                    }
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <FaRegComment className="w-4 h-4" />
-                    <span className="text-sm">{post.comments?.length}</span>
+                    <span className="text-sm">
+                      {post.comments?.length}
+                    </span>
                   </div>
 
-                  {/* ❤️ Likes */}
+                  {/* Likes */}
                   <div
                     className={`flex items-center gap-1 cursor-pointer ${
                       isLiked ? "text-pink-500" : "hover:text-pink-500"
@@ -195,17 +193,19 @@ export const Homepage = () => {
                     <span className="text-sm">{post.likes.length}</span>
                   </div>
 
-                  {/* 🔖 Bookmark */}
+                  {/* Bookmark */}
                   <div
                     className={`flex items-center gap-1 cursor-pointer ${
-                      isbookmarked ? "text-blue-500" : "hover:text-blue-500"
+                      isbookmarked
+                        ? "text-blue-500"
+                        : "hover:text-blue-500"
                     }`}
                     onClick={(e) => handlebook(e, post._id)}
                   >
                     <FaRegBookmark className="w-4 h-4" />
                   </div>
 
-                  {/* 🗑 Delete */}
+                  {/* Delete */}
                   {post.user?._id === authUser?._id && (
                     <div
                       className="flex items-center gap-1 cursor-pointer hover:text-red-500"
@@ -215,13 +215,12 @@ export const Homepage = () => {
                     </div>
                   )}
                 </div>
-              
               </motion.div>
             );
           })}
       </div>
 
-      {/* Floating Upload Button */}
+      {/* ➕ Upload Button */}
       <motion.button
         onClick={handleupload}
         whileHover={{ scale: 1.05 }}
@@ -230,7 +229,6 @@ export const Homepage = () => {
       >
         + Upload Post
       </motion.button>
-
     </motion.div>
   );
 };

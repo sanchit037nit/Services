@@ -1,8 +1,8 @@
 import {generateToken} from "../utils/gentok.js"
 import User from "../models/users.model.js"
+import Solution from "../models/solution.model.js"
 import bcrypt from "bcryptjs"
 import cloudinary from "../utils/cloudinary.js"
-
 
 
 
@@ -155,7 +155,7 @@ export const deleteaccount=async (req,res)=>{
         return res.status(400).json({message: "user id is required"})
     }
     await User.findByIdAndDelete(userid)
-    await Password.deleteMany({createdby:userid})
+    await Solution.deleteMany({createdby:userid})
     res.status(200).json({message: "account deleted successfully"})
    } catch (error) {
     console.log("error in deleteaccount controller",error.message)

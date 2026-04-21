@@ -96,7 +96,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center gap-4">
             <div className="relative group">
               <img
-                src={selectedImg || authUser.profilephoto || "/avatar.png"}
+                src={selectedImg || authUser?.profilephoto || "/avatar.png"}
                 alt="Profile"
                 className="w-32 h-32 rounded-full object-cover border-4 border-gray-400 shadow-lg"
               />

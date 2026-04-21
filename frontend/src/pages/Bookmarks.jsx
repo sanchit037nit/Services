@@ -9,20 +9,22 @@ import { motion } from "framer-motion";
 const Bookmarks = () => {
     const { authUser} = useAuthstore()
     const {bookmarks,getbookmark } = useSolution()
-
     const id=authUser._id
 
     useEffect(()=>{
       getbookmark()
     },[])
 
-
 return (
-
 <div className="flex flex-col items-center w-full p-6 gap-4 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen">
         <h2 className="text-2xl font-bold  border-b pb-3 mb-4 w-full">
         My Bookmarks
-      </h2>
+    </h2>
+    
+          {bookmarks?.length === 0 && (
+        <p className="text-white text-center">No bookmarks yet.</p>
+    )}
+    
     {bookmarks?.map((pass) => {
     const isLiked = pass.likes?.includes(authUser?._id);
             const isbookmarked = pass.bookmarkedby?.includes(authUser?._id);
@@ -118,5 +120,7 @@ return (
 
 )
 }
+
+
 
 export default Bookmarks

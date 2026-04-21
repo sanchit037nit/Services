@@ -19,11 +19,10 @@ const MyPosts = () => {
   };
 
 
-  const handlepost=(e,post)=>{
+  const handlepost = (e, post) => {
     e.preventDefault()
-    // console.log(post)
-        selectedpost(post)
-        navigate('./view')
+    selectedpost(post)
+    navigate('./view')
   }
 
   useEffect(() => {
@@ -44,9 +43,6 @@ const MyPosts = () => {
       {mysols?.map((post) => {
         const isLiked = post.likes?.includes(authUser?._id);
         const isbookmarked = post.bookmarkedby?.includes(authUser?._id);
-        
-
-
           return (
                       <motion.div
                         key={post._id}
@@ -54,9 +50,9 @@ const MyPosts = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4 }}
                         className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all "
-                        onClick={(e)=> handlepost(e,post)}
+                        onClick={(e) => handlepost(e, post)}
             >
-              
+  
                         {/* Header */}
                           <div className="flex items-center gap-3 mb-2 justify-between">
                           <div className='flex items-center gap-3 mb-2'>
@@ -91,7 +87,6 @@ const MyPosts = () => {
                             onClick={(e) =>
                               {
                                 e.stopPropagation()
-                            
                               }
                             }
                           >
@@ -138,5 +133,4 @@ const MyPosts = () => {
     </div>
   );
 };
-
 export default MyPosts;
