@@ -113,11 +113,11 @@ const Uploadpage = () => {
     {/* Right Section - Form Fields */}
     <div className="space-y-4">
       <div>
-        <label className="text-gray-300 block mb-1">Doubt</label>
+        <label className="text-gray-300 block mb-1">About Contest</label>
         <input
           type="text"
           className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter your doubt"
+          placeholder="Contest Name // Problem name/number"
           value={formdata.doubt}
           onChange={(e) =>
             setformdata({ ...formdata, doubt: e.target.value })
@@ -126,11 +126,11 @@ const Uploadpage = () => {
       </div>
 
       <div>
-        <label className="text-gray-300 block mb-1">Description</label>
+        <label className="text-gray-300 block mb-1">Description about Problem: </label>
         <input
           type="text"
           className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter description"
+          placeholder="Type your Problem"
           value={formdata.description}
           onChange={(e) =>
             setformdata({ ...formdata, description: e.target.value })
@@ -170,7 +170,7 @@ const Uploadpage = () => {
       </div>
 
       <div>
-        <label className="text-gray-300 block mb-1">Code</label>
+        <label className="text-gray-300 block mb-1">Your Code</label>
         <textarea
           className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 resize-none h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter Code"
@@ -182,7 +182,7 @@ const Uploadpage = () => {
       </div>
 
       <div>
-        <label htmlFor="website" className="text-gray-300 block mb-1">Related Link</label>
+        <label htmlFor="website" className="text-gray-300 block mb-1">Solution Link</label>
         <input
           type="url"
           id="website"

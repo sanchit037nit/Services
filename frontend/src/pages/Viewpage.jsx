@@ -47,31 +47,31 @@ const Viewpage = () => {
                   </div>
                   <div>
                     <div className="font-semibold text-white">
-                      {selpost?.user?.name}
+                      {selpost?.createdby?.name}
                     </div>
                     <div className="text-xs text-gray-300">@{selpost?.platform}</div>
                   </div>
                   </div>
                   <div className='flex gap-3'>
-                  <span className='px-8 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{selpost?.language}</span>
-                  <span className='px-8 py-3 bg-red-500 hover:bg-red-600 rounded-xl text-lg font-semibold shadow-lg transform hover:scale-105 transition duration-300'>{selpost?.platform}</span>
+                  <span className='px-8 py-3 bg-gray-500 rounded-xl text-sm font-semibold'>{selpost?.language}</span>
+                  <span className='px-8 py-3 bg-gray-500 rounded-xl text-sm font-semibold'>{selpost?.platform}</span>
                   </div>
                 </div>
 
                 {/* Doubt */}
-                <h2 className="text-lg font-semibold text-white mt-4">Doubt</h2>
+                <h2 className="text-lg font-semibold text-white mt-4">About Contest</h2>
                 <p className="text-gray-100 text-sm">{selpost?.doubt}</p>
 
-                <h2 className="text-lg font-semibold text-white mt-4">Description:</h2>
+                <h2 className="text-lg font-semibold text-white mt-4">Description about Problem:</h2>
                 <p className="text-gray-100 text-sm">{selpost?.description}</p>
 
-              <h2 className="text-lg font-semibold text-white mt-4">Code:</h2>
+              <h2 className="text-lg font-semibold text-white mt-4">Your Code:</h2>
   <pre className="bg-black text-green-400 text-sm p-4 rounded-lg overflow-x-auto font-mono">
     {selpost?.code}
   </pre>
   <br />
 
-                 <div className="w-full max-h-96 object-cover rounded-lg">
+                 <div className="w-full flex justify-center rounded-lg overflow-hidden bg-gray-900">
                     <img
                       src={selpost?.photo || "/avatar-placeholder.png"}
                       alt="avatar"

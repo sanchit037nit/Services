@@ -148,7 +148,7 @@ export const Homepage = () => {
                     </div>
                     <div>
                       <div className="font-semibold text-white">
-                        {post.user?.name}
+                        {post?.createdby?.name}
                       </div>
                       <div className="text-xs text-gray-300">
                         @{post?.platform}
