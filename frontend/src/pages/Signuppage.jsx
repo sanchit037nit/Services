@@ -66,6 +66,7 @@ export const Signuppage = () => {
           </h2>
 
           <button
+            type="Button"
             onClick={() => navigate("/")}
             className="text-lg hover:text-red-400 transition"
           >
