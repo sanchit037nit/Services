@@ -23,10 +23,9 @@ const App=()=>{
     checkauth(); 
   }, [checkauth]);
   
-  // console.log("authUser:", authUser, "loading:", loading);
 
     if (loading) {
-    // Show a loader or blank screen while verifying auth
+
     return (
       <div className="flex justify-center items-center h-screen">
         <h1 className="text-xl font-semibold">Loading...</h1>

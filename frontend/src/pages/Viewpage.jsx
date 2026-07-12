@@ -146,7 +146,7 @@ const Viewpage = () => {
       >
         <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0">
           <img
-            src={comment.user?.profilephoto || "/avatar-placeholder.png"}
+            src={selpost?.createdby?.profilephoto || "/avatar-placeholder.png"}
             alt="avatar"
             className="w-full h-full object-cover"
           />
@@ -155,11 +155,11 @@ const Viewpage = () => {
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-sm text-white">
-              {comment.user?.name}
+              {selpost?.createdby?.name}
             </span>
 
             <span className="text-gray-400 text-xs">
-              @{comment.user?.name}
+              @{selpost?.platform}
             </span>
           </div>
 

@@ -209,27 +209,6 @@ export const likeunlike = async (req, res) => {
   }
 };
 
-// export const commentonsolution = async (req, res) => {
-//   try {
-
-//     const { text } = req.body;
-//     const solid = req.params.id;
-//     const userid = req.user._id.toString();
-
-//     const sol = await Solution.findById(solid)
-//   .populate("comments.user", "name email profilephoto");
-  
-//     if (!sol) {
-//        res.status(404).json({ error: "Solution not found" });
-//     }
-
-//     const comment = { text: text, user: userid };
-//     sol.comments.push(comment);
-//     await sol.save();
-    
-//     console.log(sol.comments)
-//      res.status(200).json(sol);
-//   } 
 export const commentonsolution = async (req, res) => {
   try {
     const { text } = req.body;
@@ -266,11 +245,7 @@ export const commentonsolution = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-//   catch (error) {
-//     console.log("Error in commenting controller: ", error);
-//      res.status(400).json({ error: "Internal server error" });
-//   }
-// };
+
 
 export const getbookmarks = async (req, res) => {
   try {

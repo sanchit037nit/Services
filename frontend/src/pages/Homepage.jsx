@@ -45,6 +45,7 @@ export const Homepage = () => {
     navigate("/upload");
   };
 
+  
   const handlePostComment = (e, id, data) => {
     e.preventDefault();
     e.stopPropagation();

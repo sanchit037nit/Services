@@ -16,14 +16,14 @@ export const Loginpage = () => {
     password: "",
   });
 
-  const handleclick = (e) => {
+  const handleclick = async(e) => {
     e.preventDefault();
 
     if (!formdata.email || !formdata.password) {
       return toast.error("All fields are required!");
     }
 
-    login(formdata);
+    await login(formdata);
   };
 
   return (
@@ -49,6 +49,7 @@ export const Loginpage = () => {
           </h2>
 
           <button
+            type="Button"
             onClick={() => navigate("/")}
             className="text-lg hover:text-red-400 transition"
           >
@@ -110,6 +111,7 @@ export const Loginpage = () => {
         {/* Forgot password */}
         <div className="flex justify-end text-sm">
           <button
+            type="Button"
             onClick={() => navigate("/forgot")}
             className="text-blue-400 hover:underline"
           >
