@@ -15,6 +15,7 @@ import Navbar from '../components/Navbar.jsx'
 import Profilepage from './pages/Profilepage.jsx'
 import MyPosts from './pages/MyPosts.jsx'
 import Viewpage from './pages/Viewpage.jsx'
+import OnlineCompiler from './pages/OnlineCompiler.jsx'
 
 
 const App=()=>{
@@ -52,6 +53,7 @@ const App=()=>{
       <Route path="/Posts" element={authUser ? <MyPosts /> : <Navigate to="/" />} />
       <Route path="/Homepage/view" element={authUser ? <Viewpage /> : <Navigate to="/" />} />
       <Route path="/Posts/view" element={authUser ? <Viewpage /> : <Navigate to="/" />} />
+      <Route path="/compiler" element={authUser ? <OnlineCompiler /> : <Navigate to="/" />} />
 
 			</Routes>
 			

@@ -24,6 +24,7 @@ const SidebarWithNavbar = () => {
       title: "Tools",
       items: [
         { to: "/Aipage", icon: <FaRobot />, label: "AI Solver" },
+        { to: "/compiler", icon: <FaRobot />, label: "Compiler" },
         { to: "/Bookmarks", icon: <FaBookmark />, label: "Bookmarks" },
       ],
     },
