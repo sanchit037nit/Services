@@ -6,7 +6,6 @@ import {connectdb} from "./utils/connectdb.js"
 import useroutes from "./routes/user.routes.js"
 import solroutes from "./routes/solution.routes.js"
 
-
 dotenv.config()
 const app=express()
 const PORT=process.env.PORT
@@ -18,8 +17,9 @@ app.use(cors({
        origin:"http://localhost:5173",
     credentials:true,
 }))
+
 app.use("/api/auth",useroutes)
-app.use("/api/sol",solroutes)
+app.use("/api/sol", solroutes)
 
 app.listen(PORT,()=>{
       console.log(`server listening on ${PORT}`)

@@ -70,6 +70,17 @@ const doubtschema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
+    reportCount:{
+    type:Number,
+    default:0
+    },
+
+   isHidden:{
+    type:Boolean,
+    default:false
+    }
+
   },
   { timestamps: true }
 );
