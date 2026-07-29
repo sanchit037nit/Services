@@ -16,7 +16,7 @@ export const useAuthstore = create((set,get) => ({
 
     getusers: async()=>{
         try {
-             const res=axiosinstance.get('/auth/users')
+             const res= await axiosinstance.get('/auth/users')
              console.log(res.data)
              set({users:res.data})
         } catch (error) {

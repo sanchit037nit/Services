@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 const Navbar = () => {
   const navigate = useNavigate();
   const { authUser, logout, deleteaccount } = useAuthstore();
+  const isAdmin = authUser?.role === "admin";
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -20,17 +21,93 @@ const Navbar = () => {
     deleteaccount();
   };
 
-  const navItems = [
-    { title: "Home", path: "/Homepage", icon: <FaUser />, user: true },
-    { title: "Profile", path: "/profile", icon: <FaUser />, user: true },
-    { title: "AI Solver", path: "/Aipage", icon: <FaRobot />, user: true },
-    { title: "Bookmarks", path: "/Bookmarks", icon: <FaBookmark />, user: true },
-    { title: "My Posts", path: "/Posts", icon: <FaQuestionCircle />, user: true },
-    { title: "Login", path: "/login", user: false },
-    { title: "Signup", path: "/signup", user: false },
-    { title: "Logout", action: handleLogout, user: true },
-    { title: "Delete Account", action: handleAccountDelete, user: true },
-  ];
+const navItems = [
+  // User Routes
+  {
+    title: "Home",
+    path: "/Homepage",
+    icon: <FaUser />,
+    auth: true,
+    role: "user",
+  },
+  {
+    title: "Profile",
+    path: "/profile",
+    icon: <FaUser />,
+    auth: true,
+    role: "user",
+  },
+  {
+    title: "AI Solver",
+    path: "/Aipage",
+    icon: <FaRobot />,
+    auth: true,
+    role: "user",
+  },
+  {
+    title: "Bookmarks",
+    path: "/Bookmarks",
+    icon: <FaBookmark />,
+    auth: true,
+    role: "user",
+  },
+  {
+    title: "My Posts",
+    path: "/Posts",
+    icon: <FaQuestionCircle />,
+    auth: true,
+    role: "user",
+  },
+
+  // Admin Routes
+  {
+    title: "Dashboard",
+    path: "/admin/dashboard",
+    icon: <FaUser />,
+    auth: true,
+    role: "admin",
+  },
+  {
+    title: "Reported Posts",
+    path: "/admin/reports",
+    icon: <FaQuestionCircle />,
+    auth: true,
+    role: "admin",
+  },
+  {
+    title: "Users",
+    path: "/admin/users",
+    icon: <FaUser />,
+    auth: true,
+    role: "admin",
+  },
+
+  // Guest Routes
+  {
+    title: "Login",
+    path: "/login",
+    auth: false,
+  },
+  {
+    title: "Signup",
+    path: "/signup",
+    auth: false,
+  },
+
+  // Common Authenticated Routes
+  {
+    title: "Logout",
+    action: handleLogout,
+    auth: true,
+    role: "all",
+  },
+  {
+    title: "Delete Account",
+    action: handleAccountDelete,
+    auth: true,
+    role: "all",
+  },
+];
 
   return (
     <div className="flex flex-wrap justify-between items-center px-8 py-5 text-black shadow-md bg-white sticky top-0 z-50">
@@ -45,7 +122,20 @@ const Navbar = () => {
       {/* Navigation Buttons */}
       <div className="flex gap-4 flex-wrap items-center">
         {navItems
-          .filter((item) => (authUser ? item.user : !item.user))
+          .filter((item) => {
+
+  // Guest
+  if (!authUser) {
+    return !item.auth;
+  }
+
+  // Logged-in users
+  if (item.role === "all") {
+    return true;
+  }
+
+  return item.role === authUser.role;
+})
           .map((item) => (
             <motion.button
               key={item.title}

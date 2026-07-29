@@ -9,12 +9,13 @@ const REPORT_THRESHOLD = Number(process.env.REPORT_THRESHOLD) || 5;
 
 export const reportPost = async (req, res) => {
     try {
+        
 
         const { postId } = req.params;
         const { reason } = req.body;
         const reporter = req.user._id;
 
-        const post = await Post.findById(postId);
+        const post = await Solution.findById(postId);
         if (!post) {
             return res.status(404).json({
                 success: false,
@@ -113,7 +114,7 @@ export const restorePost = async (req, res) => {
 
     try {
         const { postId } = req.params;
-        const post = await Post.findById(postId);
+        const post = await Solution.findById(postId);
         if (!post) {
             return res.status(404).json({
                 success: false,
@@ -151,7 +152,7 @@ export const deleteReportedPost = async (req, res) => {
             post: postId
         });
 
-        await Post.findByIdAndDelete(postId);
+        await Solution.findByIdAndDelete(postId);
 
         res.status(200).json({
             success: true,

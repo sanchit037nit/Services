@@ -5,10 +5,14 @@ import { useSolution } from "../store/useSolutionstore.js";
 import { FaRegHeart, FaTrash, FaRegComment } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import PostCard from "../../components/PostCard";
+import ReportModal from "../../components/ReportModal";
+import { useReportStore } from "../store/useReportStore";
 
 export const Homepage = () => {
   
   const { authUser } = useAuthstore();
+  const { reportPost } = useReportStore();
   const { getsol, solutions, deletesol, inclikes, bookmark, handlecomment, selectedpost } = useSolution();
   const navigate = useNavigate();
   const [search, setsearch] = useState("");
@@ -16,11 +20,23 @@ export const Homepage = () => {
   const [sort, setsort] = useState("");
   const [lang, setlang] = useState("");
   const id = authUser?._id;
+  const [openReport, setOpenReport] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     getsol();
   }, [id, getsol]);
 
+  useEffect(() => {
+
+  if (authUser?.role === "admin") {
+
+    navigate("/admin/dashboard");
+
+  }
+
+  }, [authUser, navigate]);
+  
   const handleLikePost = (e, passId) => {
     e.preventDefault();
     e.stopPropagation();
@@ -45,6 +61,21 @@ export const Homepage = () => {
     navigate("/upload");
   };
 
+const submitReport = async (reason) => {
+
+  if (!selectedPost) return;
+
+  const success = await reportPost(selectedPost._id, reason);
+
+  if (success) {
+
+    setOpenReport(false);
+
+    setSelectedPost(null);
+
+  }
+
+};
   
   const handlePostComment = (e, id, data) => {
     e.preventDefault();
@@ -123,113 +154,58 @@ export const Homepage = () => {
           .filter(
             (post) =>
               !lang || post.language?.toLowerCase() === lang?.toLowerCase()
-          )
-          .map((post) => {
-            const isLiked = post.likes?.includes(authUser?._id);
-            const isbookmarked = post.bookmarkedby?.includes(authUser?._id);
+        ).map((post) => (
 
-            return (
-              <motion.div
-                key={post._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-md hover:border-blue-400/40 transition-all"
-                onClick={(e) => handlepost(e, post)}
-              >
-                {/* Header */}
-                <div className="flex items-center gap-3 mb-2 justify-between">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                      <img
-                        src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
-                        alt="avatar"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-white">
-                        {post?.createdby?.name}
-                      </div>
-                      <div className="text-xs text-gray-300">
-                        @{post?.platform}
-                      </div>
-                    </div>
-                  </div>
+<PostCard
+    key={post._id}
+    post={post}
+    authUser={authUser}
+    onPostClick={handlepost}
 
-                  <div className="flex gap-3">
-                    <span className="px-6 py-2 bg-gray-500 rounded-xl text-sm font-semibold">
-                      {post?.language}
-                    </span>
-                    <span className="px-6 py-2 bg-gray-500 rounded-xl text-sm font-semibold">
-                      {post?.platform}
-                    </span>
-                  </div>
-                </div>
+    handleLike={(e, post) => {
+        handleLikePost(e, post._id);
+    }}
 
-                {/* Doubt */}
-                <p className="text-gray-100 text-sm">{post?.doubt}</p>
+    handleBookmark={(e, post) => {
+        handlebook(e, post._id);
+    }}
 
-                {/* Actions */}
-                <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700 text-gray-400">
-                  {/* Comments */}
-                  <div
-                    className="flex items-center gap-1 cursor-pointer hover:text-blue-400"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <FaRegComment className="w-4 h-4" />
-                    <span className="text-sm">
-                      {post.comments?.length}
-                    </span>
-                  </div>
+    handleDelete={(e, post) => {
+        handleDelete(e, post._id);
+    }}
 
-                  {/* Likes */}
-                  <div
-                    className={`flex items-center gap-1 cursor-pointer ${
-                      isLiked ? "text-pink-500" : "hover:text-pink-500"
-                    }`}
-                    onClick={(e) => handleLikePost(e, post._id)}
-                  >
-                    <FaRegHeart className="w-4 h-4" />
-                    <span className="text-sm">{post.likes.length}</span>
-                  </div>
+    handleReport={(post) => {
+        setSelectedPost(post);
+        setOpenReport(true);
+    }}
+/>
 
-                  {/* Bookmark */}
-                  <div
-                    className={`flex items-center gap-1 cursor-pointer ${
-                      isbookmarked
-                        ? "text-blue-500"
-                        : "hover:text-blue-500"
-                    }`}
-                    onClick={(e) => handlebook(e, post._id)}
-                  >
-                    <FaRegBookmark className="w-4 h-4" />
-                  </div>
-
-                  {/* Delete */}
-                  {post.user?._id === authUser?._id && (
-                    <div
-                      className="flex items-center gap-1 cursor-pointer hover:text-red-500"
-                      onClick={(e) => handleDelete(e, post._id)}
-                    >
-                      <FaTrash className="w-4 h-4" />
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
+))}
       </div>
 
+      <ReportModal
+
+    open={openReport}
+
+    onClose={() => setOpenReport(false)}
+
+onSubmit={submitReport}
+
+      />
+      
       {/* ➕ Upload Button */}
-      <motion.button
-        onClick={handleupload}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.97 }}
-        className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-6 py-3 rounded-full shadow-xl hover:shadow-2xl transition"
-      >
-        + Upload Post
-      </motion.button>
+{authUser?.role !== "admin" && (
+
+<motion.button
+    onClick={handleupload}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.97 }}
+    className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-6 py-3 rounded-full shadow-xl hover:shadow-2xl transition"
+>
+    + Upload Post
+</motion.button>
+
+)}
     </motion.div>
   );
 };
