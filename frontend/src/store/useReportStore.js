@@ -95,7 +95,7 @@ export const useReportStore = create((set, get) => ({
 
             const res = await axiosinstance.put(
 
-                `/sol/admin/reports/${reportId}`,
+                `/sol/admin/review/${reportId}`,
 
                 {
                     action,

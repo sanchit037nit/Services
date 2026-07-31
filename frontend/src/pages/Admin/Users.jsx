@@ -28,7 +28,7 @@ const Users = () => {
         user.email.toLowerCase().includes(search.toLowerCase()) ) &&
         user.role=='user'
     );
-
+    console.log(filteredUsers)
     return (
 
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-8">
@@ -171,11 +171,7 @@ const Users = () => {
 
                             </th>
 
-                            <th className="p-4 text-left">
 
-                                Passwords
-
-                            </th>
 
                             <th className="p-4 text-left">
 
@@ -234,11 +230,7 @@ const Users = () => {
 
                                 </td>
 
-                                <td className="p-4">
 
-                                    {user.passwords}
-
-                                </td>
 
                                 <td className="p-4">
 
@@ -256,7 +248,7 @@ const Users = () => {
 
                                 <td className="p-4">
 
-                                    {user.joined}
+                                    {new Date(user.createdAt).toLocaleDateString()}
 
                                 </td>
 

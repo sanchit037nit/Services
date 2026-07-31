@@ -187,3 +187,44 @@ export const deleteReportedPost = async (req, res) => {
         });
     }
 };
+
+export const rejectreport = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const report = await Report.findById(id);
+
+        if (!report) {
+            return res.status(404).json({
+                message: "Report not found"
+            });
+        }
+
+        const post = await Solution.findById(report.post);
+
+        if (!post) {
+            return res.status(404).json({
+                message: "Post not found"
+            });
+        }
+
+        await Report.findByIdAndDelete(id);
+
+        post.reportCount--;
+
+        post.isHidden = post.reportCount >= REPORT_THRESHOLD;
+
+        await post.save();
+
+        return res.status(200).json({
+            message: "Report rejected"
+        });
+
+    } catch (error) {
+        console.log("Error rejecting report", error);
+
+        return res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+};

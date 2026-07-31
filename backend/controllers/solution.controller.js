@@ -3,6 +3,7 @@ import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
 import { GoogleGenAI } from "@google/genai";
 import cloudinary from "../utils/cloudinary.js"
+import Groq from "groq-sdk";
 
 export const createsol = async (req, res) => {
 
@@ -136,7 +137,7 @@ export const bookmark = async (req, res) => {
     const { id: solid } = req.params;
  
     const sol = await Solution.findById(solid);
-    console.log(sol)
+    console.log(solid)
     if (!sol) {
       return res.status(404).json({ error: "Solution not found" });
     }
@@ -247,7 +248,6 @@ export const commentonsolution = async (req, res) => {
   }
 };
 
-
 export const getbookmarks = async (req, res) => {
   try {
   
@@ -267,26 +267,36 @@ export const getbookmarks = async (req, res) => {
   }
 };
 
-export const sendMessage= async(req,res)=>{
+export const sendMessage = async (req, res) => {
+  const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+    });
 				const {data} = req.body
 
-				try {
+try {
+    const response = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile", // or another supported Groq model
+      messages: [
+        {
+          role: "user",
+          content: data,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 1024,
+    });
 
-const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
- const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: data,
-  });
-					// const dat = await response.json();
-            //  console.log(response.text)
-					const markdownText =
-						response.text || 'No response received.';
-		      return res.status(200).json({
-            message:markdownText
-          })
-				} catch (error) {
-				  res.status(400).json({
-            message:"error in ai"
-          })
-				}
-			}
+    const message = response.choices[0]?.message?.content || "No response received.";
+    // console.log(message)
+    return res.status(200).json({
+      message,
+    });
+
+  } catch (error) {
+    console.error("Groq Error:", error);
+
+    return res.status(500).json({
+      message: "Error communicating with Groq AI",
+    });
+  }
+}

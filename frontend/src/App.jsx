@@ -188,11 +188,11 @@ const App = () => {
           path="/Homepage/view"
           element={
             authUser ? (
-              authUser.role === "user" ? (
+              
                 <Viewpage />
-              ) : (
-                <Navigate to="/admin/dashboard" />
-              )
+            
+
+              
             ) : (
               <Navigate to="/" />
             )

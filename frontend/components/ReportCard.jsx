@@ -2,18 +2,19 @@ import React from "react";
 import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import { MdReport } from "react-icons/md";
 import { useReportStore } from "../src/store/useReportStore";
+import { useNavigate } from "react-router-dom";
 
 const ReportCard = ({ report }) => {
-
+      const navigate = useNavigate();
     const {
         reviewReport,
         deleteReportedPost,
         loading,
     } = useReportStore();
 
-    const handleApprove = () => {
+    const handleview = () => {
 
-        reviewReport(report._id, "approve");
+            navigate("/Homepage/view");
 
     };
 
@@ -139,13 +140,13 @@ const ReportCard = ({ report }) => {
 
                 <button
                     disabled={loading}
-                    onClick={handleApprove}
+                    onClick={handleview}
                     className="flex items-center gap-2 bg-green-600 hover:bg-green-700 px-5 py-2 rounded-lg"
                 >
 
                     <FaCheck />
 
-                    Approve Report
+                    View Post
 
                 </button>
 
