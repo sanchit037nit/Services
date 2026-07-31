@@ -136,7 +136,7 @@ export const bookmark = async (req, res) => {
     const { id: solid } = req.params;
  
     const sol = await Solution.findById(solid);
-
+    console.log(sol)
     if (!sol) {
       return res.status(404).json({ error: "Solution not found" });
     }
@@ -153,6 +153,7 @@ export const bookmark = async (req, res) => {
 
    
       const updatedbookmarks = user.bookmarks
+      console.log(updatedbookmarks)
       return res.status(200).json(updatedbookmarks);
     } else {
 

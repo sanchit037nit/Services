@@ -110,19 +110,24 @@ export const useSolution =create((set,get)=>({
         }
     },
 
-    bookmark:async(id)=>{
-         try{
-            const res = await axiosinstance.post(`/sol/bookmark/${id}`)
+    bookmark: async(id)=>{
+        try {
+             console.log(id)
+             const res = await axiosinstance.post(`/sol/bookmark/${id}`)
+                        
             const updatedbookmarks=res.data
 
-            const userss=axiosinstance.get('/auth/users')
-             console.log(userss.data)
+            const userss= await axiosinstance.get('/auth/users')
+  
              set({users:userss.data})
              
-            set((state)=>{
-                 bookmarks: state.users.map((user) =>
-        user._id === id ? { ...user, bookmarks: updatedbookmarks} : user
-            )})
+set((state) => ({
+    users: state.users.map((user) =>
+        user._id === id
+            ? { ...user, bookmarks: updatedbookmarks }
+            : user
+    )
+}))
         }
         catch(error){
             console.log(error)

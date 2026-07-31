@@ -15,7 +15,11 @@ export const reportPost = async (req, res) => {
         const { reason } = req.body;
         const reporter = req.user._id;
 
+
+        
         const post = await Solution.findById(postId);
+
+       
         if (!post) {
             return res.status(404).json({
                 success: false,
@@ -41,6 +45,9 @@ export const reportPost = async (req, res) => {
             reporter,
             post: postId
         });
+        const alreadyReportedonce = await Report.findOne({
+            post: postId
+        });
 
         if (alreadyReported) {
             return res.status(400).json({
@@ -49,17 +56,29 @@ export const reportPost = async (req, res) => {
             });
         }
 
-        await Report.create({
-            reporter,
-            post: postId,
-            reason
-        });
+
 
         post.reportCount++;
 
         if (post.reportCount >= REPORT_THRESHOLD) {
+            console.log(REPORT_THRESHOLD)
+            console.log(post.reportCount)
             post.isHidden = true;
         }
+
+        if (alreadyReportedonce) {
+                    res.status(200).json({
+            success:true,
+            message:"Report submitted.",
+            reportCount:post.reportCount,
+            hidden:post.isHidden
+        });
+        }
+                await Report.create({
+            reporter,
+            post: postId,
+            reason
+        });
 
         await post.save();
 
@@ -89,17 +108,18 @@ export const getReportedPosts = async (req, res) => {
             .populate({
                 path: "post",
                 populate: {
-                    path: "user",
+                    path: "createdby",
                     select: "username profilePic"
                 }
             })
             .sort({ createdAt: -1 });
+         
 
         res.status(200).json({
             success: true,
             reports
         });
-
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({

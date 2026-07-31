@@ -2,17 +2,21 @@ import React, { useEffect } from "react";
 import { FaFlag, FaCheckCircle, FaTrash, FaUsers } from "react-icons/fa";
 import { useReportStore } from "../../store/useReportStore";
 import StatCard from "../../../components/StatCard";
+import { useAuthstore } from "../../store/useAuthstore";
 
 const Dashboard = () => {
 
     const { stats, getReportStats } = useReportStore();
+    const {users,getusers} = useAuthstore()
 
     useEffect(() => {
 
         getReportStats();
+        getusers()
 
     }, []);
 
+        const filteredUsers = users.filter((user) => user.role=='user');
     return (
 
         <div className="w-full flex flex-col items-center py-12  bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen">
@@ -27,13 +31,13 @@ const Dashboard = () => {
 
                 <StatCard
                     title="Total Reports"
-                    value={stats.totalReports || 0}
+                    value={stats.reports?.length || 0}
                     icon={<FaFlag />}
                 />
 
                 <StatCard
                     title="Pending Reports"
-                    value={stats.pendingReports || 0}
+                    value={stats.reports?.length || 0}
                     icon={<FaFlag />}
                 />
 
@@ -45,7 +49,7 @@ const Dashboard = () => {
 
                 <StatCard
                     title="Active Users"
-                    value={stats.activeUsers || 0}
+                    value={filteredUsers.length || 0}
                     icon={<FaUsers />}
                 />
 

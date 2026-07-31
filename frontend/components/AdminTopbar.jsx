@@ -13,10 +13,6 @@ const AdminTopbar = () => {
     return (
         <div className="h-16 bg-black border-b border-gray-700 flex items-center justify-between px-6">
 
-            <h1 className="text-xl font-semibold text-white">
-                Admin Dashboard
-            </h1>
-
             <div className="flex items-center gap-5">
 
                 <div className="flex items-center gap-3">

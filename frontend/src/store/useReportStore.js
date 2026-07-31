@@ -172,7 +172,7 @@ export const useReportStore = create((set, get) => ({
                 "/sol/reported"
 
             );
-
+            console.log(res)
             set({
 
                 stats: res.data,

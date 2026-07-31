@@ -67,42 +67,39 @@ return (
 
     <div className="flex flex-col items-center px-4 py-6 gap-4 w-full">
 
-      {mysols?.map((post) => (
-
-        <PostCard
-          key={post._id}
-          post={post}
-          authUser={authUser}
-
-          onPostClick={handlepost}
-
-          handleComment={(post) => {
-            console.log(post);
-          }}
-
-          handleLike={(post) => {
-            handleLikePost(post);
-          }}
-
-          handleBookmark={(post) => {
-            handlebook(post);
-          }}
-
-          handleDelete={(id) => {
-            handleDelete(id);
-          }}
-
-          handleReport={(post) => {
-
-            setSelectedPost(post);
-
-            setOpenReport(true);
-
-          }}
-
-        />
-
-      ))}
+    {mysols?.map((post) =>
+      post.isHidden ? (
+    <div
+      key={post._id}
+      className="p-4 mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700"
+    >
+      This post has been removed for violating community guidelines.
+    </div>
+      ) : (
+      <PostCard
+      key={post._id}
+      post={post}
+      authUser={authUser}
+      onPostClick={handlepost}
+      handleComment={(post) => {
+        console.log(post);
+      }}
+      handleLike={(post) => {
+        handleLikePost(post);
+      }}
+      handleBookmark={(post) => {
+        handlebook(post);
+      }}
+      handleDelete={(id) => {
+        handleDelete(id);
+      }}
+      handleReport={(post) => {
+        setSelectedPost(post);
+        setOpenReport(true);
+      }}
+    />
+  )
+)}
 
     </div>
 

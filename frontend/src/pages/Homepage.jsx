@@ -25,7 +25,7 @@ export const Homepage = () => {
 
   useEffect(() => {
     getsol();
-  }, [id, getsol]);
+  }, [id, getsol,solutions]);
 
   useEffect(() => {
 
@@ -37,23 +37,17 @@ export const Homepage = () => {
 
   }, [authUser, navigate]);
   
-  const handleLikePost = (e, passId) => {
-    e.preventDefault();
-    e.stopPropagation();
-    inclikes(passId);
-  };
+const handleLikePost = (id) => {
+    inclikes(id);
+};
 
-  const handleDelete = (e, passId) => {
-    e.preventDefault();
-    e.stopPropagation();
-    deletesol(passId);
-  };
-
-  const handlebook = (e, id) => {
-    e.preventDefault();
-    e.stopPropagation();
+const handlebook = (id) => {
     bookmark(id);
-  };
+};
+
+const handleDelete = (id) => {
+    deletesol(id);
+};
 
   const handleupload = (e) => {
     e.preventDefault();
@@ -154,7 +148,10 @@ const submitReport = async (reason) => {
           .filter(
             (post) =>
               !lang || post.language?.toLowerCase() === lang?.toLowerCase()
-        ).map((post) => (
+        )
+          .filter((post) => post.isHidden == false
+        )
+          .map((post) => (
 
 <PostCard
     key={post._id}
@@ -162,17 +159,9 @@ const submitReport = async (reason) => {
     authUser={authUser}
     onPostClick={handlepost}
 
-    handleLike={(e, post) => {
-        handleLikePost(e, post._id);
-    }}
-
-    handleBookmark={(e, post) => {
-        handlebook(e, post._id);
-    }}
-
-    handleDelete={(e, post) => {
-        handleDelete(e, post._id);
-    }}
+    handleLike={handleLikePost}
+    handleBookmark={handlebook}
+    handleDelete={handleDelete}
 
     handleReport={(post) => {
         setSelectedPost(post);
