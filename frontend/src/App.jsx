@@ -47,11 +47,24 @@ const App = () => {
   }
 
   return (
-    <div className="flex max-w-8xl mx-auto">
+    <div className="flex ">
     
       {/* Sidebar only for Users */}
       {authUser && authUser.role === "user" && <Sidebar />}
 
+<main
+  className={`flex-1 ${
+    authUser
+      ? authUser.role === "user"
+        ? "ml-64"
+        : authUser.role === "admin"
+        ? "ml-64"
+        : ""
+      : ""
+  }`}
+>
+        
+  
       <Routes>
 
         {/* ================= PUBLIC ROUTES ================= */}
@@ -272,7 +285,7 @@ const App = () => {
         />
 
       </Routes>
-
+    </main>
       <Toaster />
 
     </div>

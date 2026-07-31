@@ -110,7 +110,7 @@ const navItems = [
 ];
 
   return (
-    <div className="flex flex-wrap justify-between items-center px-8 py-5 text-black shadow-md bg-white sticky top-0 z-50">
+    <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
       {/* Logo & Title */}
       <div className="flex items-center gap-2">
         <span className="text-2xl font-extrabold tracking-wide text-amber-400">

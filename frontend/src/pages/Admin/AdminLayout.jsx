@@ -15,7 +15,6 @@ const AdminLayout = () => {
 
             <div className="flex-1 flex flex-col">
 
-                <AdminTopbar />
 
                 <main className="p-6">
 

@@ -17,10 +17,7 @@ const Users = () => {
     const {getusers ,users} = useAuthstore()
 
     useEffect(() => {
-
         getusers()
-   
-
     }, []);
 
     const filteredUsers = users.filter((user) =>
@@ -289,24 +286,6 @@ const Users = () => {
 
                                         )}
 
-                                        <button
-                                            className="p-2 rounded-lg bg-purple-600 hover:bg-purple-700"
-                                            title="Change Role"
-                                        >
-
-                                            <FaUserShield />
-
-                                        </button>
-
-                                        <button
-                                            className="p-2 rounded-lg bg-red-600 hover:bg-red-700"
-                                            title="Delete User"
-                                        >
-
-                                            <FaTrash />
-
-                                        </button>
-
                                     </div>
 
                                 </td>
@@ -341,21 +320,7 @@ const Users = () => {
 
                 </p>
 
-                <div className="flex gap-3">
 
-                    <button className="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600">
-
-                        Previous
-
-                    </button>
-
-                    <button className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700">
-
-                        Next
-
-                    </button>
-
-                </div>
 
             </div>
 

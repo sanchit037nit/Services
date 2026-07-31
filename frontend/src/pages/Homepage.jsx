@@ -89,7 +89,7 @@ const submitReport = async (reason) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden w-full"
+    className="relative min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white w-full"
     >
       {/* Background blobs */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600 opacity-30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>

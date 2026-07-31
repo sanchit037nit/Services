@@ -41,7 +41,7 @@ const SidebarWithNavbar = () => {
       initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 70 }}
-      className="w-64 bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white shadow-2xl flex flex-col"
+     className="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white shadow-2xl flex flex-col z-50"
     >
       {/* Logo */}
       <div className="px-6 py-5 text-xl font-bold border-b border-gray-800">

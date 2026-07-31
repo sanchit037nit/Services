@@ -42,7 +42,7 @@ ${code}
   };
 
   return (
-    <div className="w-screen min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-y-auto">
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-y-auto">
 
       <motion.div
         initial={{ opacity: 0, y: 25 }}
