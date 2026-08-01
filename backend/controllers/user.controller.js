@@ -56,13 +56,7 @@ export const updateprofile=async (req,res)=>{
  
     try{
 
-        // if(!name || !email || !password){
-        //     return res.status(400).json(
-        //         {success:false,message: "all fields required"})
-        // }
-        // if(password.length < 6){
-        //     return res.status(400).json({success:false,message: "password must be atleast 6 characters"})
-        // }
+
         const user=await User.findById(userid)
 
         if(!user){
@@ -74,9 +68,7 @@ export const updateprofile=async (req,res)=>{
             userid,
             {
             $set:{
-                // name:name,
-                // email:email,
-                // password:password,
+
                 profilephoto:upres.secure_url
             }
          
@@ -87,7 +79,7 @@ export const updateprofile=async (req,res)=>{
             await updateduser.save();
 
             res.status(200).json({
-               message:"s"
+               message:"success"
             })
     }
   
@@ -172,5 +164,32 @@ export const getusers=async (req,res)=>{
         console.log("cannot get users",error)
         res.status(400).json({message:"cannot get users"})
         
+    }
+}
+
+export const statusupdate = async (req, res) => {
+    try {
+        const { id } = req.params
+        const user = await User.findById(id)
+        
+                const updateduser=await User.findByIdAndUpdate(
+            id,
+            {
+            $set:{
+                status : (user.status ==='Active') ? 'Blocked' : 'Active'
+            }
+         
+        } ,{new:true}
+    )
+
+
+            await updateduser.save();
+
+            res.status(200).json({
+               message:"success"
+            })
+        
+    } catch (error) {
+        console.log("error in statusupdate",error)
     }
 }

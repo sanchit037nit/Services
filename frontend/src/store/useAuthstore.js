@@ -108,4 +108,13 @@ export const useAuthstore = create((set,get) => ({
         toast.error(error.response.data.message)
       }
   },
+
+  statusupdate: async (id) => {
+    try {
+      const res = await axiosinstance.patch(`/auth/statusupdate/${id}`)
+      toast.success("Status Updated successfully")
+    } catch (error) {
+      console.log("error in useauthstore-statusupdate",error)
+    }
+  }
 }));

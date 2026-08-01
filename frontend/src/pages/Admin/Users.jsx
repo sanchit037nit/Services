@@ -14,18 +14,25 @@ const Users = () => {
 
     // const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
-    const {getusers ,users} = useAuthstore()
+    const {getusers ,users,statusupdate} = useAuthstore()
 
     useEffect(() => {
         getusers()
     }, []);
+
+        const handlestatusupdate= async(id) => {
+            await statusupdate(id)
+             await getusers();
+    }
 
     const filteredUsers = users.filter((user) =>
        ( user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.email.toLowerCase().includes(search.toLowerCase()) ) &&
         user.role=='user'
     );
-    console.log(filteredUsers)
+
+
+
     return (
 
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-8">
@@ -267,6 +274,7 @@ const Users = () => {
                                             <button
                                                 className="p-2 rounded-lg bg-yellow-600 hover:bg-yellow-700"
                                                 title="Block User"
+                                                onClick={() => handlestatusupdate(user._id)}
                                             >
 
                                                 <FaUserSlash />
@@ -277,7 +285,8 @@ const Users = () => {
 
                                             <button
                                                 className="p-2 rounded-lg bg-green-600 hover:bg-green-700"
-                                                title="Unblock User"
+                                                    title="Unblock User"
+                                                    onClick={() => handlestatusupdate(user._id)}
                                             >
 
                                                 <FaUserCheck />
@@ -310,7 +319,7 @@ const Users = () => {
 
             </div>
 
-            {/* Pagination */}
+
 
             <div className="flex justify-between items-center mt-8">
 

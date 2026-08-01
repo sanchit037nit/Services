@@ -24,11 +24,7 @@ const AdminSidebar = () => {
       {/* Admin Profile */}
       <div className="flex flex-col items-center py-6 border-b border-gray-700">
 
-        <img
-          src={authUser?.profilephoto || "/avatar-placeholder.png"}
-          alt="Admin"
-          className="w-20 h-20 rounded-full object-cover border-4 border-blue-500 shadow-lg"
-        />
+
 
         <h2 className="mt-3 text-lg font-semibold">
           {authUser?.name}
