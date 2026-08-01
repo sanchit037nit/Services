@@ -1,7 +1,6 @@
 
 import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
-import { GoogleGenAI } from "@google/genai";
 import cloudinary from "../utils/cloudinary.js"
 import Groq from "groq-sdk";
 

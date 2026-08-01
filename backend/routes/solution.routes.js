@@ -4,6 +4,7 @@ import { protectroute } from "../middlewares/auth.middleware.js"
 import { runCode, checkStatus, } from "../controllers/compiler.controller.js";
 import { reportPost,getReportedPosts,deleteReportedPost,restorePost,rejectreport } from "../controllers/report.controller.js";
 import { isAdmin } from "../middlewares/admin.middleware.js"
+import { getDashboardStats } from "../controllers/dashboard.controller.js";
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.post("/:postId/report", protectroute, reportPost);
 router.get("/reported", protectroute, isAdmin, getReportedPosts);
 router.patch("/:postId/restore", protectroute, isAdmin, restorePost);
 router.delete("/:postId/admin-delete", protectroute, isAdmin, deleteReportedPost);
-router.put("/admin/review/:id",protectroute,rejectreport)
+router.put("/admin/review/:id", protectroute, rejectreport)
+router.get("/admin/dashboard", protectroute,getDashboardStats);
 
 export default  router;
