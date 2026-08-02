@@ -98,7 +98,11 @@ export const login=async (req,res)=>{
 
          if(!user){
             return res.status(400).json({message:"invalid credentials"})
-         }
+        }
+        if (user.status == 'Blocked') {
+             return res.status(400).json({message:"You have been blocked by the administrator"})
+        }
+        
         const ispassc=await bcrypt.compare(String(password) ,user.password)
 
         if(!ispassc){

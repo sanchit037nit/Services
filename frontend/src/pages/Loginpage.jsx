@@ -108,16 +108,7 @@ export const Loginpage = () => {
           </div>
         </div>
 
-        {/* Forgot password */}
-        <div className="flex justify-end text-sm">
-          <button
-            type="Button"
-            onClick={() => navigate("/forgot")}
-            className="text-blue-400 hover:underline"
-          >
-            Forgot password?
-          </button>
-        </div>
+
 
         {/* Submit */}
         <motion.button
