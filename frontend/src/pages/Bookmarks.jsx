@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSolution } from '../store/useSolutionstore.js';
-import { useAuthstore} from '../store/useAuthstore.js'
+import { useAuthstore } from '../store/useAuthstore.js'
+import { useNavigate } from 'react-router-dom';
 
 import { FaRegComment, FaRegHeart, FaRegBookmark, FaTrash } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -10,91 +11,103 @@ import PostCard from "../../components/PostCard";
 import ReportModal from "../../components/ReportModal";
 
 const Bookmarks = () => {
-  const { authUser} = useAuthstore()
-  const { bookmarks, getbookmark } = useSolution()
+  const { authUser } = useAuthstore()
+  const { bookmarks, getbookmark, inclikes, bookmark, deletesol, selectedpost } = useSolution()
+  const navigate = useNavigate();
   const [openReport, setOpenReport] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-    const id=authUser._id
+  const id = authUser._id
 
-    useEffect(()=>{
-      getbookmark()
-    }, [])
-const submitReport = async (reason) => {
+  useEffect(() => {
+    getbookmark()
+  }, [])
 
+  const handleLikePost = (id) => {
+    inclikes(id);
+  };
+
+  const handlebook = (id) => {
+    bookmark(id);
+  };
+
+  const handleDelete = (id) => {
+    deletesol(id);
+  };
+
+  const handlepost = (e, post) => {
+    e.preventDefault();
+    selectedpost(post);
+    navigate("/view");
+  };
+
+  const submitReport = async (reason) => {
     try {
-
-        console.log("Selected Post:", selectedPost);
-
-        console.log("Reason:", reason);
-
+      console.log("Selected Post:", selectedPost);
+      console.log("Reason:", reason);
     } catch (err) {
-
-        console.log(err);
-
+      console.log(err);
     }
+  };
 
-};
+  return (
+    <div className="relative flex flex-col items-center w-full p-6 gap-4 bg-[#0B0E14] text-[#E6E8EB] min-h-screen font-mono overflow-hidden">
 
-return (
-<div className="flex flex-col items-center w-full p-6 gap-4 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen">
-        <h2 className="text-2xl font-bold  border-b pb-3 mb-4 w-full">
-        My Bookmarks
-    </h2>
-    
-          {bookmarks?.length === 0 && (
-        <p className="text-white text-center">No bookmarks yet.</p>
-    )}
-    
-{bookmarks?.map((post) => (
-
-    <PostCard
-        key={post._id}
-
-        post={post}
-
-        authUser={authUser}
-
-        onPostClick={(e, post) => {
-            console.log(post);
+      {/* subtle grid texture, consistent with the rest of the app */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(#E6E8EB 1px, transparent 1px), linear-gradient(90deg, #E6E8EB 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
         }}
+      />
 
-        handleComment={(post) => {
-            console.log(post);
-        }}
+      <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
 
-        handleLike={(id) => {
-            handleLikePost(id);
-        }}
+        <div className="w-full flex items-center gap-2 border-b border-white/10 pb-4 mb-6">
+          <span className="text-[#F5A623]">&gt;</span>
+          <h2 className="text-xl font-bold tracking-tight">bookmarks</h2>
+          <span className="text-[#5C6370] text-sm ml-auto">
+            {bookmarks?.length ?? 0} saved
+          </span>
+        </div>
 
-        handleBookmark={(id) => {
-            handlebook(id);
-        }}
+        {bookmarks?.length === 0 && (
+          <p className="text-[#5C6370] text-center py-8">
+            No bookmarks yet — solutions you save will show up here.
+          </p>
+        )}
 
-        handleDelete={(id) => {
-            handleDelete(id);
-        }}
+        <div className="flex flex-col items-center gap-4 w-full">
+          {bookmarks?.map((post) => (
+            <PostCard
+              key={post._id}
+              post={post}
+              authUser={authUser}
+              onPostClick={handlepost}
+              handleComment={(post) => {
+                console.log(post);
+              }}
+              handleLike={handleLikePost}
+              handleBookmark={handlebook}
+              handleDelete={handleDelete}
+              handleReport={(post) => {
+                setSelectedPost(post);
+                setOpenReport(true);
+              }}
+            />
+          ))}
+        </div>
 
-        handleReport={(post) => {
+        <ReportModal
+          open={openReport}
+          onClose={() => setOpenReport(false)}
+          onSubmit={submitReport}
+        />
 
-            setSelectedPost(post);
-
-            setOpenReport(true);
-
-        }}
-
-    />
-
-))}
-    <ReportModal
-    open={openReport}
-    onClose={() => setOpenReport(false)}
-onSubmit={submitReport}
-/>
-</div>
-
-)
+      </div>
+    </div>
+  )
 }
-
-
 
 export default Bookmarks

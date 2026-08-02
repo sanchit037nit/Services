@@ -1,5 +1,4 @@
-
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSolution } from "../store/useSolutionstore";
 import { useAuthstore } from "../store/useAuthstore";
 import { motion } from "framer-motion";
@@ -11,109 +10,115 @@ import ReportModal from "../../components/ReportModal";
 
 
 const MyPosts = () => {
-  const { getmysol, mysols, deletesol,handlecomment ,selectedpost } = useSolution();
+  const { getmysol, mysols, deletesol, inclikes, bookmark, handlecomment, selectedpost } = useSolution();
   const { authUser } = useAuthstore();
   const id = authUser._id;
   const [comm, setComment] = useState("");
-  const navigate = useNavigate()
-  const [openReport,setOpenReport]=useState(false);
+  const navigate = useNavigate();
+  const [openReport, setOpenReport] = useState(false);
   const [reason, setReason] = useState("");
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const handleDelete = (e, id) => {
-    e.preventDefault();
+  const handleDelete = (id) => {
     deletesol(id);
   };
 
+  const handleLikePost = (id) => {
+    inclikes(id);
+  };
+
+  const handlebook = (id) => {
+    bookmark(id);
+  };
 
   const handlepost = (e, post) => {
-    e.preventDefault()
-    selectedpost(post)
-    navigate('./view')
-  }
+    e.preventDefault();
+    selectedpost(post);
+    navigate("./view");
+  };
 
   const submitReport = async (reason) => {
-
     try {
-
-        console.log("Selected Post:", selectedPost);
-
-        console.log("Reason:", reason);
-
+      console.log("Selected Post:", selectedPost);
+      console.log("Reason:", reason);
     } catch (err) {
-
-        console.log(err);
-
+      console.log(err);
     }
-
-};
+  };
 
   useEffect(() => {
     getmysol();
   }, [id]);
 
-return (
-  <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex flex-col items-center p-6">
+  return (
+    <div className="relative min-h-screen w-full bg-[#0B0E14] text-[#E6E8EB] flex flex-col items-center p-6 font-mono overflow-hidden">
 
-    <h2 className="text-2xl font-bold border-b pb-3 mb-4 w-full">
-      My Posts
-    </h2>
+      {/* subtle grid texture, consistent with the rest of the app */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(#E6E8EB 1px, transparent 1px), linear-gradient(90deg, #E6E8EB 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-    {mysols?.length === 0 && (
-      <p className="text-white text-center">
-        No posts yet.
-      </p>
-    )}
+      <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
 
-    <div className="flex flex-col items-center px-4 py-6 gap-4 w-full">
+        <div className="w-full flex items-center gap-2 border-b border-white/10 pb-4 mb-6">
+          <span className="text-[#F5A623]">&gt;</span>
+          <h2 className="text-xl font-bold tracking-tight">my_posts</h2>
+          <span className="text-[#5C6370] text-sm ml-auto">
+            {mysols?.length ?? 0} total
+          </span>
+        </div>
 
-    {mysols?.map((post) =>
-      post.isHidden ? (
-    <div
-      key={post._id}
-      className="p-4 mb-4 rounded-lg border border-red-300 bg-red-50 text-red-700"
-    >
-      This post has been removed for violating community guidelines.
+        {mysols?.length === 0 && (
+          <p className="text-[#5C6370] text-center py-8">
+            No posts yet — anything you publish will show up here.
+          </p>
+        )}
+
+        <div className="flex flex-col items-center gap-4 w-full">
+
+          {mysols?.map((post) =>
+            post.isHidden ? (
+              <div
+                key={post._id}
+                className="w-full p-4 rounded-md border border-red-500/20 bg-red-500/5 text-red-400 text-sm"
+              >
+                This post has been removed for violating community guidelines.
+              </div>
+            ) : (
+              <PostCard
+                key={post._id}
+                post={post}
+                authUser={authUser}
+                onPostClick={handlepost}
+                handleComment={(post) => {
+                  console.log(post);
+                }}
+                handleLike={handleLikePost}
+                handleBookmark={handlebook}
+                handleDelete={handleDelete}
+                handleReport={(post) => {
+                  setSelectedPost(post);
+                  setOpenReport(true);
+                }}
+              />
+            )
+          )}
+
+        </div>
+
+        <ReportModal
+          open={openReport}
+          onClose={() => setOpenReport(false)}
+          onSubmit={submitReport}
+        />
+
+      </div>
     </div>
-      ) : (
-      <PostCard
-      key={post._id}
-      post={post}
-      authUser={authUser}
-      onPostClick={handlepost}
-      handleComment={(post) => {
-        console.log(post);
-      }}
-      handleLike={(post) => {
-        handleLikePost(post);
-      }}
-      handleBookmark={(post) => {
-        handlebook(post);
-      }}
-      handleDelete={(id) => {
-        handleDelete(id);
-      }}
-      handleReport={(post) => {
-        setSelectedPost(post);
-        setOpenReport(true);
-      }}
-    />
-  )
-)}
-
-    </div>
-
-    <ReportModal
-
-      open={openReport}
-
-      onClose={() => setOpenReport(false)}
-
-onSubmit={submitReport}
-
-    />
-
-  </div>
-);
+  );
 };
 export default MyPosts;

@@ -20,173 +20,138 @@ const PostCard = ({
   handleReport,
 }) => {
 
-    const isLiked = post.likes?.includes(authUser?._id);
+  const isLiked = post.likes?.includes(authUser?._id);
+  const isBookmarked = post.bookmarkedby?.includes(authUser?._id);
+  const isOwner = post.createdby?._id === authUser?._id;
 
-    const isBookmarked = post.bookmarkedby?.includes(authUser?._id);
-
-    const isOwner = post.createdby?._id === authUser?._id;
   return (
 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-3xl bg-white/10 backdrop-blur-lg border border-gray-600 rounded-2xl p-5 shadow-lg hover:scale-105 transition-all"
+      whileHover={{ y: -2 }}
+      className="w-full max-w-3xl bg-[#10141F] border border-white/10 rounded-lg overflow-hidden cursor-pointer hover:border-white/20 transition-colors font-mono"
       onClick={(e) => onPostClick(e, post)}
     >
 
-      {/* Header */}
-
-      <div className="flex items-center justify-between mb-3">
-
-        <div className="flex items-center gap-3">
-
-          <div className="w-10 h-10 rounded-full overflow-hidden">
-
-            <img
-              src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
-              alt="avatar"
-              className="w-full h-full object-cover"
-            />
-
-          </div>
-
-          <div>
-
-            <h3 className="font-semibold text-white">
-
-              {post.createdby?.name}
-
-            </h3>
-
-<p className="text-xs text-gray-400">
-    {post.platform}
-</p>
-
-          </div>
-
-        </div>
-
-        <div className="flex gap-3">
-
-          <span className="px-4 py-2 rounded-lg bg-gray-700 text-sm">
-
-            {post.language}
-
-          </span>
-
-          <span className="px-4 py-2 rounded-lg bg-gray-700 text-sm">
-
-            {post.platform}
-
-          </span>
-
-        </div>
-
+      {/* tab bar — filename mirrors the post's platform/language, same motif as viewpage/compiler */}
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-[#0D1017] border-b border-white/5">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#F5A623]/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#8B7FD6]/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2DD4BF]/70" />
+        <span className="ml-3 text-xs text-[#8B8FA3]">
+          {post.platform?.toLowerCase()}.{post.language?.toLowerCase()}
+        </span>
       </div>
 
-      {/* Post Description */}
+      <div className="p-5">
 
-      <p className="text-gray-200 mb-4">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
 
-        {post.doubt}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full overflow-hidden border border-white/10 shrink-0">
+              <img
+                src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
+                alt="avatar"
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-      </p>
+            <div>
+              <h3 className="font-semibold text-sm text-[#E6E8EB]">
+                {post.createdby?.name}
+              </h3>
+              <p className="text-xs text-[#5C6370]">@{post.platform}</p>
+            </div>
+          </div>
 
-{/* Actions */}
+          <div className="flex gap-2">
+            <span className="px-2.5 py-1 rounded-md bg-[#8B7FD6]/10 text-[#8B7FD6] border border-[#8B7FD6]/20 text-xs font-semibold">
+              {post.language}
+            </span>
+            <span className="px-2.5 py-1 rounded-md bg-[#2DD4BF]/10 text-[#2DD4BF] border border-[#2DD4BF]/20 text-xs font-semibold">
+              {post.platform}
+            </span>
+          </div>
 
-<div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-700">
+        </div>
 
-    {/* Comment */}
+        {/* Post Description */}
+        <p className="text-[#E6E8EB] text-sm leading-relaxed mb-4">
+          {post.doubt}
+        </p>
 
-    <div
-        className="flex items-center gap-2 cursor-pointer hover:text-blue-400"
-        onClick={(e) => {
-            e.stopPropagation();
-            handleComment(post);
-        }}
-    >
-        <FaRegComment className="w-4 h-4" />
-        <span className="text-sm">
-            {post.comments?.length}
-        </span>
-    </div>
+        {/* Actions */}
+        <div className="flex items-center justify-between pt-3 border-t border-white/5 text-[#5C6370]">
 
-    {/* Like */}
+          <div
+            className="flex items-center gap-2 cursor-pointer hover:text-[#2DD4BF] transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleComment(post);
+            }}
+          >
+            <FaRegComment className="w-4 h-4" />
+            <span className="text-sm">{post.comments?.length}</span>
+          </div>
 
-    <div
-        className={`flex items-center gap-2 cursor-pointer ${
-            isLiked
-                ? "text-pink-500"
-                : "hover:text-pink-500"
-        }`}
-        onClick={(e) => {
-            e.stopPropagation();
-            handleLike(post._id);
-        }}
-    >
-        <FaRegHeart className="w-4 h-4" />
-
-        <span className="text-sm">
-            {post.likes?.length}
-        </span>
-
-    </div>
-
-    {/* Bookmark */}
-
-    {!isOwner && (
-
-        <div
-            className={`flex items-center gap-2 cursor-pointer ${
-                isBookmarked
-                    ? "text-blue-500"
-                    : "hover:text-blue-500"
+          <div
+            className={`flex items-center gap-2 cursor-pointer transition-colors ${
+              isLiked ? "text-[#F5A623]" : "hover:text-[#F5A623]"
             }`}
             onClick={(e) => {
+              e.stopPropagation();
+              handleLike(post._id);
+            }}
+          >
+            <FaRegHeart className="w-4 h-4" />
+            <span className="text-sm">{post.likes?.length}</span>
+          </div>
+
+          {!isOwner && (
+            <div
+              className={`flex items-center gap-2 cursor-pointer transition-colors ${
+                isBookmarked ? "text-[#8B7FD6]" : "hover:text-[#8B7FD6]"
+              }`}
+              onClick={(e) => {
                 e.stopPropagation();
                 handleBookmark(post._id);
-            }}
-        >
-            <FaRegBookmark className="w-4 h-4" />
-        </div>
+              }}
+            >
+              <FaRegBookmark className="w-4 h-4" />
+            </div>
+          )}
 
-    )}
-
-    {/* Delete */}
-
-    {isOwner && (
-
-        <div
-            className="flex items-center gap-2 cursor-pointer hover:text-red-500"
-            onClick={(e) => {
+          {isOwner && (
+            <div
+              className="flex items-center gap-2 cursor-pointer hover:text-red-400 transition-colors"
+              onClick={(e) => {
                 e.stopPropagation();
                 handleDelete(post._id);
-            }}
-        >
-            <FaTrash className="w-4 h-4" />
+              }}
+            >
+              <FaTrash className="w-4 h-4" />
+            </div>
+          )}
+
+          {authUser?.role !== "admin" &&
+            post.createdby?._id !== authUser?._id && (
+              <button
+                className="flex items-center gap-1.5 text-xs hover:text-red-400 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleReport?.(post);
+                }}
+              >
+                <MdOutlineReport className="w-4 h-4" />
+                Report
+              </button>
+            )}
+
         </div>
-
-    )}
-
-    {/* Report */}
-
-{authUser?.role !== "admin" &&
- post.createdby?._id !== authUser?._id && (
-
-<button
-    onClick={(e)=>{
-        e.stopPropagation();
-        handleReport?.(post);
-    }}
->
-    Report
-</button>
-
-)}
-
-</div>
-
+      </div>
 
     </motion.div>
 

@@ -44,125 +44,140 @@ export const Signuppage = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen w-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden">
+    <div className="relative flex justify-center items-center min-h-screen w-screen bg-[#0B0E14] text-[#E6E8EB] overflow-hidden font-mono">
 
-      {/* Background glow */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-purple-600 opacity-30 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-pink-600 opacity-30 rounded-full blur-3xl animate-pulse"></div>
+      {/* subtle grid texture, consistent with landing + login pages */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#E6E8EB 1px, transparent 1px), linear-gradient(90deg, #E6E8EB 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-      {/* Signup Card */}
+      {/* Signup Card — editor window, same system as login */}
       <motion.form
         onSubmit={handleclick}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 backdrop-blur-xl bg-white/10 shadow-2xl rounded-2xl p-10 w-full max-w-md space-y-6"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="relative z-10 w-full max-w-md rounded-lg border border-white/10 bg-[#10141F] shadow-2xl overflow-hidden"
       >
-
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
-            Create Account
-          </h2>
-
+        {/* tab bar */}
+        <div className="flex items-center gap-2 px-4 py-3 bg-[#0D1017] border-b border-white/5">
+          <span className="w-3 h-3 rounded-full bg-[#F5A623]/70" />
+          <span className="w-3 h-3 rounded-full bg-[#8B7FD6]/70" />
+          <span className="w-3 h-3 rounded-full bg-[#2DD4BF]/70" />
+          <span className="ml-4 text-xs text-[#8B8FA3]">signup.js</span>
           <button
-            type="Button"
+            type="button"
             onClick={() => navigate("/")}
-            className="text-lg hover:text-red-400 transition"
+            className="ml-auto text-[#5C6370] hover:text-[#E6E8EB] transition-colors text-sm"
           >
             ✕
           </button>
         </div>
 
-        {/* Name */}
-        <div className="space-y-2">
-          <label className="text-gray-300 font-medium">Name</label>
+        <div className="p-8 space-y-6">
+          <p className="text-sm">
+            <span className="text-[#8B7FD6]">function</span>{" "}
+            <span className="text-[#2DD4BF]">signup</span>
+            <span className="text-[#5C6370]">() {"{"}</span>
+          </p>
 
-          <div className="flex items-center bg-black/40 border border-gray-600 rounded-lg px-3">
-            <User className="text-gray-400 w-5" />
-
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="bg-transparent w-full px-3 py-2 outline-none"
-              value={formdata.name}
-              onChange={(e) =>
-                setformdata({ ...formdata, name: e.target.value })
-              }
-            />
+          {/* Name */}
+          <div className="space-y-2 pl-4">
+            <label className="text-xs text-[#8B8FA3] tracking-wide">
+              name
+            </label>
+            <div className="flex items-center bg-[#0B0E14] border border-white/10 rounded-md px-3 focus-within:border-[#F5A623]/50 transition-colors">
+              <User className="text-[#5C6370] w-4 h-4 shrink-0" />
+              <input
+                type="text"
+                placeholder="Your name"
+                className="bg-transparent w-full px-3 py-2.5 text-sm outline-none placeholder:text-[#5C6370]"
+                value={formdata.name}
+                onChange={(e) =>
+                  setformdata({ ...formdata, name: e.target.value })
+                }
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Email */}
-        <div className="space-y-2">
-          <label className="text-gray-300 font-medium">Email</label>
-
-          <div className="flex items-center bg-black/40 border border-gray-600 rounded-lg px-3">
-            <Mail className="text-gray-400 w-5" />
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="bg-transparent w-full px-3 py-2 outline-none"
-              value={formdata.email}
-              onChange={(e) =>
-                setformdata({ ...formdata, email: e.target.value })
-              }
-            />
+          {/* Email */}
+          <div className="space-y-2 pl-4">
+            <label className="text-xs text-[#8B8FA3] tracking-wide">
+              email
+            </label>
+            <div className="flex items-center bg-[#0B0E14] border border-white/10 rounded-md px-3 focus-within:border-[#F5A623]/50 transition-colors">
+              <Mail className="text-[#5C6370] w-4 h-4 shrink-0" />
+              <input
+                type="email"
+                placeholder="you@example.com"
+                className="bg-transparent w-full px-3 py-2.5 text-sm outline-none placeholder:text-[#5C6370]"
+                value={formdata.email}
+                onChange={(e) =>
+                  setformdata({ ...formdata, email: e.target.value })
+                }
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Password */}
-        <div className="space-y-2">
-          <label className="text-gray-300 font-medium">Password</label>
-
-          <div className="flex items-center bg-black/40 border border-gray-600 rounded-lg px-3">
-            <Lock className="text-gray-400 w-5" />
-
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter password"
-              className="bg-transparent w-full px-3 py-2 outline-none"
-              value={formdata.password}
-              onChange={(e) =>
-                setformdata({ ...formdata, password: e.target.value })
-              }
-            />
-
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? (
-                <EyeOff className="w-5 text-gray-400" />
-              ) : (
-                <Eye className="w-5 text-gray-400" />
-              )}
-            </button>
+          {/* Password */}
+          <div className="space-y-2 pl-4">
+            <label className="text-xs text-[#8B8FA3] tracking-wide">
+              password
+            </label>
+            <div className="flex items-center bg-[#0B0E14] border border-white/10 rounded-md px-3 focus-within:border-[#F5A623]/50 transition-colors">
+              <Lock className="text-[#5C6370] w-4 h-4 shrink-0" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="At least 6 characters"
+                className="bg-transparent w-full px-3 py-2.5 text-sm outline-none placeholder:text-[#5C6370]"
+                value={formdata.password}
+                onChange={(e) =>
+                  setformdata({ ...formdata, password: e.target.value })
+                }
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="shrink-0"
+              >
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4 text-[#5C6370]" />
+                ) : (
+                  <Eye className="w-4 h-4 text-[#5C6370]" />
+                )}
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Submit */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          type="submit"
-          className="w-full bg-gradient-to-r from-pink-500 to-purple-400 py-2 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-500 transition"
-        >
-          Create Account
-        </motion.button>
+          <p className="text-sm text-[#5C6370]">{"}"}</p>
 
-        {/* Login redirect */}
-        <p className="text-center text-gray-400 text-sm">
-          Already have an account?{" "}
-          <span
-            onClick={() => navigate("/login")}
-            className="text-pink-400 cursor-pointer hover:underline"
+          {/* Submit */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            className="w-full bg-[#F5A623] text-[#0B0E14] py-3 rounded-md font-semibold hover:bg-[#ffb43d] transition-colors"
           >
-            Login
-          </span>
-        </p>
+            Create Account
+          </motion.button>
 
+          {/* Login redirect */}
+          <p className="text-center text-[#8B8FA3] text-sm">
+            <span className="text-[#5C6370]">// </span>
+            Already have an account?{" "}
+            <span
+              onClick={() => navigate("/login")}
+              className="text-[#2DD4BF] cursor-pointer hover:underline"
+            >
+              Login
+            </span>
+          </p>
+        </div>
       </motion.form>
     </div>
   );
