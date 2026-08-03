@@ -3,6 +3,9 @@ import Solution from "../models/solution.model.js";
 import User from "../models/users.model.js";
 import cloudinary from "../utils/cloudinary.js"
 import Groq from "groq-sdk";
+import { moderatePost } from "../services/aiModeration.js";
+
+
 
 export const createsol = async (req, res) => {
 
@@ -10,8 +13,17 @@ export const createsol = async (req, res) => {
   const userid = req.user._id.toString()
  
   const user = await User.findById(userid)
+  const moderation = await moderatePost({
+    doubt,
+    code,
+    language,
+    platform
+});
 
-  const upres = await cloudinary.uploader.upload(photo) 
+  const upres=""
+  if (photo != "") {
+     upres = await cloudinary.uploader.upload(photo)
+  }
   try {
     const newsol = new Solution({
       doubt: doubt,
@@ -20,7 +32,21 @@ export const createsol = async (req, res) => {
       link:link,
       language: language,
       platform: platform,
-      photo:upres.secure_url,
+      photo: (upres == "") ? "" : upres.secure_url,
+          aiModeration: {
+        riskScore: moderation.riskScore,
+        verdict: moderation.verdict,
+        spam: moderation.spam,
+        fraud: moderation.fraud,
+        toxicity: moderation.toxicity,
+        advertisement: moderation.advertisement,
+        malware: moderation.malware,
+        duplicate: moderation.duplicate,
+        explanation: moderation.reason,
+        moderatedAt: new Date()
+    },
+
+    isHidden: moderation.riskScore >= 70,
       createdby,
     });
 
@@ -33,6 +59,7 @@ export const createsol = async (req, res) => {
       return res.status(201).json({
         success: true,
         message: "solution created",
+        moderation
       });
     }
   } catch (error) {
@@ -106,7 +133,8 @@ export const updatesol = async (req, res) => {
 export const getsolbyid = async (req, res) => {
   try {
     const userid = req.user._id
-    const sols = await Solution.find({createdby:userid});
+    const sols = await Solution.find({ createdby: req.user._id })
+  .populate("createdby", "name profilephoto");
 
     return res.status(200).json({ sols });
   } catch (error) {
@@ -255,7 +283,13 @@ export const getbookmarks = async (req, res) => {
      if (!user) {
       return res.status(404).json({ error: "user not found" });
     }
-    const books= await user.populate("bookmarks")
+    const books = await user.populate({
+  path: "bookmarks",
+  populate: {
+    path: "createdby",
+    select: "name profilephoto"
+  }
+});
     // console.log(books)
     return res.status(200).json(books);
   } catch (error) {

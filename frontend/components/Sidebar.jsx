@@ -31,7 +31,7 @@ const SidebarWithNavbar = () => {
     {
       title: "content",
       items: [
-        { to: "/Posts", icon: <FaQuestionCircle />, label: "My Posts" },
+        { to: "/Posts", icon: <FaQuestionCircle />, label: "My Doubts" },
       ],
     },
   ];

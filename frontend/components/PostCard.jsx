@@ -52,11 +52,17 @@ const PostCard = ({
 
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full overflow-hidden border border-white/10 shrink-0">
-              <img
-                src={post.createdby?.profilephoto || "/avatar-placeholder.png"}
-                alt="avatar"
-                className="w-full h-full object-cover"
-              />
+{post.createdby?.profilephoto ? (
+    <img
+      src={post.createdby?.profilephoto}
+      alt="avatar"
+      className="w-full h-full object-cover"
+    />
+  ) : (
+    <span className="w-full h-full flex items-center justify-center text-lg font-semibold text-gray-700">
+      {post.createdby?.name?.charAt(0).toUpperCase()}
+    </span>
+  )}
             </div>
 
             <div>

@@ -37,7 +37,7 @@ const Bookmarks = () => {
   const handlepost = (e, post) => {
     e.preventDefault();
     selectedpost(post);
-    navigate("/view");
+    navigate("/Homepage/view");
   };
 
   const submitReport = async (reason) => {

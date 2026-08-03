@@ -91,31 +91,24 @@ const MyPosts = () => {
               </div>
             ) : (
               <PostCard
-                key={post._id}
-                post={post}
-                authUser={authUser}
-                onPostClick={handlepost}
-                handleComment={(post) => {
-                  console.log(post);
-                }}
-                handleLike={handleLikePost}
-                handleBookmark={handlebook}
-                handleDelete={handleDelete}
-                handleReport={(post) => {
-                  setSelectedPost(post);
-                  setOpenReport(true);
-                }}
-              />
+  key={post._id}
+  post={post}
+  authUser={authUser}
+  onPostClick={handlepost}
+  handleComment={(post) => {
+    console.log(post);
+  }}
+  handleLike={handleLikePost}
+  handleBookmark={handlebook}
+  handleDelete={handleDelete}
+  showReport={false}
+/>
             )
           )}
 
         </div>
 
-        <ReportModal
-          open={openReport}
-          onClose={() => setOpenReport(false)}
-          onSubmit={submitReport}
-        />
+
 
       </div>
     </div>

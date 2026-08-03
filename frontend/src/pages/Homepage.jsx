@@ -190,7 +190,7 @@ export const Homepage = () => {
           whileTap={{ scale: 0.97 }}
           className="fixed bottom-6 right-6 z-20 bg-[#F5A623] text-[#0B0E14] px-6 py-3 rounded-md font-semibold shadow-xl hover:bg-[#ffb43d] transition-colors flex items-center gap-2"
         >
-          <span className="text-lg leading-none">+</span> Upload Post
+          <span className="text-lg leading-none">+</span> Upload Doubt
         </motion.button>
       )}
     </motion.div>

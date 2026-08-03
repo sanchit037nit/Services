@@ -79,7 +79,57 @@ const doubtschema = new mongoose.Schema(
    isHidden:{
     type:Boolean,
     default:false
-    }
+    },
+   
+   aiModeration: {
+    riskScore: {
+        type: Number,
+        default: 0
+    },
+
+    verdict: {
+        type: String,
+        enum: ["Safe", "Review", "Blocked"],
+        default: "Safe"
+    },
+
+    explanation: {
+        type: String,
+        default: ""
+    },
+
+    spam: {
+        type: Number,
+        default: 0
+    },
+
+    fraud: {
+        type: Number,
+        default: 0
+    },
+
+    toxicity: {
+        type: Number,
+        default: 0
+    },
+
+    advertisement: {
+        type: Number,
+        default: 0
+    },
+
+    malware: {
+        type: Number,
+        default: 0
+    },
+
+    duplicate: {
+        type: Number,
+        default: 0
+    },
+
+    moderatedAt: Date
+},
 
   },
   { timestamps: true }
