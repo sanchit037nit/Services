@@ -308,7 +308,7 @@ export const sendMessage = async (req, res) => {
 
 try {
     const response = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile", // or another supported Groq model
+      model: "openai/gpt-oss-120b", // or another supported Groq model
       messages: [
         {
           role: "user",
