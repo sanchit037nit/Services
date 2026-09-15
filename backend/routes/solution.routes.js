@@ -1,7 +1,7 @@
 import express from "express"
 import { createsol,updatesol,deletesol,getsol, likeunlike, bookmark, commentonsolution, getbookmarks,getsolbyid,sendMessage} from "../controllers/solution.controller.js";
 import { protectroute } from "../middlewares/auth.middleware.js"
-import { runCode, checkStatus, } from "../controllers/compiler.controller.js";
+import { runCode } from "../controllers/compiler.controller.js";
 import { reportPost,getReportedPosts,deleteReportedPost,restorePost,rejectreport } from "../controllers/report.controller.js";
 import { isAdmin } from "../middlewares/admin.middleware.js"
 import { getDashboardStats } from "../controllers/dashboard.controller.js";
@@ -19,7 +19,7 @@ router.post("/bookmark/:id", protectroute, bookmark);
 router.post("/comment/:id", protectroute, commentonsolution);
 router.delete("/deletesol/:id", protectroute, deletesol)
 router.post("/run", runCode);
-router.get("/status/:token", checkStatus);
+// router.get("/status/:token", checkStatus);
 router.post("/:postId/report", protectroute, reportPost);
 router.get("/reported", protectroute, isAdmin, getReportedPosts);
 router.patch("/:postId/restore", protectroute, isAdmin, restorePost);

@@ -1,34 +1,29 @@
-import {executeCode,getResult,} from "../services/judge0.service.js";
+import { executeCode } from "../services/jdoodle.service.js";
 
 export const runCode = async (req, res) => {
-  try {
-    const { language, code, input } = req.body;
-    
-      const token = await executeCode(language, code, input);
-      console.log(token)
+    try {
+        const { language, code, input } = req.body;
 
-    res.json({
-      success: true,
-      token,
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: err.message,
-    });
-  }
-};
+        const result = await executeCode(
+            language,
+            code,
+            input
+        );
 
-export const checkStatus = async (req, res) => {
-  try {
-    const { token } = req.params;
+        console.log(result);
 
-    const result = await getResult(token);
+        res.json({
+            success: true,
+            result,
+        });
 
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({
-      error: err.message,
-    });
-  }
+    } catch (err) {
+
+        console.log("Run code error:", err);
+
+        res.status(500).json({
+            success: false,
+            error: err.message,
+        });
+    }
 };
