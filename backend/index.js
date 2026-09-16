@@ -16,7 +16,7 @@ app.use(express.json({ limit: '10mb' }))
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://services-ten-ashy.vercel.app"
+    "https://services-ten-ashy.vercel.app/"
 ];
 
 app.use(cors({
@@ -29,6 +29,7 @@ app.use(cors({
     },
     credentials: true
 }));
+
 app.use("/api/auth",useroutes)
 app.use("/api/sol", solroutes)
 
