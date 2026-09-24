@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useThemeStore } from "../store/useThemeStore";
 import { axiosinstance } from "../lib/axios";
 import Editor from "@monaco-editor/react";
 import "../assets/Compiler.css";
@@ -51,6 +52,7 @@ const extensions = {
 };
 
 export default function Compiler() {
+  const { theme } = useThemeStore();
   const [language, setLanguage] = useState("cpp");
   const [code, setCode] = useState(defaultCode.cpp);
   const [input, setInput] = useState("");
@@ -278,7 +280,7 @@ return (
           height="100%"
           language={language}
           value={code}
-          theme="vs-dark"
+          theme={theme === "dark" ? "vs-dark" : "vs-light"}
           onChange={(value) => setCode(value || "")}
           options={{
             fontSize: 16,

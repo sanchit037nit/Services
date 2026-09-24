@@ -63,7 +63,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-[#0B0E14] text-[#8B8FA3] font-mono text-sm">
+      <div className="flex justify-center items-center min-h-screen bg-[#f8fafc] dark:bg-[#0B0E14] text-[#8B8FA3] font-mono text-sm">
         Loading dashboard...
       </div>
     );
@@ -73,7 +73,7 @@ const Dashboard = () => {
 
   return (
 
-    <div className="relative min-h-screen w-full bg-[#0B0E14] text-[#E6E8EB] px-8 py-8 font-mono overflow-hidden">
+    <div className="relative min-h-screen w-full bg-[#f8fafc] dark:bg-[#0B0E14] text-[#0f172a] dark:text-[#E6E8EB] px-8 py-8 font-mono overflow-hidden">
 
       {/* subtle grid texture, consistent with the rest of the app */}
       <div
@@ -92,7 +92,7 @@ const Dashboard = () => {
             <span className="text-[#8B7FD6]">&gt;</span> dashboard
           </h1>
           <p className="text-[#8B8FA3] text-sm mt-1">
-            <span className="text-[#5C6370]">// </span>monitor users, reports and platform activity
+            <span className="text-[#64748b] dark:text-[#5C6370]">// </span>monitor users, reports and platform activity
           </p>
         </div>
 
@@ -135,7 +135,7 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
 
-          <div className="bg-[#10141F] border border-white/10 rounded-lg p-6 h-[400px]">
+          <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg p-6 h-[400px]">
             <h2 className="text-sm text-[#8B8FA3] tracking-wide mb-5">monthly posts</h2>
 
             <ResponsiveContainer width="100%" height="90%">
@@ -150,7 +150,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-[#10141F] border border-white/10 rounded-lg p-6 h-[400px]">
+          <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg p-6 h-[400px]">
             <h2 className="text-sm text-[#8B8FA3] tracking-wide mb-5">monthly reports</h2>
 
             <ResponsiveContainer width="100%" height="90%">
@@ -165,7 +165,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-[#10141F] border border-white/10 rounded-lg p-6 h-[400px]">
+          <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg p-6 h-[400px]">
             <h2 className="text-sm text-[#8B8FA3] tracking-wide mb-5">new users</h2>
 
             <ResponsiveContainer width="100%" height="90%">
@@ -185,7 +185,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-[#10141F] border border-white/10 rounded-lg p-6 h-[400px]">
+          <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg p-6 h-[400px]">
             <h2 className="text-sm text-[#8B8FA3] tracking-wide mb-5">posts status</h2>
 
             <ResponsiveContainer width="100%" height="90%">
@@ -206,14 +206,14 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-[#10141F] border border-white/10 rounded-lg p-6 xl:col-span-2 mt-2">
+          <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg p-6 xl:col-span-2 mt-2">
 
             <h2 className="text-sm text-[#8B8FA3] tracking-wide mb-5">recent reports</h2>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-white/10 text-[#5C6370] text-xs">
+                  <tr className="border-b border-black/10 dark:border-white/10 text-[#64748b] dark:text-[#5C6370] text-xs">
                     <th className="py-3 font-medium">reporter</th>
                     <th className="py-3 font-medium">post</th>
                     <th className="py-3 font-medium">reason</th>
@@ -224,15 +224,15 @@ const Dashboard = () => {
                   {dashboard?.recentReports?.map((report) => (
                     <tr
                       key={report._id}
-                      className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                      className="border-b border-black/5 dark:border-white/5 hover:bg-black/5 dark:bg-white/5 transition-colors"
                     >
                       <td className="py-3 flex items-center gap-3">
                         <img
                           src={report.reporter.profilephoto || "/avatar-placeholder.png"}
-                          className="w-8 h-8 rounded-full object-cover border border-white/10"
+                          className="w-8 h-8 rounded-full object-cover border border-black/10 dark:border-white/10"
                           alt="avatar"
                         />
-                        <span className="text-[#E6E8EB]">{report.reporter.name}</span>
+                        <span className="text-[#0f172a] dark:text-[#E6E8EB]">{report.reporter.name}</span>
                       </td>
 
                       <td className="py-3 text-[#8B8FA3]">
@@ -245,7 +245,7 @@ const Dashboard = () => {
                         </span>
                       </td>
 
-                      <td className="py-3 text-[#5C6370] text-xs">
+                      <td className="py-3 text-[#64748b] dark:text-[#5C6370] text-xs">
                         {new Date(report.createdAt).toLocaleDateString()}
                       </td>
                     </tr>

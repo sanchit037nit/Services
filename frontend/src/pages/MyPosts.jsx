@@ -51,7 +51,7 @@ const MyPosts = () => {
   }, [id]);
 
   return (
-    <div className="relative min-h-screen w-full bg-[#0B0E14] text-[#E6E8EB] flex flex-col items-center p-6 font-mono overflow-hidden">
+    <div className="relative min-h-screen w-full bg-[#f8fafc] dark:bg-[#0B0E14] text-[#0f172a] dark:text-[#E6E8EB] flex flex-col items-center p-6 font-mono overflow-hidden">
 
       {/* subtle grid texture, consistent with the rest of the app */}
       <div
@@ -65,16 +65,16 @@ const MyPosts = () => {
 
       <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
 
-        <div className="w-full flex items-center gap-2 border-b border-white/10 pb-4 mb-6">
+        <div className="w-full flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-4 mb-6">
           <span className="text-[#F5A623]">&gt;</span>
           <h2 className="text-xl font-bold tracking-tight">my_posts</h2>
-          <span className="text-[#5C6370] text-sm ml-auto">
+          <span className="text-[#64748b] dark:text-[#5C6370] text-sm ml-auto">
             {mysols?.length ?? 0} total
           </span>
         </div>
 
         {mysols?.length === 0 && (
-          <p className="text-[#5C6370] text-center py-8">
+          <p className="text-[#64748b] dark:text-[#5C6370] text-center py-8">
             No posts yet — anything you publish will show up here.
           </p>
         )}

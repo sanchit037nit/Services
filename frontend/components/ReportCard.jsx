@@ -28,17 +28,17 @@ const ReportCard = ({ report }) => {
 
   return (
 
-    <div className="bg-[#10141F] border border-white/10 rounded-lg p-6 font-mono">
+    <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-white/10 rounded-lg p-6 font-mono">
 
       {/* Header */}
       <div className="flex justify-between items-start gap-4 flex-wrap">
 
         <div>
-          <h2 className="text-base font-semibold text-[#E6E8EB]">
+          <h2 className="text-base font-semibold text-[#0f172a] dark:text-[#E6E8EB]">
             {report.post?.doubt}
           </h2>
 
-          <p className="text-[#5C6370] text-xs mt-1">
+          <p className="text-[#64748b] dark:text-[#5C6370] text-xs mt-1">
             posted by{" "}
             <span className="text-[#8B8FA3]">
               {report.post?.createdby?.name}
@@ -70,13 +70,13 @@ const ReportCard = ({ report }) => {
           {report.reports?.map((item) => (
             <div
               key={item._id}
-              className="bg-[#0B0E14] border border-white/10 rounded-md p-3"
+              className="bg-[#f8fafc] dark:bg-[#0B0E14] border border-white/10 rounded-md p-3"
             >
-              <p className="text-sm text-[#E6E8EB]">
+              <p className="text-sm text-[#0f172a] dark:text-[#E6E8EB]">
                 <span className="font-semibold text-[#8B7FD6]">
                   {item.reportedBy?.name}
                 </span>
-                <span className="text-[#5C6370]"> — </span>
+                <span className="text-[#64748b] dark:text-[#5C6370]"> — </span>
                 {item.reason}
               </p>
             </div>

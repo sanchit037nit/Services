@@ -41,7 +41,7 @@ const SidebarWithNavbar = () => {
       initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 70 }}
-      className="fixed top-0 left-0 h-screen w-64 bg-[#10141F] border-r border-white/10 text-[#E6E8EB] shadow-2xl flex flex-col z-50 font-mono"
+      className="fixed top-0 left-0 h-screen w-64 bg-[#fdf6e3] dark:bg-[#10141F] border-r border-white/10 text-[#0f172a] dark:text-[#E6E8EB] shadow-2xl flex flex-col z-50 font-mono"
     >
       {/* Logo */}
       <div className="px-6 py-5 border-b border-white/10">
@@ -55,7 +55,7 @@ const SidebarWithNavbar = () => {
       <div className="flex-1 px-3 mt-4 space-y-6 overflow-y-auto">
         {navGroups.map((group, idx) => (
           <div key={idx}>
-            <p className="text-[10px] uppercase tracking-widest text-[#5C6370] px-3 mb-2">
+            <p className="text-[10px] uppercase tracking-widest text-[#64748b] dark:text-[#5C6370] px-3 mb-2">
               // {group.title}
             </p>
 
@@ -67,7 +67,7 @@ const SidebarWithNavbar = () => {
                     className={`flex items-center gap-3 py-2.5 px-3 rounded-md text-sm transition-colors ${
                       isActive(item.to)
                         ? "bg-[#F5A623]/10 text-[#F5A623] border border-[#F5A623]/20"
-                        : "text-[#8B8FA3] hover:bg-white/5 hover:text-[#E6E8EB] border border-transparent"
+                        : "text-[#8B8FA3] hover:bg-white/5 hover:text-[#0f172a] dark:text-[#E6E8EB] border border-transparent"
                     }`}
                   >
                     <span className="text-base">{item.icon}</span>
@@ -103,7 +103,7 @@ const SidebarWithNavbar = () => {
           <div className="flex items-center gap-2 px-4 pb-4">
             <button
               onClick={logout}
-              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-md border border-white/10 hover:border-white/25 text-[#8B8FA3] hover:text-[#E6E8EB] transition-colors text-xs"
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-md border border-white/10 hover:border-white/25 text-[#8B8FA3] hover:text-[#0f172a] dark:text-[#E6E8EB] transition-colors text-xs"
               title="Logout"
             >
               <BiLogOut className="text-sm" />

@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "./App.css";
 
 import { useAuthstore } from "./store/useAuthstore.js";
+import { useThemeStore } from "./store/useThemeStore.js";
 
 // Public Pages
 import { Firstpage } from "./pages/Firstpage";
@@ -33,10 +34,13 @@ import Sidebar from "../components/Sidebar";
 const App = () => {
 
   const { authUser, checkauth, loading } = useAuthstore();
+  const { initTheme } = useThemeStore();
+  
   console.log(authUser)
   useEffect(() => {
     checkauth();
-  }, [checkauth]);
+    initTheme();
+  }, [checkauth, initTheme]);
 
   if (loading) {
     return (

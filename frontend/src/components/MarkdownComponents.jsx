@@ -6,7 +6,7 @@ export const markdownComponents = {
     if (isInline) {
       return (
         <code
-          className="bg-[#0B0E14] border border-white/10 text-[#2DD4BF] px-1.5 py-0.5 rounded text-[0.85em]"
+          className="bg-[#f8fafc] dark:bg-[#0B0E14] border border-black/10 dark:border-white/10 text-[#2DD4BF] px-1.5 py-0.5 rounded text-[0.85em]"
           {...props}
         >
           {children}
@@ -15,14 +15,14 @@ export const markdownComponents = {
     }
 
     return (
-      <div className="my-4 rounded-md border border-white/10 overflow-hidden inline-block w-full">
+      <div className="my-4 rounded-md border border-black/10 dark:border-white/10 overflow-hidden inline-block w-full">
         {match && (
-          <div className="px-4 py-2 bg-[#0D1017] border-b border-white/5 text-xs text-[#8B8FA3]">
+          <div className="px-4 py-2 bg-[#f8fafc] dark:bg-[#0B0E14] border-b border-black/5 dark:border-white/5 text-xs text-[#8B8FA3]">
             {match[1]}
           </div>
         )}
 
-        <div className="bg-[#0B0E14] p-4 overflow-x-auto m-0">
+        <div className="bg-[#f8fafc] dark:bg-[#0B0E14] p-4 overflow-x-auto m-0">
           <code className="text-[#2DD4BF] text-sm leading-relaxed" {...props}>
             {children}
           </code>

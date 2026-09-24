@@ -6,9 +6,11 @@ import Editor from "@monaco-editor/react";
 import { Send, Code2 } from "lucide-react";
 
 import { useSolution } from "../store/useSolutionstore";
+import { useThemeStore } from "../store/useThemeStore";
 import { markdownComponents } from "../components/MarkdownComponents";
 
 const Ask = () => {
+  const { theme } = useThemeStore();
 
   const {
     aires,
@@ -59,7 +61,7 @@ int main() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090D] text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#07090D] text-[#0f172a] dark:text-[#E6E8EB] relative overflow-hidden">
       {/* Background Grid */}
       <div
         className="absolute inset-0 opacity-[0.04]"
@@ -79,8 +81,9 @@ int main() {
           transition={{ duration: 0.4 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
+          <div className="flex items-center gap-3 mb-2 relative">
+            <div className="absolute inset-0 bg-[#2DD4BF] opacity-20 blur-xl rounded-full scale-150 -z-10" />
+            <div className="w-10 h-10 rounded-md bg-[#fdf6e3] dark:bg-[#10141F] backdrop-blur-md border border-black/20 dark:border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(45,212,191,0.2)]">
               <Code2 size={20} className="text-[#2DD4BF]" />
             </div>
 
@@ -97,11 +100,11 @@ int main() {
         {/* SIDEBAR + AI AREA */}
         <div className="flex gap-4 items-start">
           {/* ================= SIDEBAR ================= */}
-          <div className="w-64 shrink-0 bg-[#0B0E14] border border-white/10 rounded-md p-4">
+          <div className="w-64 shrink-0 bg-[#f8fafc] dark:bg-[#0B0E14] border border-black/10 dark:border-white/10 rounded-md p-4">
             {/* New Chat */}
             <button
               onClick={createAIConversation}
-              className="w-full px-4 py-2 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 text-sm text-gray-300 transition"
+              className="w-full px-4 py-2 rounded-md border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-[#fdf6e3] dark:bg-[#10141F] text-sm text-[#0f172a] dark:text-gray-300 transition"
             >
               + New Chat
             </button>
@@ -114,7 +117,7 @@ int main() {
             {/* Conversations */}
             <div className="space-y-1 max-h-[450px] overflow-y-auto">
               {aiConversations.length === 0 ? (
-                <p className="text-[#5C6370] text-xs px-2 py-3">
+                <p className="text-[#64748b] dark:text-[#5C6370] text-xs px-2 py-3">
                   No conversations yet.
                 </p>
               ) : (
@@ -128,8 +131,8 @@ int main() {
                                                 ${
                                                   currentConversationId ===
                                                   conversation._id
-                                                    ? "bg-white/10 text-white"
-                                                    : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                                                    ? "bg-[#fdf6e3] dark:bg-[#10141F] text-[#0f172a] dark:text-[#E6E8EB]"
+                                                    : "text-gray-600 dark:text-gray-400 hover:bg-black/5 dark:bg-white/5 hover:text-[#0f172a] dark:text-gray-200"
                                                 }
                                             `}
                     title={conversation.title}
@@ -143,27 +146,28 @@ int main() {
 
           {/* ================= AI CARD ================= */}
           <div className="flex-1 min-w-0">
-            <div className="bg-[#10141F] border border-white/10 rounded-lg shadow-2xl overflow-hidden">
+            <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg shadow-2xl overflow-hidden">
               {/* ================= TOP BAR ================= */}
-              <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between bg-[#0D1017]">
+              <div className="px-5 py-3 border-b border-black/10 dark:border-white/10 flex items-center justify-between bg-black/5 dark:bg-white/5 backdrop-blur-md sticky top-0 z-10">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#2DD4BF]" />
+                  <div className="w-2 h-2 rounded-full bg-[#2DD4BF] shadow-[0_0_8px_#2DD4BF]" />
 
-                  <span className="text-sm text-gray-300">Codezy AI</span>
+                  <span className="text-sm text-[#0f172a] dark:text-gray-200 font-medium tracking-wide">Codezy AI</span>
                 </div>
 
-                <span className="text-xs text-[#5C6370]">RAG powered</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 px-2 py-1 rounded-full border border-[#2DD4BF]/20">RAG powered</span>
               </div>
 
               {/* ================= QUESTION ================= */}
-              <div className="p-5 border-b border-white/10">
+              <div className="p-5 border-b border-black/10 dark:border-white/10 relative overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#2DD4BF] opacity-5 blur-[60px] rounded-full pointer-events-none" />
                 <textarea
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask something about Codezy..."
                   rows={4}
-                  className="w-full resize-none bg-[#0B0E14] border border-white/10 rounded-md px-4 py-3 text-sm text-gray-200 placeholder:text-[#5C6370] outline-none focus:border-white/20 transition"
+                  className="w-full resize-none bg-black/5 dark:bg-white/5 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-lg px-4 py-3 text-sm text-[#0f172a] dark:text-gray-200 placeholder:text-[#64748b] dark:text-[#5C6370] outline-none focus:border-[#2DD4BF]/50 focus:ring-1 focus:ring-[#2DD4BF]/30 transition-all shadow-inner"
                 />
 
                 {/* Bottom Controls */}
@@ -174,8 +178,8 @@ int main() {
                                             flex items-center gap-2 px-3 py-2 rounded-md text-xs transition
                                             ${
                                               showCode
-                                                ? "bg-white/10 text-white border border-white/20"
-                                                : "bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10"
+                                                ? "bg-[#fdf6e3] dark:bg-[#10141F] text-[#0f172a] dark:text-[#E6E8EB] border border-black/20 dark:border-white/20"
+                                                : "bg-black/5 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-black/10 dark:border-white/10 hover:bg-[#fdf6e3] dark:bg-[#10141F]"
                                             }
                                         `}
                   >
@@ -198,19 +202,19 @@ int main() {
 
               {/* ================= CODE EDITOR ================= */}
               {showCode && (
-                <div className="border-b border-white/10">
-                  <div className="px-4 py-2 bg-[#0D1017] border-b border-white/5 flex items-center justify-between">
+                <div className="border-b border-black/10 dark:border-white/10">
+                  <div className="px-4 py-2 bg-[#f8fafc] dark:bg-[#0B0E14] border-b border-black/5 dark:border-white/5 flex items-center justify-between">
                     <span className="text-xs text-[#8B8FA3]">
                       Attached Code
                     </span>
 
-                    <span className="text-xs text-[#5C6370]">C++</span>
+                    <span className="text-xs text-[#64748b] dark:text-[#5C6370]">C++</span>
                   </div>
 
                   <Editor
                     height="300px"
                     defaultLanguage="cpp"
-                    theme="vs-dark"
+                    theme={theme === "dark" ? "vs-dark" : "vs-light"}
                     value={code}
                     onChange={(value) => setCode(value || "")}
                     options={{
@@ -240,14 +244,14 @@ int main() {
     </p>
 
     {loading && (
-      <span className="text-xs text-[#5C6370]">
+      <span className="text-xs text-[#64748b] dark:text-[#5C6370]">
         Generating...
       </span>
     )}
 
   </div>
 
-  <div className="bg-[#0B0E14] rounded-md p-6 max-h-[500px] overflow-y-auto border border-white/10">
+  <div className="bg-[#f8fafc] dark:bg-[#0B0E14] rounded-md p-6 max-h-[500px] overflow-y-auto border border-black/10 dark:border-white/10">
 
     {/* ================= CONVERSATION HISTORY ================= */}
 
@@ -260,46 +264,45 @@ int main() {
           <div key={index}>
 
             {/* USER MESSAGE */}
-
             {message.role === "user" && (
-
-              <div className="mb-3">
-
-                <p className="text-[#5C6370] text-xs uppercase tracking-widest mb-2">
-                  You
-                </p>
-
-                <div className="bg-white/5 border border-white/10 rounded-md px-4 py-3 text-sm text-gray-200">
+              <motion.div 
+                initial={{ opacity: 0, y: 15, scale: 0.98 }} 
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="mb-6 flex flex-col items-end"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="text-[#64748b] dark:text-[#5C6370] text-[10px] uppercase tracking-widest font-semibold">You</p>
+                </div>
+                <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-black/10 dark:border-white/10 rounded-2xl rounded-tr-sm px-5 py-3 text-sm text-[#0f172a] dark:text-gray-200 shadow-lg max-w-[85%]">
                   {message.content}
                 </div>
-
-              </div>
-
+              </motion.div>
             )}
 
             {/* AI MESSAGE */}
-
             {message.role === "assistant" && (
-
-              <div>
-
-                <p className="text-[#5C6370] text-xs uppercase tracking-widest mb-2">
-                  Codezy AI
-                </p>
-
-                <div className="text-sm text-gray-300 leading-relaxed">
-
+              <motion.div
+                initial={{ opacity: 0, y: 15, scale: 0.98 }} 
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="mb-6 flex flex-col items-start"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-5 h-5 rounded bg-[#fdf6e3] dark:bg-[#10141F] border border-black/20 dark:border-white/20 flex items-center justify-center">
+                    <Code2 size={12} className="text-[#2DD4BF]" />
+                  </div>
+                  <p className="text-[#2DD4BF] text-[10px] uppercase tracking-widest font-semibold">Codezy AI</p>
+                </div>
+                <div className="text-sm text-[#0f172a] dark:text-gray-300 leading-relaxed bg-[#f8fafc] dark:bg-[#0B0E14] border border-black/5 dark:border-white/5 rounded-2xl rounded-tl-sm px-5 py-4 w-full shadow-md">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={markdownComponents}
                   >
                     {message.content}
                   </ReactMarkdown>
-
                 </div>
-
-              </div>
-
+              </motion.div>
             )}
 
           </div>
@@ -314,7 +317,7 @@ int main() {
 
     {loading && !airesp ? (
 
-      <div className="flex items-center gap-2 text-[#5C6370] mt-6">
+      <div className="flex items-center gap-2 text-[#64748b] dark:text-[#5C6370] mt-6">
 
         <span className="animate-pulse">
           Thinking...
@@ -346,34 +349,38 @@ int main() {
 
     ) : airesp ? (
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-col items-start relative">
+        {/* Glow effect while generating */}
+        {loading && <div className="absolute top-10 left-10 w-48 h-48 bg-[#2DD4BF] opacity-[0.03] blur-[80px] rounded-full pointer-events-none" />}
+        
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-5 h-5 rounded bg-[#2DD4BF]/20 border border-[#2DD4BF]/40 flex items-center justify-center shadow-[0_0_10px_rgba(45,212,191,0.2)]">
+            <Code2 size={12} className="text-[#2DD4BF]" />
+          </div>
+          <p className="text-[#2DD4BF] text-[10px] uppercase tracking-widest font-semibold">
+            Codezy AI
+          </p>
+        </div>
 
-        <p className="text-[#5C6370] text-xs uppercase tracking-widest mb-2">
-          Codezy AI
-        </p>
-
-        {/* Markdown Answer */}
-
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={markdownComponents}
-        >
-          {airesp}
-        </ReactMarkdown>
-
-        {/* Streaming Cursor */}
-
-        {loading && (
-          <span className="inline-block ml-1 text-[#8B93A7] animate-pulse">
-            ▌
-          </span>
-        )}
+        <div className="text-sm text-[#0f172a] dark:text-gray-300 leading-relaxed bg-[#f8fafc] dark:bg-[#0B0E14] border border-[#2DD4BF]/10 rounded-2xl rounded-tl-sm px-5 py-4 w-full shadow-md transition-all duration-300">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={markdownComponents}
+          >
+            {airesp}
+          </ReactMarkdown>
+          
+          {/* Streaming Cursor */}
+          {loading && (
+            <span className="inline-block ml-1 w-2 h-4 bg-[#2DD4BF] animate-pulse rounded-sm align-middle shadow-[0_0_8px_#2DD4BF]"></span>
+          )}
+        </div>
 
         {/* Sources */}
 
         {!loading && airesources?.length > 0 && (
 
-          <div className="mt-6 pt-4 border-t border-white/10">
+          <div className="mt-6 pt-4 border-t border-black/10 dark:border-white/10">
 
             <p className="text-[#8B93A7] text-xs tracking-widest uppercase mb-3">
               Sources
@@ -385,7 +392,7 @@ int main() {
 
                 <span
                   key={index}
-                  className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-gray-400"
+                  className="px-3 py-1.5 rounded-md bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-xs text-gray-600 dark:text-gray-400"
                 >
                   {source}
                 </span>
@@ -406,16 +413,16 @@ int main() {
 
       <div className="flex flex-col items-center justify-center py-16">
 
-        <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+        <div className="w-12 h-12 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-4">
 
           <Code2
             size={20}
-            className="text-[#5C6370]"
+            className="text-[#64748b] dark:text-[#5C6370]"
           />
 
         </div>
 
-        <p className="text-[#5C6370] text-sm">
+        <p className="text-[#64748b] dark:text-[#5C6370] text-sm">
           Ask a question to begin.
         </p>
 

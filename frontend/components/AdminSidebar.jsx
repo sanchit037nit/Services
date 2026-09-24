@@ -18,7 +18,7 @@ const AdminSidebar = () => {
   ];
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-64 bg-[#10141F] border-r border-white/10 text-[#E6E8EB] shadow-2xl z-50 flex flex-col font-mono">
+    <aside className="fixed top-0 left-0 h-screen w-64 bg-[#fdf6e3] dark:bg-[#10141F] border-r border-white/10 text-[#0f172a] dark:text-[#E6E8EB] shadow-2xl z-50 flex flex-col font-mono">
 
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
@@ -35,11 +35,11 @@ const AdminSidebar = () => {
           {authUser?.name?.[0]?.toUpperCase()}
         </div>
 
-        <h2 className="mt-3 text-sm font-semibold text-[#E6E8EB]">
+        <h2 className="mt-3 text-sm font-semibold text-[#0f172a] dark:text-[#E6E8EB]">
           {authUser?.name}
         </h2>
 
-        <p className="text-xs text-[#5C6370] mt-0.5">
+        <p className="text-xs text-[#64748b] dark:text-[#5C6370] mt-0.5">
           <span className="text-[#8B7FD6]">●</span> administrator
         </p>
 
@@ -56,7 +56,7 @@ const AdminSidebar = () => {
               `flex items-center gap-3 px-4 py-3 rounded-md text-sm transition-colors ${
                 isActive
                   ? "bg-[#8B7FD6]/10 text-[#8B7FD6] border border-[#8B7FD6]/20"
-                  : "text-[#8B8FA3] hover:bg-white/5 hover:text-[#E6E8EB] border border-transparent"
+                  : "text-[#8B8FA3] hover:bg-white/5 hover:text-[#0f172a] dark:text-[#E6E8EB] border border-transparent"
               }`
             }
           >

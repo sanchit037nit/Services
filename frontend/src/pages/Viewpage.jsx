@@ -32,7 +32,7 @@ const Viewpage = () => {
 
   return (
 
-    <div className="flex flex-col items-center px-4 py-6 gap-4 relative min-h-screen bg-[#0B0E14] text-[#E6E8EB] overflow-hidden w-full font-mono">
+    <div className="flex flex-col items-center px-4 py-6 gap-4 relative min-h-screen bg-[#f8fafc] dark:bg-[#0B0E14] text-[#0f172a] dark:text-[#E6E8EB] overflow-hidden w-full font-mono">
 
       {/* subtle grid texture, consistent with the rest of the app */}
       <div
@@ -48,10 +48,10 @@ const Viewpage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="relative z-10 w-full max-w-3xl bg-[#10141F] border border-white/10 rounded-lg shadow-2xl overflow-hidden"
+        className="relative z-10 w-full max-w-3xl bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg shadow-2xl overflow-hidden"
       >
         {/* tab bar — matches the editor-window motif used elsewhere */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-[#0D1017] border-b border-white/5">
+        <div className="flex items-center gap-2 px-4 py-3 bg-[#f8fafc] dark:bg-[#0B0E14] border-b border-black/5 dark:border-white/5">
           <span className="w-3 h-3 rounded-full bg-[#F5A623]/70" />
           <span className="w-3 h-3 rounded-full bg-[#8B7FD6]/70" />
           <span className="w-3 h-3 rounded-full bg-[#2DD4BF]/70" />
@@ -65,7 +65,7 @@ const Viewpage = () => {
           {/* Header */}
           <div className="flex items-center gap-3 mb-2 justify-between flex-wrap">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 shrink-0">
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-black/10 dark:border-white/10 shrink-0">
                 <img
                   src={selpost?.createdby?.profilephoto || "/avatar-placeholder.png"}
                   alt="avatar"
@@ -73,10 +73,10 @@ const Viewpage = () => {
                 />
               </div>
               <div>
-                <div className="font-semibold text-sm text-[#E6E8EB]">
+                <div className="font-semibold text-sm text-[#0f172a] dark:text-[#E6E8EB]">
                   {selpost?.createdby?.name}
                 </div>
-                <div className="text-xs text-[#5C6370]">@{selpost?.platform}</div>
+                <div className="text-xs text-[#64748b] dark:text-[#5C6370]">@{selpost?.platform}</div>
               </div>
             </div>
             <div className="flex gap-2">
@@ -93,22 +93,22 @@ const Viewpage = () => {
           <h2 className="text-sm font-semibold text-[#8B8FA3] tracking-wide mt-6 mb-1">
             // about contest
           </h2>
-          <p className="text-[#E6E8EB] text-sm leading-relaxed">{selpost?.doubt}</p>
+          <p className="text-[#0f172a] dark:text-[#E6E8EB] text-sm leading-relaxed">{selpost?.doubt}</p>
 
           <h2 className="text-sm font-semibold text-[#8B8FA3] tracking-wide mt-5 mb-1">
             // problem description
           </h2>
-          <p className="text-[#E6E8EB] text-sm leading-relaxed">{selpost?.description}</p>
+          <p className="text-[#0f172a] dark:text-[#E6E8EB] text-sm leading-relaxed">{selpost?.description}</p>
 
           <h2 className="text-sm font-semibold text-[#8B8FA3] tracking-wide mt-5 mb-2">
             // your code
           </h2>
-          <pre className="bg-[#0B0E14] border border-white/10 text-[#2DD4BF] text-sm p-4 rounded-md overflow-x-auto">
+          <pre className="bg-[#f8fafc] dark:bg-[#0B0E14] border border-black/10 dark:border-white/10 text-[#2DD4BF] text-sm p-4 rounded-md overflow-x-auto">
             {selpost?.code}
           </pre>
 
           {selpost?.photo && (
-            <div className="w-full flex justify-center rounded-md overflow-hidden bg-[#0B0E14] border border-white/10 mt-5">
+            <div className="w-full flex justify-center rounded-md overflow-hidden bg-[#f8fafc] dark:bg-[#0B0E14] border border-black/10 dark:border-white/10 mt-5">
               <img
                 src={selpost.photo}
                 alt="attachment"
@@ -118,7 +118,7 @@ const Viewpage = () => {
           )}
 
           {/* Actions */}
-          <div className="flex gap-6 mt-5 pt-4 border-t border-white/5 text-[#5C6370] justify-between">
+          <div className="flex gap-6 mt-5 pt-4 border-t border-black/5 dark:border-white/5 text-[#64748b] dark:text-[#5C6370] justify-between">
             <div className="flex items-center gap-1.5 cursor-pointer hover:text-[#2DD4BF] transition-colors">
               <FaRegComment className="w-4 h-4" />
               <span className="text-sm">{selpost?.comments?.length}</span>
@@ -152,16 +152,16 @@ const Viewpage = () => {
           </div>
 
           {/* Comments */}
-          <div className="w-full rounded-md bg-[#0B0E14] border border-white/10 p-5 mt-6">
+          <div className="w-full rounded-md bg-[#f8fafc] dark:bg-[#0B0E14] border border-black/10 dark:border-white/10 p-5 mt-6">
 
-            <h3 className="font-semibold text-sm text-[#E6E8EB] border-b border-white/5 pb-3 mb-4">
+            <h3 className="font-semibold text-sm text-[#0f172a] dark:text-[#E6E8EB] border-b border-black/5 dark:border-white/5 pb-3 mb-4">
               Comments
             </h3>
 
             <div className="flex flex-col gap-3 max-h-64 overflow-y-auto pr-2">
 
               {selpost?.comments?.length === 0 && (
-                <p className="text-sm text-[#5C6370] text-center py-4">
+                <p className="text-sm text-[#64748b] dark:text-[#5C6370] text-center py-4">
                   No comments yet — be the first one.
                 </p>
               )}
@@ -169,9 +169,9 @@ const Viewpage = () => {
               {selpost?.comments?.map((comment) => (
                 <div
                   key={comment._id}
-                  className="flex gap-3 items-start bg-[#10141F] rounded-md p-3 border border-white/5"
+                  className="flex gap-3 items-start bg-[#fdf6e3] dark:bg-[#10141F] rounded-md p-3 border border-black/5 dark:border-white/5"
                 >
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-white/10">
+                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-black/10 dark:border-white/10">
                     <img
                       src={selpost?.createdby?.profilephoto || "/avatar-placeholder.png"}
                       alt="avatar"
@@ -181,10 +181,10 @@ const Viewpage = () => {
 
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-sm text-[#E6E8EB]">
+                      <span className="font-semibold text-sm text-[#0f172a] dark:text-[#E6E8EB]">
                         {selpost?.createdby?.name}
                       </span>
-                      <span className="text-[#5C6370] text-xs">
+                      <span className="text-[#64748b] dark:text-[#5C6370] text-xs">
                         @{selpost?.platform}
                       </span>
                     </div>
@@ -200,11 +200,11 @@ const Viewpage = () => {
 
             {/* Comment Input */}
             <form
-              className="flex gap-3 items-end mt-4 border-t border-white/5 pt-4"
+              className="flex gap-3 items-end mt-4 border-t border-black/5 dark:border-white/5 pt-4"
               onSubmit={(e) => handlePostComment(e, selpost._id, comm)}
             >
               <textarea
-                className="w-full bg-[#10141F] text-[#E6E8EB] p-3 rounded-md text-sm resize-none border border-white/10 outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#5C6370]"
+                className="w-full bg-[#fdf6e3] dark:bg-[#10141F] text-[#0f172a] dark:text-[#E6E8EB] p-3 rounded-md text-sm resize-none border border-black/10 dark:border-white/10 outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#64748b] dark:text-[#5C6370]"
                 placeholder="Write a comment..."
                 value={comm}
                 onChange={(e) => setComment(e.target.value)}

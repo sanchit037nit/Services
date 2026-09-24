@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Particles from "react-tsparticles";
 import { Typewriter } from "react-simple-typewriter";
+import { useThemeStore } from "../store/useThemeStore.js";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 export const Firstpage = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
-    <div className="relative min-h-screen bg-[#0B0E14] text-[#E6E8EB] overflow-hidden font-mono">
+    <div className="relative min-h-screen bg-[#f8fafc] dark:bg-[#0B0E14] text-[#0f172a] dark:text-[#E6E8EB] overflow-hidden font-mono">
 
       {/* subtle grid texture instead of glowing particles */}
       <div
@@ -35,15 +38,21 @@ export const Firstpage = () => {
       />
 
       {/* NAVBAR */}
-      <nav className="relative z-10 flex justify-between items-center px-8 md:px-12 py-6 border-b border-white/5">
+      <nav className="relative z-10 flex justify-between items-center px-8 md:px-12 py-6 border-b border-black/5 dark:border-white/5">
         <h1 className="text-xl font-bold tracking-tight">
           <span className="text-[#F5A623]">&gt;</span> codezy
           <span className="animate-pulse text-[#F5A623]">_</span>
         </h1>
-        <div className="flex gap-6 text-sm text-[#8B8FA3]">
+        <div className="flex items-center gap-6 text-sm text-[#8B8FA3]">
+          <button
+            onClick={toggleTheme}
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-black/10 dark:border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-[#fdf6e3] dark:bg-[#10141F] transition-colors shadow-sm"
+          >
+            {theme === "dark" ? <FaSun size={14} className="text-[#F5A623]" /> : <FaMoon size={14} className="text-[#8B7FD6]" />}
+          </button>
           <button
             onClick={() => navigate("/login")}
-            className="hover:text-[#E6E8EB] transition-colors"
+            className="hover:text-[#0f172a] dark:text-[#E6E8EB] transition-colors"
           >
             login
           </button>
@@ -62,10 +71,10 @@ export const Firstpage = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-2xl rounded-lg border border-white/10 bg-[#10141F] shadow-2xl overflow-hidden text-left"
+          className="w-full max-w-2xl rounded-lg border border-black/10 dark:border-white/10 bg-[#fdf6e3] dark:bg-[#10141F] shadow-2xl overflow-hidden text-left"
         >
           {/* tab bar */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-[#0D1017] border-b border-white/5">
+          <div className="flex items-center gap-2 px-4 py-3 bg-[#f8fafc] dark:bg-[#0B0E14] border-b border-black/5 dark:border-white/5">
             <span className="w-3 h-3 rounded-full bg-[#F5A623]/70" />
             <span className="w-3 h-3 rounded-full bg-[#8B7FD6]/70" />
             <span className="w-3 h-3 rounded-full bg-[#2DD4BF]/70" />
@@ -74,11 +83,11 @@ export const Firstpage = () => {
 
           {/* code body */}
           <div className="px-6 py-8 text-lg leading-relaxed">
-            <p className="text-[#5C6370]">// a home for developers</p>
+            <p className="text-[#64748b] dark:text-[#5C6370]">// a home for developers</p>
             <p className="mt-1">
               <span className="text-[#8B7FD6]">const</span>{" "}
-              <span className="text-[#E6E8EB]">welcome</span>{" "}
-              <span className="text-[#5C6370]">=</span>{" "}
+              <span className="text-[#0f172a] dark:text-[#E6E8EB]">welcome</span>{" "}
+              <span className="text-[#64748b] dark:text-[#5C6370]">=</span>{" "}
               <span className="text-[#2DD4BF]">
                 "
                 <Typewriter
@@ -92,7 +101,7 @@ export const Firstpage = () => {
                 />
                 "
               </span>
-              <span className="text-[#5C6370]">;</span>
+              <span className="text-[#64748b] dark:text-[#5C6370]">;</span>
             </p>
           </div>
         </motion.div>
@@ -145,10 +154,10 @@ const FeatureCard = ({ icon, title, desc }) => {
     <motion.div
       whileHover={{ y: -4, borderColor: "rgba(245,166,35,0.35)" }}
       transition={{ type: "spring", stiffness: 250 }}
-      className="bg-[#10141F] p-6 rounded-lg border border-white/10"
+      className="bg-[#fdf6e3] dark:bg-[#10141F] p-6 rounded-lg border border-black/10 dark:border-white/10"
     >
-      <span className="text-xs text-[#5C6370]">{icon}</span>
-      <h2 className="text-base font-semibold mt-2 mb-2 text-[#E6E8EB]">
+      <span className="text-xs text-[#64748b] dark:text-[#5C6370]">{icon}</span>
+      <h2 className="text-base font-semibold mt-2 mb-2 text-[#0f172a] dark:text-[#E6E8EB]">
         {title}
       </h2>
       <p className="text-sm text-[#8B8FA3] leading-relaxed">{desc}</p>

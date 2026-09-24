@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useAuthstore } from "../store/useAuthstore.js";
 import { useNavigate } from "react-router-dom";
 import { useSolution } from "../store/useSolutionstore.js";
-import { FaRegHeart, FaTrash, FaRegComment } from "react-icons/fa";
+import { useThemeStore } from "../store/useThemeStore.js";
+import { FaRegHeart, FaTrash, FaRegComment, FaMoon, FaSun } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import PostCard from "../../components/PostCard";
 import ReportModal from "../../components/ReportModal";
 import { useReportStore } from "../store/useReportStore";
@@ -22,6 +23,8 @@ export const Homepage = () => {
   const id = authUser?._id;
   const [openReport, setOpenReport] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  
+  const { theme, toggleTheme } = useThemeStore();
 
   useEffect(() => {
     getsol();
@@ -89,7 +92,7 @@ export const Homepage = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative min-h-screen bg-[#0B0E14] text-[#E6E8EB] w-full font-mono"
+      className="relative min-h-screen bg-[#f8fafc] dark:bg-[#0B0E14] text-[#0f172a] dark:text-[#E6E8EB] w-full font-mono"
     >
       {/* subtle grid texture, consistent with the rest of the app */}
       <div
@@ -102,45 +105,57 @@ export const Homepage = () => {
       />
 
       {/* Search bar — styled as a filter toolbar / command bar */}
-      <div className="sticky top-0 z-20 backdrop-blur-lg bg-[#0B0E14]/80 border-b border-white/5">
-        <div className="flex flex-col md:flex-row justify-center items-center gap-3 p-4 max-w-5xl mx-auto">
-          <div className="flex-1 max-w-xl w-full flex items-center bg-[#10141F] border border-white/10 rounded-md px-4 focus-within:border-[#F5A623]/50 transition-colors">
-            <span className="text-[#5C6370] text-sm mr-2">$</span>
-            <input
-              type="text"
-              placeholder="search solutions..."
-              className="w-full bg-transparent py-2.5 text-sm outline-none placeholder:text-[#5C6370]"
-              value={search}
-              onChange={(e) => setsearch(e.target.value)}
-            />
+      <div className="sticky top-0 z-20 backdrop-blur-xl bg-white/[0.02] border-b border-black/10 dark:border-white/10 shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 p-4 max-w-6xl mx-auto">
+          
+          <div className="flex flex-1 items-center gap-3 w-full">
+            <div className="flex-1 max-w-xl flex items-center bg-black/5 dark:bg-white/5 backdrop-blur-md border border-black/10 dark:border-white/10 rounded-xl px-4 py-1 shadow-inner focus-within:border-[#2DD4BF]/50 focus-within:ring-1 focus-within:ring-[#2DD4BF]/30 transition-all">
+              <span className="text-[#64748b] dark:text-[#5C6370] text-sm mr-2">$</span>
+              <input
+                type="text"
+                placeholder="Search solutions..."
+                className="w-full bg-transparent py-2 text-sm outline-none placeholder:text-[#64748b] dark:text-[#5C6370] text-[#0f172a] dark:text-[#E6E8EB]"
+                value={search}
+                onChange={(e) => setsearch(e.target.value)}
+              />
+            </div>
+
+            <select
+              className="border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm bg-black/5 dark:bg-white/5 backdrop-blur-md text-[#0f172a] dark:text-[#E6E8EB] outline-none focus:border-[#2DD4BF]/50 focus:ring-1 focus:ring-[#2DD4BF]/30 transition-all cursor-pointer shadow-inner"
+              value={sort || ""}
+              onChange={(e) =>
+                e.target.value === "" ? setsort(null) : setsort(e.target.value)
+              }
+            >
+              <option value="" className="bg-[#f8fafc] dark:bg-[#0B0E14]">All platforms</option>
+              <option value="Codeforces" className="bg-[#f8fafc] dark:bg-[#0B0E14]">Codeforces</option>
+              <option value="Leetcode" className="bg-[#f8fafc] dark:bg-[#0B0E14]">Leetcode</option>
+              <option value="Atcoder" className="bg-[#f8fafc] dark:bg-[#0B0E14]">Atcoder</option>
+            </select>
+
+            <select
+              className="border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm bg-black/5 dark:bg-white/5 backdrop-blur-md text-[#0f172a] dark:text-[#E6E8EB] outline-none focus:border-[#2DD4BF]/50 focus:ring-1 focus:ring-[#2DD4BF]/30 transition-all cursor-pointer shadow-inner"
+              value={lang || ""}
+              onChange={(e) =>
+                e.target.value === "" ? setlang(null) : setlang(e.target.value)
+              }
+            >
+              <option value="" className="bg-[#f8fafc] dark:bg-[#0B0E14]">All languages</option>
+              <option value="C" className="bg-[#f8fafc] dark:bg-[#0B0E14]">C</option>
+              <option value="C++" className="bg-[#f8fafc] dark:bg-[#0B0E14]">C++</option>
+              <option value="Python" className="bg-[#f8fafc] dark:bg-[#0B0E14]">Python</option>
+              <option value="Java" className="bg-[#f8fafc] dark:bg-[#0B0E14]">Java</option>
+            </select>
           </div>
 
-          <select
-            className="border border-white/10 rounded-md px-4 py-2.5 text-sm bg-[#10141F] text-[#E6E8EB] outline-none focus:border-[#F5A623]/50 transition-colors"
-            value={sort || ""}
-            onChange={(e) =>
-              e.target.value === "" ? setsort(null) : setsort(e.target.value)
-            }
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleTheme}
+            className="flex items-center justify-center w-11 h-11 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md text-[#0f172a] dark:text-[#E6E8EB] hover:bg-[#fdf6e3] dark:bg-[#10141F] transition-colors shadow-lg"
           >
-            <option value="">All platforms</option>
-            <option value="Codeforces">Codeforces</option>
-            <option value="Leetcode">Leetcode</option>
-            <option value="Atcoder">Atcoder</option>
-          </select>
-
-          <select
-            className="border border-white/10 rounded-md px-4 py-2.5 text-sm bg-[#10141F] text-[#E6E8EB] outline-none focus:border-[#F5A623]/50 transition-colors"
-            value={lang || ""}
-            onChange={(e) =>
-              e.target.value === "" ? setlang(null) : setlang(e.target.value)
-            }
-          >
-            <option value="">All languages</option>
-            <option value="C">C</option>
-            <option value="C++">C++</option>
-            <option value="Python">Python</option>
-            <option value="Java">Java</option>
-          </select>
+            {theme === "dark" ? <FaSun size={18} className="text-[#F5A623]" /> : <FaMoon size={18} className="text-[#8B7FD6]" />}
+          </motion.button>
         </div>
       </div>
 
@@ -184,14 +199,17 @@ export const Homepage = () => {
 
       {/* Upload button */}
       {authUser?.role !== "admin" && (
-        <motion.button
-          onClick={handleupload}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          className="fixed bottom-6 right-6 z-20 bg-[#F5A623] text-[#0B0E14] px-6 py-3 rounded-md font-semibold shadow-xl hover:bg-[#ffb43d] transition-colors flex items-center gap-2"
-        >
-          <span className="text-lg leading-none">+</span> Upload Doubt
-        </motion.button>
+        <div className="fixed bottom-8 right-8 z-20">
+          <div className="absolute inset-0 bg-[#2DD4BF] blur-xl opacity-30 rounded-full pointer-events-none scale-150" />
+          <motion.button
+            onClick={handleupload}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative flex items-center gap-2 bg-gradient-to-r from-[#2DD4BF] to-[#0D9488] text-white px-6 py-3.5 rounded-full font-semibold shadow-[0_10px_20px_rgba(45,212,191,0.3)] hover:shadow-[0_15px_25px_rgba(45,212,191,0.4)] transition-all"
+          >
+            <span className="text-xl leading-none font-bold">+</span> Upload Doubt
+          </motion.button>
+        </div>
       )}
     </motion.div>
   );

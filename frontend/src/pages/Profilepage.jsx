@@ -82,7 +82,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="relative min-h-screen pt-4 w-full bg-[#0B0E14] text-[#E6E8EB] font-mono overflow-hidden">
+    <div className="relative min-h-screen pt-4 w-full bg-[#f8fafc] dark:bg-[#0B0E14] text-[#0f172a] dark:text-[#E6E8EB] font-mono overflow-hidden">
 
       {/* subtle grid texture, consistent with the rest of the app */}
       <div
@@ -95,10 +95,10 @@ const ProfilePage = () => {
       />
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-6">
-        <div className="bg-[#10141F] border border-white/10 rounded-lg shadow-2xl overflow-hidden">
+        <div className="bg-[#fdf6e3] dark:bg-[#10141F] border border-black/10 dark:border-white/10 rounded-lg shadow-2xl overflow-hidden">
 
           {/* tab bar */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-[#0D1017] border-b border-white/5">
+          <div className="flex items-center gap-2 px-4 py-3 bg-[#f8fafc] dark:bg-[#0B0E14] border-b border-black/5 dark:border-white/5">
             <span className="w-3 h-3 rounded-full bg-[#F5A623]/70" />
             <span className="w-3 h-3 rounded-full bg-[#8B7FD6]/70" />
             <span className="w-3 h-3 rounded-full bg-[#2DD4BF]/70" />
@@ -109,9 +109,9 @@ const ProfilePage = () => {
 
             {/* Header */}
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-[#E6E8EB]">Profile</h1>
+              <h1 className="text-2xl font-bold text-[#0f172a] dark:text-[#E6E8EB]">Profile</h1>
               <p className="mt-1 text-sm text-[#8B8FA3]">
-                <span className="text-[#5C6370]">// </span>your personal account details
+                <span className="text-[#64748b] dark:text-[#5C6370]">// </span>your personal account details
               </p>
             </div>
 
@@ -121,7 +121,7 @@ const ProfilePage = () => {
                 <img
                   src={selectedImg || authUser?.profilephoto || "/avatar.png"}
                   alt="Profile"
-                  className="w-28 h-28 rounded-full object-cover border border-white/10 shadow-lg"
+                  className="w-28 h-28 rounded-full object-cover border border-black/10 dark:border-white/10 shadow-lg"
                 />
                 <label
                   htmlFor="avatar-upload"
@@ -138,7 +138,7 @@ const ProfilePage = () => {
                   />
                 </label>
               </div>
-              <p className="text-sm text-[#5C6370]">
+              <p className="text-sm text-[#64748b] dark:text-[#5C6370]">
                 {isupdatingprofile ? "Uploading..." : "Click the camera to update your photo"}
               </p>
             </div>
@@ -153,7 +153,7 @@ const ProfilePage = () => {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="px-4 py-2.5 w-full bg-[#0B0E14] rounded-md border border-white/10 text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#5C6370]"
+                  className="px-4 py-2.5 w-full bg-[#f8fafc] dark:bg-[#0B0E14] rounded-md border border-black/10 dark:border-white/10 text-[#0f172a] dark:text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#64748b] dark:text-[#5C6370]"
                   placeholder={authUser?.name || "Your name (optional)"}
                 />
               </div>
@@ -166,7 +166,7 @@ const ProfilePage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="px-4 py-2.5 w-full bg-[#0B0E14] rounded-md border border-white/10 text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#5C6370]"
+                  className="px-4 py-2.5 w-full bg-[#f8fafc] dark:bg-[#0B0E14] rounded-md border border-black/10 dark:border-white/10 text-[#0f172a] dark:text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#64748b] dark:text-[#5C6370]"
                   placeholder={authUser?.email || "Your email (optional)"}
                 />
               </div>
@@ -180,7 +180,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Password Section */}
-            <div className="bg-[#0B0E14] rounded-md p-5 border border-white/10 space-y-4">
+            <div className="bg-[#f8fafc] dark:bg-[#0B0E14] rounded-md p-5 border border-black/10 dark:border-white/10 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-[#8B8FA3] text-sm">
                   <Lock className="w-4 h-4" />
@@ -205,21 +205,21 @@ const ProfilePage = () => {
                     placeholder="Current password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="px-4 py-2.5 w-full rounded-md border border-white/10 bg-[#10141F] text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#5C6370]"
+                    className="px-4 py-2.5 w-full rounded-md border border-black/10 dark:border-white/10 bg-[#fdf6e3] dark:bg-[#10141F] text-[#0f172a] dark:text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#64748b] dark:text-[#5C6370]"
                   />
                   <input
                     type="password"
                     placeholder="New password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="px-4 py-2.5 w-full rounded-md border border-white/10 bg-[#10141F] text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#5C6370]"
+                    className="px-4 py-2.5 w-full rounded-md border border-black/10 dark:border-white/10 bg-[#fdf6e3] dark:bg-[#10141F] text-[#0f172a] dark:text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#64748b] dark:text-[#5C6370]"
                   />
                   <input
                     type="password"
                     placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="px-4 py-2.5 w-full rounded-md border border-white/10 bg-[#10141F] text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#5C6370]"
+                    className="px-4 py-2.5 w-full rounded-md border border-black/10 dark:border-white/10 bg-[#fdf6e3] dark:bg-[#10141F] text-[#0f172a] dark:text-[#E6E8EB] text-sm outline-none focus:border-[#F5A623]/50 transition-colors placeholder:text-[#64748b] dark:text-[#5C6370]"
                   />
                   <div className="flex gap-2">
                     <button
@@ -231,7 +231,7 @@ const ProfilePage = () => {
                     </button>
                     <button
                       onClick={() => setShowPasswordFields(false)}
-                      className="mt-1 px-6 py-2.5 border border-white/15 text-[#E6E8EB] rounded-md hover:border-white/40 transition-colors text-sm"
+                      className="mt-1 px-6 py-2.5 border border-white/15 text-[#0f172a] dark:text-[#E6E8EB] rounded-md hover:border-white/40 transition-colors text-sm"
                     >
                       Cancel
                     </button>

@@ -31,12 +31,12 @@ const PostCard = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       whileHover={{ y: -2 }}
-      className="w-full max-w-3xl bg-[#10141F] border border-white/10 rounded-lg overflow-hidden cursor-pointer hover:border-white/20 transition-colors font-mono"
+      className="w-full max-w-3xl bg-[#fdf6e3] dark:bg-[#10141F] border border-white/10 rounded-lg overflow-hidden cursor-pointer hover:border-white/20 transition-colors font-mono"
       onClick={(e) => onPostClick(e, post)}
     >
 
       {/* tab bar — filename mirrors the post's platform/language, same motif as viewpage/compiler */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-[#0D1017] border-b border-white/5">
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-[#fdf6e3] dark:bg-[#0D1017] border-b border-white/5">
         <span className="w-2.5 h-2.5 rounded-full bg-[#F5A623]/70" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#8B7FD6]/70" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#2DD4BF]/70" />
@@ -66,10 +66,10 @@ const PostCard = ({
             </div>
 
             <div>
-              <h3 className="font-semibold text-sm text-[#E6E8EB]">
+              <h3 className="font-semibold text-sm text-[#0f172a] dark:text-[#E6E8EB]">
                 {post.createdby?.name}
               </h3>
-              <p className="text-xs text-[#5C6370]">@{post.platform}</p>
+              <p className="text-xs text-[#64748b] dark:text-[#5C6370]">@{post.platform}</p>
             </div>
           </div>
 
@@ -85,12 +85,12 @@ const PostCard = ({
         </div>
 
         {/* Post Description */}
-        <p className="text-[#E6E8EB] text-sm leading-relaxed mb-4">
+        <p className="text-[#0f172a] dark:text-[#E6E8EB] text-sm leading-relaxed mb-4">
           {post.doubt}
         </p>
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-3 border-t border-white/5 text-[#5C6370]">
+        <div className="flex items-center justify-between pt-3 border-t border-white/5 text-[#64748b] dark:text-[#5C6370]">
 
           <div
             className="flex items-center gap-2 cursor-pointer hover:text-[#2DD4BF] transition-colors"
