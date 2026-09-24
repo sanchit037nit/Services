@@ -8,6 +8,18 @@ It combines **solution management, social interaction, bookmarking, progress tra
 
 </p>
 
+</p>
+
+<p align="center">
+
+<img src="https://img.shields.io/badge/Frontend-React.js-blue" />
+<img src="https://img.shields.io/badge/Backend-Node.js-green" />
+<img src="https://img.shields.io/badge/API-Express.js-orange" />
+<img src="https://img.shields.io/badge/Database-MongoDB-brightgreen" />
+<img src="https://img.shields.io/badge/Auth-JWT-purple" />
+<img src="https://img.shields.io/badge/Security-AES--256-red" />
+<a href="https://services-ten-ashy.vercel.app/"><img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=flat" /></a>
+</p>
 ---
 
 ## 📌 Table of Contents
