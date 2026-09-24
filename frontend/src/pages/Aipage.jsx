@@ -1,254 +1,439 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useSolution } from "../store/useSolutionstore";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Editor from "@monaco-editor/react";
-import { FaPaperclip, FaTimes } from "react-icons/fa";
+import { Send, Code2 } from "lucide-react";
 
-const Aipage = () => {
-  const { aires, airesp } = useSolution();
+import { useSolution } from "../store/useSolutionstore";
+import { markdownComponents } from "../components/MarkdownComponents";
+
+const Ask = () => {
+
+  const {
+    aires,
+    airesp,
+    airesources,
+    loading,
+    aiHistory,
+    aiConversations,
+    currentConversationId,
+    createAIConversation,
+    switchAIConversation,
+    getAIConversations,
+  } = useSolution();
+
+  useEffect(() => {
+    getAIConversations();
+  }, []);
 
   const [question, setQuestion] = useState("");
-  const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("cpp");
-  const [loading, setLoading] = useState(false);
   const [showCode, setShowCode] = useState(false);
 
-  const sendMessage = async () => {
-    if (!question.trim() && !code.trim()) return;
+  const [code, setCode] = useState(
+    `#include <iostream>
 
-    setLoading(true);
+using namespace std;
 
-    const prompt = `
-Question:
-${question}
+int main() {
+    cout << "Hello Codezy!";
+    return 0;
+}`,
+  );
 
-${showCode && code.trim()
-        ? `
-Language:
-${language}
+  const handleAsk = async () => {
+    if (!question.trim() || loading) return;
 
-Code:
-\`\`\`${language}
-${code}
-\`\`\`
-`
-        : ""}
-`;
+    const currentQuestion = question.trim();
 
-    await aires(prompt);
+    setQuestion("");
 
-    setLoading(false);
+    await aires(currentQuestion);
   };
 
-  // Custom renderers so fenced code blocks in the AI response match
-  // the app's editor-theme palette instead of default prose styling.
-  const markdownComponents = {
-    code({ inline, className, children, ...props }) {
-      const match = /language-(\w+)/.exec(className || "");
-      if (inline) {
-        return (
-          <code
-            className="bg-[#0B0E14] border border-white/10 text-[#2DD4BF] px-1.5 py-0.5 rounded text-[0.85em]"
-            {...props}
-          >
-            {children}
-          </code>
-        );
-      }
-      return (
-        <div className="my-4 rounded-md border border-white/10 overflow-hidden">
-          {match && (
-            <div className="px-4 py-2 bg-[#0D1017] border-b border-white/5 text-xs text-[#8B8FA3]">
-              {match[1]}
-            </div>
-          )}
-          <pre className="bg-[#0B0E14] p-4 overflow-x-auto m-0">
-            <code className="text-[#2DD4BF] text-sm leading-relaxed" {...props}>
-              {children}
-            </code>
-          </pre>
-        </div>
-      );
-    },
-    p({ children }) {
-      return <p className="text-[#E6E8EB] leading-relaxed mb-3">{children}</p>;
-    },
-    h1({ children }) {
-      return <h1 className="text-lg font-bold text-[#E6E8EB] mt-5 mb-2">{children}</h1>;
-    },
-    h2({ children }) {
-      return <h2 className="text-base font-bold text-[#E6E8EB] mt-4 mb-2">{children}</h2>;
-    },
-    h3({ children }) {
-      return <h3 className="text-sm font-bold text-[#8B8FA3] tracking-wide mt-4 mb-1.5">{children}</h3>;
-    },
-    ul({ children }) {
-      return <ul className="list-disc list-inside text-[#E6E8EB] space-y-1 mb-3">{children}</ul>;
-    },
-    ol({ children }) {
-      return <ol className="list-decimal list-inside text-[#E6E8EB] space-y-1 mb-3">{children}</ol>;
-    },
-    strong({ children }) {
-      return <strong className="text-[#F5A623] font-semibold">{children}</strong>;
-    },
-    a({ children, href }) {
-      return (
-        <a href={href} target="_blank" rel="noreferrer" className="text-[#2DD4BF] hover:underline">
-          {children}
-        </a>
-      );
-    },
-    blockquote({ children }) {
-      return (
-        <blockquote className="border-l-2 border-[#8B7FD6]/40 pl-4 text-[#8B8FA3] italic my-3">
-          {children}
-        </blockquote>
-      );
-    },
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleAsk();
+    }
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[#0B0E14] text-[#E6E8EB] overflow-y-auto font-mono">
-
-      {/* subtle grid texture, consistent with the rest of the app */}
+    <div className="min-h-screen bg-[#07090D] text-white relative overflow-hidden">
+      {/* Background Grid */}
       <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            "linear-gradient(#E6E8EB 1px, transparent 1px), linear-gradient(90deg, #E6E8EB 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
+            "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
         }}
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 max-w-4xl mx-auto px-6 py-10"
-      >
-
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
-            <span className="text-[#F5A623]">&gt;</span> ai_assistant
-          </h1>
-          <p className="text-sm text-[#8B8FA3] mt-1">
-            <span className="text-[#5C6370]">// </span>ask questions, attach code, get answers
-          </p>
-        </div>
-
-        <div className="bg-[#10141F] border border-white/10 rounded-lg shadow-2xl overflow-hidden">
-
-          {/* tab bar */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-[#0D1017] border-b border-white/5">
-            <span className="w-3 h-3 rounded-full bg-[#F5A623]/70" />
-            <span className="w-3 h-3 rounded-full bg-[#8B7FD6]/70" />
-            <span className="w-3 h-3 rounded-full bg-[#2DD4BF]/70" />
-            <span className="ml-4 text-xs text-[#8B8FA3]">ask.js</span>
-          </div>
-
-          <div className="p-6">
-
-            {/* Question */}
-            <label className="block mb-2 text-xs text-[#8B8FA3] tracking-wide">
-              your question
-            </label>
-
-            <textarea
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              rows={4}
-              placeholder="Example:&#10;• Explain this code&#10;• Why am I getting TLE?&#10;• Find the bug&#10;• Optimize my solution"
-              className="w-full rounded-md bg-[#0B0E14] border border-white/10 p-4 text-sm text-[#E6E8EB] outline-none focus:border-[#F5A623]/50 transition-colors resize-none placeholder:text-[#5C6370]"
-            />
-
-            {/* Toggle */}
-            <div className="mt-4 flex items-center justify-between">
-
-              <button
-                onClick={() => setShowCode(!showCode)}
-                className="flex items-center gap-2 border border-white/10 hover:border-white/25 text-[#E6E8EB] px-4 py-2 rounded-md text-sm transition-colors"
-              >
-                {showCode ? <FaTimes className="w-3.5 h-3.5" /> : <FaPaperclip className="w-3.5 h-3.5" />}
-                {showCode ? "Remove code" : "Attach code"}
-              </button>
-
-              {showCode && (
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-[#0B0E14] border border-white/10 rounded-md px-3 py-2 text-sm text-[#E6E8EB] outline-none focus:border-[#F5A623]/50 transition-colors"
-                >
-                  <option value="cpp">C++</option>
-                  <option value="python">Python</option>
-                  <option value="java">Java</option>
-                  <option value="javascript">JavaScript</option>
-                  <option value="c">C</option>
-                </select>
-              )}
-
+      {/* Main Container */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="mb-8"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
+              <Code2 size={20} className="text-[#2DD4BF]" />
             </div>
 
-            {/* Monaco Editor */}
-            {showCode && (
-              <div className="mt-4 border border-white/10 rounded-md overflow-hidden">
-                <Editor
-                  height="300px"
-                  language={language}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    automaticLayout: true,
-                    scrollBeyondLastLine: false,
-                  }}
-                />
-              </div>
-            )}
+            <h1 className="text-2xl font-semibold tracking-tight">
+              AI Assistant
+            </h1>
+          </div>
 
-            {/* Ask */}
+          <p className="text-[#6F7787] text-sm">
+            Ask questions about Codezy and get answers using its knowledge base.
+          </p>
+        </motion.div>
+
+        {/* SIDEBAR + AI AREA */}
+        <div className="flex gap-4 items-start">
+          {/* ================= SIDEBAR ================= */}
+          <div className="w-64 shrink-0 bg-[#0B0E14] border border-white/10 rounded-md p-4">
+            {/* New Chat */}
             <button
-              onClick={sendMessage}
-              disabled={loading}
-              className="mt-6 w-full bg-[#F5A623] hover:bg-[#ffb43d] disabled:opacity-50 disabled:cursor-not-allowed text-[#0B0E14] rounded-md py-3 font-semibold text-sm transition-colors"
+              onClick={createAIConversation}
+              className="w-full px-4 py-2 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 text-sm text-gray-300 transition"
             >
-              {loading ? "Thinking..." : "Ask AI"}
+              + New Chat
             </button>
 
-            {/* Response */}
-            <div className="mt-8">
+            {/* Title */}
+            <p className="text-[#8B93A7] text-xs tracking-widest uppercase mt-6 mb-3">
+              Conversations
+            </p>
 
-              <h2 className="text-xs text-[#8B8FA3] tracking-wide mb-3">
-                ai response
-              </h2>
+            {/* Conversations */}
+            <div className="space-y-1 max-h-[450px] overflow-y-auto">
+              {aiConversations.length === 0 ? (
+                <p className="text-[#5C6370] text-xs px-2 py-3">
+                  No conversations yet.
+                </p>
+              ) : (
+                aiConversations.map((conversation) => (
+                  <button
+                    key={conversation._id}
+                    onClick={() => switchAIConversation(conversation._id)}
+                    className={`
+                                                w-full text-left px-3 py-2 rounded-md
+                                                text-sm truncate transition
+                                                ${
+                                                  currentConversationId ===
+                                                  conversation._id
+                                                    ? "bg-white/10 text-white"
+                                                    : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                                                }
+                                            `}
+                    title={conversation.title}
+                  >
+                    {conversation.title}
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
 
-              <div className="bg-[#0B0E14] rounded-md p-6 max-h-[500px] overflow-y-auto border border-white/10">
+          {/* ================= AI CARD ================= */}
+          <div className="flex-1 min-w-0">
+            <div className="bg-[#10141F] border border-white/10 rounded-lg shadow-2xl overflow-hidden">
+              {/* ================= TOP BAR ================= */}
+              <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between bg-[#0D1017]">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#2DD4BF]" />
 
-                {loading ? (
-                  <div className="flex items-center gap-2 text-[#5C6370]">
-                    <span className="animate-pulse">Thinking...</span>
+                  <span className="text-sm text-gray-300">Codezy AI</span>
+                </div>
+
+                <span className="text-xs text-[#5C6370]">RAG powered</span>
+              </div>
+
+              {/* ================= QUESTION ================= */}
+              <div className="p-5 border-b border-white/10">
+                <textarea
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Ask something about Codezy..."
+                  rows={4}
+                  className="w-full resize-none bg-[#0B0E14] border border-white/10 rounded-md px-4 py-3 text-sm text-gray-200 placeholder:text-[#5C6370] outline-none focus:border-white/20 transition"
+                />
+
+                {/* Bottom Controls */}
+                <div className="flex items-center justify-between mt-3">
+                  <button
+                    onClick={() => setShowCode(!showCode)}
+                    className={`
+                                            flex items-center gap-2 px-3 py-2 rounded-md text-xs transition
+                                            ${
+                                              showCode
+                                                ? "bg-white/10 text-white border border-white/20"
+                                                : "bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10"
+                                            }
+                                        `}
+                  >
+                    <Code2 size={14} />
+
+                    {showCode ? "Hide Code" : "Attach Code"}
+                  </button>
+
+                  <button
+                    onClick={handleAsk}
+                    disabled={loading || !question.trim()}
+                    className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-black text-sm font-medium hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                  >
+                    <Send size={14} />
+
+                    {loading ? "Thinking..." : "Ask AI"}
+                  </button>
+                </div>
+              </div>
+
+              {/* ================= CODE EDITOR ================= */}
+              {showCode && (
+                <div className="border-b border-white/10">
+                  <div className="px-4 py-2 bg-[#0D1017] border-b border-white/5 flex items-center justify-between">
+                    <span className="text-xs text-[#8B8FA3]">
+                      Attached Code
+                    </span>
+
+                    <span className="text-xs text-[#5C6370]">C++</span>
                   </div>
-                ) : airesp ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                    {airesp}
-                  </ReactMarkdown>
-                ) : (
-                  <p className="text-[#5C6370] text-sm">Ask a question to begin.</p>
-                )}
+
+                  <Editor
+                    height="300px"
+                    defaultLanguage="cpp"
+                    theme="vs-dark"
+                    value={code}
+                    onChange={(value) => setCode(value || "")}
+                    options={{
+                      minimap: {
+                        enabled: false,
+                      },
+                      fontSize: 14,
+                      lineNumbers: "on",
+                      padding: {
+                        top: 12,
+                      },
+                      scrollBeyondLastLine: false,
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* ================= RESPONSE ================= */}
+
+{/* ================= RESPONSE ================= */}
+<div className="p-5">
+
+  <div className="flex items-center justify-between mb-3">
+
+    <p className="text-[#8B93A7] text-xs tracking-widest uppercase">
+      AI Response
+    </p>
+
+    {loading && (
+      <span className="text-xs text-[#5C6370]">
+        Generating...
+      </span>
+    )}
+
+  </div>
+
+  <div className="bg-[#0B0E14] rounded-md p-6 max-h-[500px] overflow-y-auto border border-white/10">
+
+    {/* ================= CONVERSATION HISTORY ================= */}
+
+    {aiHistory.length > 0 && (
+
+      <div className="space-y-6">
+
+        {aiHistory.map((message, index) => (
+
+          <div key={index}>
+
+            {/* USER MESSAGE */}
+
+            {message.role === "user" && (
+
+              <div className="mb-3">
+
+                <p className="text-[#5C6370] text-xs uppercase tracking-widest mb-2">
+                  You
+                </p>
+
+                <div className="bg-white/5 border border-white/10 rounded-md px-4 py-3 text-sm text-gray-200">
+                  {message.content}
+                </div>
 
               </div>
+
+            )}
+
+            {/* AI MESSAGE */}
+
+            {message.role === "assistant" && (
+
+              <div>
+
+                <p className="text-[#5C6370] text-xs uppercase tracking-widest mb-2">
+                  Codezy AI
+                </p>
+
+                <div className="text-sm text-gray-300 leading-relaxed">
+
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={markdownComponents}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+
+                </div>
+
+              </div>
+
+            )}
+
+          </div>
+
+        ))}
+
+      </div>
+
+    )}
+
+    {/* ================= CURRENT AI RESPONSE ================= */}
+
+    {loading && !airesp ? (
+
+      <div className="flex items-center gap-2 text-[#5C6370] mt-6">
+
+        <span className="animate-pulse">
+          Thinking...
+        </span>
+
+        <span className="animate-pulse">
+          ●
+        </span>
+
+        <span
+          className="animate-pulse"
+          style={{
+            animationDelay: "150ms",
+          }}
+        >
+          ●
+        </span>
+
+        <span
+          className="animate-pulse"
+          style={{
+            animationDelay: "300ms",
+          }}
+        >
+          ●
+        </span>
+
+      </div>
+
+    ) : airesp ? (
+
+      <div className="mt-6">
+
+        <p className="text-[#5C6370] text-xs uppercase tracking-widest mb-2">
+          Codezy AI
+        </p>
+
+        {/* Markdown Answer */}
+
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={markdownComponents}
+        >
+          {airesp}
+        </ReactMarkdown>
+
+        {/* Streaming Cursor */}
+
+        {loading && (
+          <span className="inline-block ml-1 text-[#8B93A7] animate-pulse">
+            ▌
+          </span>
+        )}
+
+        {/* Sources */}
+
+        {!loading && airesources?.length > 0 && (
+
+          <div className="mt-6 pt-4 border-t border-white/10">
+
+            <p className="text-[#8B93A7] text-xs tracking-widest uppercase mb-3">
+              Sources
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+
+              {airesources.map((source, index) => (
+
+                <span
+                  key={index}
+                  className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-gray-400"
+                >
+                  {source}
+                </span>
+
+              ))}
 
             </div>
 
           </div>
+
+        )}
+
+      </div>
+
+    ) : aiHistory.length === 0 ? (
+
+      /* ================= EMPTY STATE ================= */
+
+      <div className="flex flex-col items-center justify-center py-16">
+
+        <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+
+          <Code2
+            size={20}
+            className="text-[#5C6370]"
+          />
+
         </div>
 
-      </motion.div>
+        <p className="text-[#5C6370] text-sm">
+          Ask a question to begin.
+        </p>
 
+      </div>
+
+    ) : null}
+
+  </div>
+
+</div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Aipage;
+export default Ask;
