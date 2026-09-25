@@ -1,68 +1,58 @@
-
+import fs from "fs";
+import path from "path";
 import { ChromaClient } from "chromadb";
 import { DefaultEmbeddingFunction } from "@chroma-core/default-embed";
+import { fileURLToPath } from "url";
 
-const client = new ChromaClient();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const client = new ChromaClient({ host: "my-chromadb-server-paj3.onrender.com", port: 443, ssl: true });
 const embeddingFunction = new DefaultEmbeddingFunction();
 
-const MAX_DISTANCE = 0.7;
-
-async function retrieveDocuments(query) {
+async function ingestDocuments() {
     try {
-        const collection = await client.getCollection({
+        console.log("Connecting to ChromaDB and creating collection...");
+        // Create the collection if it doesn't exist
+        const collection = await client.getOrCreateCollection({
             name: "codezy_knowledge",
             embeddingFunction,
         });
 
-        // Step 1: Retrieve more candidates
-        const results = await collection.query({
-            queryTexts: [query],
-            nResults: 8,
+        const docsPath = path.join(__dirname, "documents");
+        const files = fs.readdirSync(docsPath).filter(f => f.endsWith(".md") || f.endsWith(".txt"));
+
+        const documents = [];
+        const metadatas = [];
+        const ids = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const fileName = files[i];
+            const filePath = path.join(docsPath, fileName);
+            const content = fs.readFileSync(filePath, "utf-8");
+
+            documents.push(content);
+            metadatas.push({ source: fileName });
+            ids.push(`doc_${i}`);
+        }
+
+        if (documents.length === 0) {
+            console.log("No documents found to ingest.");
+            return;
+        }
+
+        console.log(`Uploading ${documents.length} documents to Render...`);
+        
+        await collection.upsert({
+            ids,
+            metadatas,
+            documents,
         });
 
-        // Step 2: Combine documents, metadata and distances
-        const candidates = results.documents[0].map((document, index) => ({
-            document,
-            metadata: results.metadatas[0][index],
-            distance: results.distances[0][index],
-        }));
-
-        // Step 3: Keep only relevant documents
-        const relevantDocuments = candidates.filter(
-            item => item.distance <= MAX_DISTANCE
-        );
-
-        console.log("\nQuery:");
-        console.log(query);
-
-        console.log("\nAll candidates:");
-
-        candidates.forEach((item, index) => {
-            console.log(
-                `${index + 1}. ${item.metadata?.source} | Distance: ${item.distance}`
-            );
-        });
-
-        console.log("\nRelevant documents:");
-
-        relevantDocuments.forEach((item, index) => {
-            console.log(`\n--- Relevant Document ${index + 1} ---`);
-            console.log("Distance:", item.distance);
-            console.log("Source:", item.metadata?.source);
-            console.log(item.document);
-        });
-
-        console.log(
-            `\nRetrieved: ${candidates.length} | Relevant: ${relevantDocuments.length}`
-        );
-
-        return relevantDocuments;
-
+        console.log("Ingestion successful! Your database is now populated.");
     } catch (error) {
-        console.error("RAG retrieval failed:", error);
-        return [];
+        console.error("Ingestion failed:", error);
     }
 }
 
-retrieveDocuments("How does Codezy execute C++ code?");
-
+ingestDocuments();

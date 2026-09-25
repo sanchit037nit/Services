@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const client = new ChromaClient();
+const client = new ChromaClient({ host: "my-chromadb-server-paj3.onrender.com", port: 443, ssl: true });
 
 const embeddingFunction = new DefaultEmbeddingFunction();
 
