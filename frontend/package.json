@@ -28,6 +28,7 @@
     "react-tsparticles": "^2.12.2",
     "recharts": "^3.10.1",
     "remark-gfm": "^4.0.1",
+    "socket.io-client": "^4.8.4",
     "tailwindcss": "^4.1.11",
     "toast": "^0.5.4",
     "tsparticles": "^3.9.1",

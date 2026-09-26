@@ -21,6 +21,8 @@ import MyPosts from "./pages/MyPosts";
 import Viewpage from "./pages/Viewpage";
 import Aipage from "./pages/Aipage";
 import OnlineCompiler from "./pages/OnlineCompiler";
+import Contests from "./pages/Contests";
+import ContestChat from "./pages/ContestChat";
 
 // Admin Pages
 import AdminLayout from "./pages/Admin/AdminLayout";
@@ -31,16 +33,28 @@ import Users from "./pages/Admin/Users";
 // Components
 import Sidebar from "../components/Sidebar";
 
+import { useContestStore } from "./store/useContestStore.js";
+
 const App = () => {
 
   const { authUser, checkauth, loading } = useAuthstore();
   const { initTheme } = useThemeStore();
+  const { connectSocket, disconnectSocket } = useContestStore();
   
   console.log(authUser)
   useEffect(() => {
     checkauth();
     initTheme();
   }, [checkauth, initTheme]);
+
+  useEffect(() => {
+    if (authUser) {
+      connectSocket();
+    }
+    return () => {
+      disconnectSocket();
+    };
+  }, [authUser, connectSocket, disconnectSocket]);
 
   if (loading) {
     return (
@@ -237,6 +251,37 @@ const App = () => {
             authUser ? (
               authUser.role === "user" ? (
                 <OnlineCompiler />
+              ) : (
+                <Navigate to="/admin/dashboard" />
+              )
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        {/* Contest Routes */}
+        <Route
+          path="/contests"
+          element={
+            authUser ? (
+              authUser.role === "user" ? (
+                <Contests />
+              ) : (
+                <Navigate to="/admin/dashboard" />
+              )
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        <Route
+          path="/contests/:id/chat"
+          element={
+            authUser ? (
+              authUser.role === "user" ? (
+                <ContestChat />
               ) : (
                 <Navigate to="/admin/dashboard" />
               )

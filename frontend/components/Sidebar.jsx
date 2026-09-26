@@ -1,6 +1,6 @@
 import React from "react";
 import { MdHomeFilled } from "react-icons/md";
-import { FaRobot, FaCode, FaBookmark, FaQuestionCircle } from "react-icons/fa";
+import { FaRobot, FaCode, FaBookmark, FaQuestionCircle, FaTrophy } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthstore } from "../src/store/useAuthstore.js";
@@ -18,6 +18,12 @@ const SidebarWithNavbar = () => {
       title: "main",
       items: [
         { to: "/Homepage", icon: <MdHomeFilled />, label: "Home" },
+      ],
+    },
+    {
+      title: "community",
+      items: [
+        { to: "/contests", icon: <FaTrophy />, label: "Contests" },
       ],
     },
     {
